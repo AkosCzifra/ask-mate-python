@@ -10,7 +10,7 @@ def route_list():
     return render_template("list.html")
 
 
-@app.route("/question/<int:question_id>")
+@app.route("/question/<question_id>")
 def question(question_id):
     return render_template("question.html")
 
@@ -20,7 +20,7 @@ def add_question():
     return render_template("add-question.html")
 
 
-@app.route("/question/<int:question_id>/new-answer")
+@app.route("/question/<question_id>/new-answer")
 def answer(question_id):
     return render_template("add-answer.html")
 
