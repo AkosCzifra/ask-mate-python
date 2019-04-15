@@ -27,7 +27,8 @@ def get_all_questions():
     return all_questions
 
 
-def generate_id()
+def generate_id():
+    pass
 
 
 
