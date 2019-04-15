@@ -1,6 +1,7 @@
 import string
 import random
 import connection
+import time
 
 
 def get_all_questions(convert_linebreak=False):
@@ -23,10 +24,8 @@ def generate_id():
 def convert_linebreak_to_br(original_str):
     return '<br>'.join(original_str.split('\n'))
 
-print(get_all_questions(convert_linebreak=True))
 
-
-
+print(int(time.time()))
 
 
 

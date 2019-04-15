@@ -8,12 +8,14 @@
     <th>Title</th>
     <th>View number</th>
     <th>Vote number</th>
+    <th>Timestamp</th>
 </tr>
 {% for question in user_questions %}
     <tr>
-        <td>{{ question['title'] | safe }}</td>
+        <td><a href="#">{{ question['title'] | safe }}</td>
         <td>{{ question['view_number'] }}</td>
         <td>{{ question['vote_number'] }}</td>
+        <td>{{ question['submission_time'] }}</td>
     </tr>
 {% endfor %}
 </table>
