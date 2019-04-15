@@ -7,7 +7,8 @@ app = Flask(__name__)
 @app.route("/")
 @app.route("/list")
 def route_list():
-    return render_template("list.html")
+    user_questions = data_manager.get_all_questions(convert_linebreak=True)
+    return render_template("list.html", user_questions=user_questions)
 
 
 @app.route("/question/<question_id>")

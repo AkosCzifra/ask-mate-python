@@ -1,3 +1,28 @@
 {% extends 'basic.html'%}
 
 {% block title %}Welcome{% endblock %}
+
+{% block body %}
+<table>
+<tr>
+    <th>ID</th>
+    <th>Submission Time</th>
+    <th>View Number</th>
+    <th>Vote Number</th>
+    <th>Title</th>
+    <th>Message</th>
+    <th>Image</th>
+</tr>
+{% for question in user_questions %}
+    <tr>
+        <td>{{ question['id'] }}</td>
+        <td>{{ question['submission_time'] }}</td>
+        <td>{{ question['view_number'] }}</td>
+        <td>{{ question['vote_number'] }}</td>
+        <td>{{ question['title'] }}</td>
+        <td>{{ question['message'] }}</td>
+        <td>{{ question['image'] }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}
