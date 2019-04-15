@@ -1,5 +1,7 @@
 import csv
 import os
+import string
+import random
 
 
 QUESTION_CSV = 'question.csv'
@@ -28,7 +30,9 @@ def get_all_questions():
 
 
 def generate_id():
-    pass
+    rand_letters = random.sample(string.ascii_lowercase, 4)
+    id_ = "".join(rand_letters)
+    return id_
 
 
 
