@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
 import data_manager
-import connection
 import time
 
 app = Flask(__name__)
@@ -15,7 +14,7 @@ def route_list():
 
 @app.route("/question/<question_id>")
 def question_page(question_id):
-    question = connection.get_csv_question_data(connection.QUESTION_CSV_PATH, question_id)
+    question = data_manager.get_all_questions(key_id=question_id)
     answers = data_manager.get_all_answers_by_question_id(question_id)
     return render_template("question.html", question=question, answers=answers)
 
@@ -38,7 +37,7 @@ def add_question():
 
 @app.route("/question/<question_id>/new-answer", methods=['GET', 'POST'])
 def answer(question_id):
-    question = connection.get_csv_question_data(connection.QUESTION_CSV_PATH, question_id)
+    question = data_manager.get_all_questions(key_id=question_id)
     if request.method == 'POST':
         id = data_manager.generate_id()
         submission_time = int(time.time())
@@ -50,7 +49,7 @@ def answer(question_id):
                       "question_id": question_id, "message": message, "image": image}
         existing_data = data_manager.get_all_answers()
         existing_data.insert(0, new_answer)
-        connection.write_csv_data(connection.ANSWER_CSV_PATH, connection.ANSWER_HEADER, existing_data)
+        data_manager.best_practice_passer(existing_data)
         return redirect(f'/question/{question_id}')
     elif request.method == 'GET':
         return render_template("add-answer.html", question=question, question_id=question_id)

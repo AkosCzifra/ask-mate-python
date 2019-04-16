@@ -3,12 +3,8 @@ import random
 import connection
 
 
-def add_new_question():
-    connection.write_csv_data(connection.QUESTION_CSV_PATH, connection.QUESTION_HEADER)
-
-
-def get_all_questions(convert_linebreak=False):
-    all_questions = connection.get_csv_question_data(connection.QUESTION_CSV_PATH)
+def get_all_questions(convert_linebreak=False, key_id=None):
+    all_questions = connection.get_csv_question_data(connection.QUESTION_CSV_PATH, key_id)
 
     if convert_linebreak:
         for question in all_questions:
@@ -44,6 +40,10 @@ def generate_id(length=4):
     rand_letters = random.sample(string.ascii_lowercase, length)
     id_ = "".join(rand_letters)
     return id_
+
+
+def best_practice_passer(existing_data):
+    connection.write_csv_data(connection.ANSWER_CSV_PATH, connection.ANSWER_HEADER, existing_data)
 
 
 
