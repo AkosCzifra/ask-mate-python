@@ -70,14 +70,20 @@ def up_vote(question_id,answer_id):
     return redirect("/question/<question_id>/")
 
 
-@app.route("/question/<question_id>/down-vote", methods=['GET', 'POST'])
-def down_vote(question_id, answer_id):
+@app.route("/answer/<answer_id>/down-vote")
+def down_vote(answer_id):
+    question_id = request.args.get('question_id')
+    print(question_id)
+    print(answer_id)
     answers = data_manager.get_all_answers_by_question_id(question_id)
+    print(answers)
     for answer in answers:
         if answer['answer_id'] == answer_id:
-            answer['vote_number'] -= 1
+            answer['vote_number'] = answer.get('vote_number') - 1
             connection.write_csv_data(connection.ANSWER_CSV, connection.ANSWER_HEADER, answers)
             return redirect("/question/<question_id>/")
+        return "Semmi"
+
 
 
 if __name__ == '__main__':
