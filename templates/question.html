@@ -15,8 +15,10 @@ Question
         {% for answer in answers %}
         </tr>
             <tr>
-                <td>{{ answer["id"] }}</td>
+                <td>{{ answer["vote_number"] }}</td>
                 <td>{{ answer["message"] | safe}}</td>
+                <td><button value="{{ answer["id"] }}"><a href="/question/{{ question["id"] }}/up-vote">+1</button></td>
+                <td><button value="{{ answer["id"] }}"><a href="/question/{{ question["id"] }}/down-vote">-1</button></td>
             </tr>
         {% endfor %}
     </table>
