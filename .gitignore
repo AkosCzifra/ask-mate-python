@@ -6,10 +6,6 @@ __pycache__/
 # C extensions
 *.so
 
-# csv files
-answer.csv
-question.csv
-
 # Distribution / packaging
 .Python
 env/
@@ -106,3 +102,8 @@ ENV/
 
 # pycharm files
 .idea/
+
+# csv files
+answer.csv
+question.csv
+*.csv
