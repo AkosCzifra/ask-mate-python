@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import data_manager
 import time
+import util
 
 app = Flask(__name__)
 
@@ -9,7 +10,7 @@ app = Flask(__name__)
 @app.route("/list")
 def route_list():
     user_questions = data_manager.get_all_questions(convert_linebreak=True)
-    return render_template("list.html", user_questions=user_questions)
+    return render_template("list.html", user_questions=user_questions, util=util)
 
 
 @app.route("/question/<question_id>")
