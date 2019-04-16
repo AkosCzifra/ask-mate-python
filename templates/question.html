@@ -20,5 +20,7 @@ Question
             </tr>
         {% endfor %}
     </table>
-    <a href="/question/{{ question["id"] }}/new-answer">Add new answer</a>
+    <button><a href="/question/{{ question["id"] }}/add-answer">Add new answer</a></button>
+    <br><br>
+    <button><a href="/">Homepage</a></button>
 {% endblock %}

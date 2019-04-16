@@ -51,5 +51,3 @@ def get_all_answers_by_question_id(question_id):
 
 
 
-
-
