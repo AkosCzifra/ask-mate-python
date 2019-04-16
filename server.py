@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for
 import data_manager
 import time
 import util
+import connection
+
 
 app = Flask(__name__)
 
@@ -45,7 +47,7 @@ def answer(question_id):
     if request.method == 'POST':
         id = data_manager.generate_id()
         submission_time = int(time.time())
-        vote_number = 666
+        vote_number = 0
         question_id = question_id
         message = request.form['message']
         image = request.form['image']
@@ -57,6 +59,31 @@ def answer(question_id):
         return redirect(f'/question/{question_id}')
     elif request.method == 'GET':
         return render_template("add-answer.html", question=question, question_id=question_id)
+
+
+@app.route("/question/<question_id>/up-vote", methods=['POST'])
+def up_vote(question_id,answer_id):
+    answers = data_manager.get_all_answers_by_question_id(question_id)
+    for answer in answers:
+        if answer['answer_id'] == answer_id:
+            answer['vote_number'] += 1
+    return redirect("/question/<question_id>/")
+
+
+@app.route("/answer/<answer_id>/down-vote")
+def down_vote(answer_id):
+    question_id = request.args.get('question_id')
+    print(question_id)
+    print(answer_id)
+    answers = data_manager.get_all_answers_by_question_id(question_id)
+    print(answers)
+    for answer in answers:
+        if answer['answer_id'] == answer_id:
+            answer['vote_number'] = answer.get('vote_number') - 1
+            connection.write_csv_data(connection.ANSWER_CSV, connection.ANSWER_HEADER, answers)
+            return redirect("/question/<question_id>/")
+        return "Semmi"
+
 
 
 if __name__ == '__main__':
