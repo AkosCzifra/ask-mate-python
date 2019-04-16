@@ -4,7 +4,7 @@
 Add new answer
 {% endblock %}
 {% block body %}
-<form action="/question/<question_id>/new-answer" method="POST">
+<form action="/question/{{question_id}}/new-answer" method="POST">
     <p>Message:</p>
     <p><textarea name="message" rows="7" cols="40" required minlength="10"></textarea></p>
     <p>Image:</p>

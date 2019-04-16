@@ -11,7 +11,7 @@ ANSWER_HEADER = ["id", "submission_time", "vote_number", "question_id", "message
 
 def get_csv_question_data(data_table, one_question_id=None):
     user_questions = []
-    with open (data_table, encoding='utf-8') as file:
+    with open(data_table, encoding='utf-8') as file:
         reader = csv.DictReader(file)
         for row in reader:
             user_question = dict(row)
@@ -20,3 +20,11 @@ def get_csv_question_data(data_table, one_question_id=None):
             user_questions.append(user_question)
     return user_questions
 
+
+def write_csv_data(data_table, header, existing_data):
+    with open(data_table, 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=header)
+        writer.writeheader()
+
+        for row in existing_data:
+            writer.writerow(row)

@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import data_manager
+import connection
+import time
 
 app = Flask(__name__)
 
@@ -23,19 +25,23 @@ def add_question():
     return render_template("add-question.html")
 
 
-@app.route("/question/<question_id>/new-answer")
+@app.route("/question/<question_id>/new-answer", methods=['GET', 'POST'])
 def answer(question_id):
     if request.method == 'POST':
         id = data_manager.generate_id()
-        submission_time = time.time()
-        vote_number = request.form['vote_number']
-        question_id = request.form['question_id']
+        submission_time = int(time.time())
+        vote_number = 666
+        question_id = question_id
         message = request.form['message']
         image = request.form['image']
-        # the function that does not exist yet but writes all the crap.
-        return redirect('/question/<question_id>/')
+        new_answer = {"id": id, "submission_time": submission_time, "vote_number": vote_number,
+                      "question_id": question_id, "message": message, "image": image}
+        existing_data = data_manager.get_all_answers()
+        existing_data.insert(0, new_answer)
+        connection.write_csv_data(connection.ANSWER_CSV_PATH, connection.ANSWER_HEADER, existing_data)
+        return redirect(f'/question/{question_id}')
     elif request.method == 'GET':
-        return render_template("add-answer.html")
+        return render_template("add-answer.html", question_id=question_id)
 
 
 if __name__ == '__main__':
