@@ -33,6 +33,7 @@ def add_question():
 
 @app.route("/question/<question_id>/new-answer", methods=['GET', 'POST'])
 def answer(question_id):
+    question = connection.get_csv_question_data(connection.QUESTION_CSV_PATH, question_id)
     if request.method == 'POST':
         id = data_manager.generate_id()
         submission_time = int(time.time())
@@ -47,7 +48,7 @@ def answer(question_id):
         connection.write_csv_data(connection.ANSWER_CSV_PATH, connection.ANSWER_HEADER, existing_data)
         return redirect(f'/question/{question_id}')
     elif request.method == 'GET':
-        return render_template("add-answer.html", question_id=question_id)
+        return render_template("add-answer.html", question=question, question_id=question_id)
 
 
 if __name__ == '__main__':

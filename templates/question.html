@@ -16,11 +16,11 @@ Question
         </tr>
             <tr>
                 <td>{{ answer["id"] }}</td>
-                <td>{{ answer["message"] }}</td>
+                <td>{{ answer["message"] | safe}}</td>
             </tr>
         {% endfor %}
     </table>
-    <button><a href="/question/{{ question["id"] }}/add-answer">Add new answer</a></button>
+    <button><a href="/question/{{ question["id"] }}/new-answer">Add new answer</a></button>
     <br><br>
     <button><a href="/">Homepage</a></button>
 {% endblock %}
