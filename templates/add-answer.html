@@ -1,10 +1,15 @@
 {% extends 'basic.html' %}
 
 {% block title %}
-Add New Answer
+Add new answer
 {% endblock %}
 {% block body %}
-    <form action="{{ form_url }}" method="post">
+<form action="/question/{{question_id}}/new-answer" method="POST">
+    <p>Message:</p>
+    <p><textarea name="message" rows="7" cols="40" required minlength="10"></textarea></p>
+    <p>Image:</p>
+    <p><input type="text" name="image"></p>
 
-    </form>
+    <p><input type="submit" value="Add new answer"></p>
+</form>
 {% endblock %}

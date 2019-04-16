@@ -1,7 +1,6 @@
 import string
 import random
 import connection
-import time
 
 
 def get_all_questions(convert_linebreak=False):
@@ -21,14 +20,7 @@ def get_all_answers(convert_linebreak=False):
     if convert_linebreak:
         for question in all_answers:
             question["message"] = convert_linebreak_to_br(question["message"])
-
     return all_answers
-
-
-def generate_id():
-    rand_letters = random.sample(string.ascii_lowercase, 4)
-    id_ = "".join(rand_letters)
-    return id_
 
 
 def convert_linebreak_to_br(original_str):
@@ -42,6 +34,15 @@ def get_all_answers_by_question_id(question_id):
         if answer["question_id"] == question_id:
             filtered_answers.append(answer)
     return filtered_answers
+
+
+def generate_id(length=4):
+    rand_letters = random.sample(string.ascii_lowercase, length)
+    id_ = "".join(rand_letters)
+    return id_
+
+
+
 
 
 
