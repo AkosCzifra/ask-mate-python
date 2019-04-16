@@ -12,10 +12,13 @@ Question
         <tr>
             <td> Details:</td>
             <td><p>{{ question["message"] }}</p></td>
+        {% for answer in answers %}
         </tr>
-        <tr>
-            <td> Answers:</td>
-            <td>-not implemented yet-</td>
-        </tr>
+            <tr>
+                <td>{{ answer["id"] }}</td>
+                <td>{{ answer["message"] }}</td>
+            </tr>
+        {% endfor %}
     </table>
+    <a href="/question/{{ question["id"] }}/new-answer">Add new answer</a>
 {% endblock %}

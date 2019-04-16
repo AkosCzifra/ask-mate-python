@@ -14,8 +14,9 @@ def route_list():
 
 @app.route("/question/<question_id>")
 def question_page(question_id):
-    question = connection.get_csv_question_data(question_id)
-    return render_template("question.html", question=question)
+    question = connection.get_csv_question_data(connection.QUESTION_CSV_PATH, question_id)
+    answers = data_manager.get_all_answers_by_question_id(question_id)
+    return render_template("question.html", question=question, answers=answers)
 
 
 @app.route("/add-question")
