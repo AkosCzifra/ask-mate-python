@@ -4,7 +4,6 @@ import time
 import util
 import connection
 
-
 app = Flask(__name__)
 
 
@@ -61,29 +60,18 @@ def answer(question_id):
         return render_template("add-answer.html", question=question, question_id=question_id)
 
 
-@app.route("/question/<question_id>/up-vote", methods=['POST'])
-def up_vote(question_id,answer_id):
-    answers = data_manager.get_all_answers_by_question_id(question_id)
-    for answer in answers:
-        if answer['answer_id'] == answer_id:
-            answer['vote_number'] += 1
-    return redirect("/question/<question_id>/")
-
-
-@app.route("/answer/<answer_id>/down-vote")
-def down_vote(answer_id):
+@app.route("/answer/<answer_id>/vote-<modifier>")
+def answer_vote(answer_id, modifier):
     question_id = request.args.get('question_id')
-    print(question_id)
-    print(answer_id)
     answers = data_manager.get_all_answers_by_question_id(question_id)
-    print(answers)
     for answer in answers:
-        if answer['answer_id'] == answer_id:
-            answer['vote_number'] = answer.get('vote_number') - 1
-            connection.write_csv_data(connection.ANSWER_CSV, connection.ANSWER_HEADER, answers)
-            return redirect("/question/<question_id>/")
-        return "Semmi"
-
+        if answer['id'] == answer_id:
+            if modifier == "up":
+                answer['vote_number'] = int(answer.get('vote_number')) + 1
+            elif modifier == "down":
+                answer['vote_number'] = int(answer.get('vote_number')) - 1
+            data_manager.send_user_input(answers, data_manager.ANSWER_CSV_PATH, data_manager.ANSWER_HEADER)
+            return redirect(url_for('question_page', question_id=question_id))
 
 
 if __name__ == '__main__':
