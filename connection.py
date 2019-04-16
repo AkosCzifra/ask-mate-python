@@ -23,7 +23,7 @@ def get_csv_question_data(data_table, one_question_id=None):
 
 def write_csv_data(data_table, header, existing_data):
     with open(data_table, 'w') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=header)
+        writer = csv.DictWriter(csvfile, quotechar='"', fieldnames=header)
         writer.writeheader()
 
         for row in existing_data:
