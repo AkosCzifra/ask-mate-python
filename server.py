@@ -20,8 +20,14 @@ def question_page(question_id):
     return render_template("question.html", question=question, answers=answers)
 
 
-@app.route("/add-question")
+@app.route("/add-question", methods=["GET", "POST"])
 def add_question():
+    if request.method == "GET":
+        return render_template('question.html')
+    elif request.method == "POST":
+    question = connection.get_csv_question_data(request)
+
+        return redirect(url_for('route_list'))
     return render_template("add-question.html")
 
 
