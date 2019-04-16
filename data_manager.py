@@ -3,6 +3,7 @@ import random
 import connection
 
 
+
 def get_all_questions(convert_linebreak=False, key_id=None):
     all_questions = connection.get_csv_question_data(connection.QUESTION_CSV_PATH, key_id)
 
@@ -46,10 +47,4 @@ def best_practice_passer(existing_data):
     connection.write_csv_data(connection.ANSWER_CSV_PATH, connection.ANSWER_HEADER, existing_data)
 
 
-
-
-
-
-
-
-
+def send_user_input():

@@ -25,15 +25,14 @@ def add_question():
     if request.method == "GET":
         return render_template('question.html')
     elif request.method == "POST":
-    id = data_manager.generate_id()
-    submission_time = int(time.time())
-    view_number = 0
-    vote_number = 666
-    title = request.form['title']
-    message = request.form['message']
-    new_question = {"id": id, "submission_time": submission_time, "view_number": view_number, "vote_number": vote_number, "title": title, "message": message}
+        id = data_manager.generate_id()
+        submission_time = int(time.time())
+        view_number = 0
+        vote_number = 0
+        title = request.form['title']
+        message = request.form['message']
+        new_question = {"id": id, "submission_time": submission_time, "view_number": view_number, "vote_number": vote_number, "title": title, "message": message}
         return redirect(url_for('route_list'))
-    return render_template("add-question.html")
 
 
 @app.route("/question/<question_id>/new-answer", methods=['GET', 'POST'])
