@@ -1,3 +1,22 @@
-{% extends 'basic.html'%}
+{% extends 'basic.html' %}
 
 {% block title %}Welcome{% endblock %}
+
+{% block body %}
+    <table border="1" frame="border" rules="all">
+        <tr>
+            <th>Title</th>
+            <th>View number</th>
+            <th>Vote number</th>
+            <th>Timestamp</th>
+        </tr>
+        {% for question in user_questions %}
+            <tr>
+                <td><a href="/question/{{ question["id"] }}"> {{ question['title'] | safe }}</td>
+                <td>{{ question['view_number'] }}</td>
+                <td>{{ question['vote_number'] }}</td>
+                <td>{{ question['submission_time'] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
