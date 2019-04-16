@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
 import data_manager
-import time
 
 app = Flask(__name__)
 
@@ -13,8 +12,10 @@ def route_list():
 
 
 @app.route("/question/<question_id>")
-def question(question_id):
-    return render_template("question.html")
+def question_page(question_id):
+    question = connection.get_csv_question_data(connection.QUESTION_CSV_PATH, question_id)
+    answers = data_manager.get_all_answers_by_question_id(question_id)
+    return render_template("question.html", question=question, answers=answers)
 
 
 @app.route("/add-question")
@@ -22,7 +23,7 @@ def add_question():
     return render_template("add-question.html")
 
 
-@app.route("/question/<question_id>/new-answer", methods=['GET', 'POST'])
+@app.route("/question/<question_id>/new-answer")
 def answer(question_id):
     if request.method == 'POST':
         id = data_manager.generate_id()

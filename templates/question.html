@@ -4,4 +4,21 @@
 Question
 {% endblock %}
 {% block body %}
+    <table>
+        <tr>
+            <td> Question:</td>
+            <th><p>{{ question["title"] }}</p></th>
+        </tr>
+        <tr>
+            <td> Details:</td>
+            <td><p>{{ question["message"] }}</p></td>
+        {% for answer in answers %}
+        </tr>
+            <tr>
+                <td>{{ answer["id"] }}</td>
+                <td>{{ answer["message"] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <a href="/question/{{ question["id"] }}/new-answer">Add new answer</a>
 {% endblock %}
