@@ -4,4 +4,18 @@
 Question
 {% endblock %}
 {% block body %}
+    <table>
+        <tr>
+            <td> Question:</td>
+            <th><p>{{ question["title"] }}</p></th>
+        </tr>
+        <tr>
+            <td> Details:</td>
+            <td><p>{{ question["message"] }}</p></td>
+        </tr>
+        <tr>
+            <td> Answers:</td>
+            <td>-not implemented yet-</td>
+        </tr>
+    </table>
 {% endblock %}
