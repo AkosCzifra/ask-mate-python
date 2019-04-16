@@ -16,7 +16,7 @@ Question
         </tr>
             <tr>
                 <td>{{ answer["id"] }}</td>
-                <td>{{ answer["message"] }}</td>
+                <td>{{ answer["message"] | safe}}</td>
             </tr>
         {% endfor %}
     </table>
