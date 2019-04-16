@@ -15,8 +15,8 @@ def get_all_questions(convert_linebreak=False):
     return all_questions
 
 
-def generate_id():
-    rand_letters = random.sample(string.ascii_lowercase, 4)
+def generate_id(length=4):
+    rand_letters = random.sample(string.ascii_lowercase, length)
     id_ = "".join(rand_letters)
     return id_
 
@@ -25,7 +25,7 @@ def convert_linebreak_to_br(original_str):
     return '<br>'.join(original_str.split('\n'))
 
 
-print(int(time.time()))
+#print(int(time.time()))
 
 
 
