@@ -3,6 +3,10 @@ import random
 import connection
 
 
+def add_new_question():
+    connection.write_csv_data(connection.QUESTION_CSV_PATH, connection.QUESTION_HEADER)
+
+
 def get_all_questions(convert_linebreak=False):
     all_questions = connection.get_csv_question_data(connection.QUESTION_CSV_PATH)
 
