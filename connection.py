@@ -28,3 +28,4 @@ def write_csv_data(data_table, header, existing_data):
 
         for row in existing_data:
             writer.writerow(row)
+

@@ -22,9 +22,23 @@ def question_page(question_id):
     return render_template("question.html", question=question, answers=answers)
 
 
-@app.route("/add-question")
+@app.route("/add-question", methods=["GET", "POST"])
 def add_question():
-    return render_template("add-question.html")
+    if request.method == "GET":
+        return render_template('add-question.html')
+    elif request.method == "POST":
+        id = data_manager.generate_id()
+        submission_time = int(time.time())
+        view_number = 0
+        vote_number = 0
+        title = request.form['title']
+        message = request.form['message']
+        new_question = {"id": id, "submission_time": submission_time, "view_number": view_number,
+                        "vote_number": vote_number, "title": title, "message": message}
+        existing_data = data_manager.get_all_questions()
+        existing_data.insert(0, new_question)
+        data_manager.send_user_input(existing_data, data_manager.QUESTION_CSV_PATH, data_manager.QUESTION_HEADER)
+        return redirect(url_for('route_list'))
 
 
 @app.route("/question/<question_id>/new-answer", methods=['GET', 'POST'])
@@ -41,7 +55,7 @@ def answer(question_id):
                       "question_id": question_id, "message": message, "image": image}
         existing_data = data_manager.get_all_answers()
         existing_data.insert(0, new_answer)
-        data_manager.best_practice_passer(existing_data)
+        data_manager.send_user_input(existing_data, data_manager.ANSWER_CSV_PATH, data_manager.ANSWER_HEADER)
         return redirect(f'/question/{question_id}')
     elif request.method == 'GET':
         return render_template("add-answer.html", question=question, question_id=question_id)
