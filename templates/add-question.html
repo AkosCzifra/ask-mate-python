@@ -1,7 +1,29 @@
 {% extends 'basic.html' %}
 
 {% block title %}
-Add Question
+Qs
 {% endblock %}
+
 {% block body %}
+
+<h1>Ask M8</h1>
+<a href="{{ url_for("add_question")}}">Ask a question</a>
+<table>
+    <tr>
+        {% for item in QUESTION_HEADER %}
+        <td>{{ item }}</td>
+        {% endfor %}
+    </tr>
+    {% for question in questions %}
+    <tr>
+        {% for item in question %}
+        <td> {% if item == "title" %} <a href="{{ url_for('update_user_story', story_id = user_story['id'])}}"> {{user_story[item]}} </a>
+            {% else %}
+            {{ user_story[item] }}
+            {% endif %}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}
