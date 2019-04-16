@@ -3,6 +3,9 @@
 {% block title %}Welcome{% endblock %}
 
 {% block body %}
+    <button><a href="{{ url_for('add_question') }}">Add new question</a> </button>
+    <br><br>
+
     <table border="1" frame="border" rules="all">
         <tr>
             <th>Post date</th>

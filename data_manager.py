@@ -2,6 +2,10 @@ import string
 import random
 import connection
 
+QUESTION_CSV_PATH = connection.QUESTION_CSV_PATH
+ANSWER_CSV_PATH = connection.ANSWER_CSV_PATH
+QUESTION_HEADER = connection.QUESTION_HEADER
+ANSWER_HEADER = connection.ANSWER_HEADER
 
 
 def get_all_questions(convert_linebreak=False, key_id=None):
@@ -43,8 +47,7 @@ def generate_id(length=4):
     return id_
 
 
-def best_practice_passer(existing_data):
-    connection.write_csv_data(connection.ANSWER_CSV_PATH, connection.ANSWER_HEADER, existing_data)
+def send_user_input(existing_data, path, header):
+    connection.write_csv_data(path, header, existing_data)
 
 
-def send_user_input():

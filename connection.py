@@ -29,6 +29,3 @@ def write_csv_data(data_table, header, existing_data):
         for row in existing_data:
             writer.writerow(row)
 
-def add_new_data(data_table, header, existing_data):
-    with open(data_table, "w") as file:
-        new_data = csv.DictWriter(file)
