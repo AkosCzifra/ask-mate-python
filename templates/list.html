@@ -4,30 +4,15 @@
 
 {% block body %}
 
-# We have only added this style code for presentation purposes and this should be moved to static folder ( blame Zozo )
-<style>
-img {
-  border: 1px solid #ddd; /* Gray border */
-  border-radius: 4px;  /* Rounded border */
-  padding: 5px; /* Some padding */
-  height: 150px; /* Set a small height */
-}
-
-/* Add a hover effect (blue shadow) */
-img:hover {
-  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-}
-</style>
     <button><a href="{{ url_for('add_question') }}">Add new question</a> </button>
     <br><br>
 
-    <table border="1" frame="border" rules="all">
+    <table id="tabla">
         <tr>
             <th>Post date</th>
             <th>Title</th>
             <th>View number</th>
             <th>Vote number</th>
-            <th>Image</th>
         </tr>
         {% for question in user_questions %}
             <tr>
@@ -35,7 +20,6 @@ img:hover {
                 <td><a href="/question/{{ question["id"] }}"> {{ question['title'] | safe }}</td>
                 <td>{{ question['view_number'] }}</td>
                 <td>{{ question['vote_number'] }}</td>
-                <td><a href="{{ question['image'] }}"><img src="{{ question['image'] }}" alt="Picture of the question"></a></td>
             </tr>
         {% endfor %}
     </table>
