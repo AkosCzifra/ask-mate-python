@@ -1,19 +1,19 @@
 .img-thumbnail {
-  border: 1px solid #ddd; /* Gray border */
-  border-radius: 4px;  /* Rounded border */
-  padding: 5px; /* Some padding */
-  height: 150px; /* Set a small height */
+    border: 1px solid #ddd; /* Gray border */
+    border-radius: 4px; /* Rounded border */
+    padding: 5px; /* Some padding */
+    height: 150px; /* Set a small height */
 }
 
 /* Add a hover effect (blue shadow) */
 img:hover {
-  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
 }
 
 .table {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
 }
 
 #tabla td, thead {
@@ -21,7 +21,52 @@ img:hover {
     background-color: aliceblue;
 }
 
-.pageName {
+.page-name {
     text-align: center;
-    background-color: tomato;
 }
+
+.page-background {
+    background-color: cornsilk;
+    text-align: center;
+}
+
+.homePageList {
+    text-align: center;
+    width: 40%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.example_a {
+    color: #fff !important;
+    text-transform: capitalize;
+    background: #ffffcc;
+    padding: 20px;
+    border-radius: 5px;
+    display: inline-block;
+    border: double;
+    border-style: solid;
+    border-color: sienna;
+    border-width: 4px;
+}
+
+.example_a:hover {
+    background: palegoldenrod;
+    letter-spacing: 1px;
+    -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+    -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+    box-shadow: 5px 40px -10px rgba(0, 0, 0, 0.57);
+    transition: all 0.4s ease 0s;
+}
+
+.text-color {
+    color: #cc0000;
+}
+
+#homePageList tr, td {
+    border: 1px solid sienna;
+    background-color: #ffffcc;
+}
+#homePageListHeader tr, th {
+    border: 3px solid sienna;
+    background-color: #ffffcc;
