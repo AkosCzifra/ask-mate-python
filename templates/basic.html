@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/static/style.css">
+    <link href="/static/style.css" rel="stylesheet">
     <title>
         {% block title%}
             Title
@@ -11,8 +11,10 @@
     </title>
 </head>
 <body>
-<h1 style="text-align: center">Ask M8 - The land of unsolved questions.</h1>
+<div class="pageName">
+    <h1>Ask M8 - The land of unsolved questions.</h1>
     <hr>
+</div>
 {% block body %}
 {% endblock %}
 </body>

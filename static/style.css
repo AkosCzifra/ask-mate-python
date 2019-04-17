@@ -20,3 +20,8 @@ img:hover {
     border: 2px solid darkblue;
     background-color: aliceblue;
 }
+
+.pageName {
+    text-align: center;
+    background-color: tomato;
+}
