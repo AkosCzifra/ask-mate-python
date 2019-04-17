@@ -4,64 +4,56 @@
     Question
 {% endblock %}
 {% block body %}
-    <table>
-
-    </table>
+   <table>
     <h4>Question</h4>
     <h2> {{ question["title"] }}</h2>
     <h4>Details</h4>
     <h3> {{ question["message"] }}</h3>
+   </table>
 
-
-
-
-
-
-
-
-
-
-    <hr>
-    <table id="tabla"
+    <table>
+        <tr>
+            <td>
+                <button value="{{ question["id"] }}">
+                    <a href="{{ url_for("delete_question", question_id=question['id']) }}">
+                        DELETE QUESTION
+                    </a>
+                </button>
+            </td>
+        </tr>
         <tr>
             <td> Question:</td>
             <th><p>{{ question["title"] }}</p></th>
         </tr>
-    <tr>
-        <td> Details:</td>
-        <td><p>{{ question["message"] }}</p></td>
-        {% for answer in answers %}
-            </tr>
-            <tr>
-                <td>{{ answer["vote_number"] }}</td>
-                <td>{{ answer["message"] | safe }}</td>
-                <td>
-                <button value="{{ answer["id"] }}"><a
-                href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="up") }}">+1
-                </a></button>
-                </td>
-                <td>
-                <button value="{{ answer["id"] }}"><a
-                href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="down") }}">-1
-                </a></button>
-                </td>
-                <td>
-                <button value="{{ answer["id"] }}"><a
-                href="{{ url_for("delete_answer", answer_id=answer['id'], question_id=answer['question_id']) }}">Delete
-                </a></button>
-                </td>
-            </tr>
-        {% endfor %}
+        <tr>
+            <td> Details:</td>
+            <td><p>{{ question["message"] }}</p></td>
+            {% for answer in answers %}
+                </tr>
+                <tr>
+                    <td>{{ answer["vote_number"] }}</td>
+                    <td>{{ answer["message"] | safe }}</td>
+                    <td>
+                        <button value="{{ answer["id"] }}"><a
+                                href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="up") }}">+1
+                        </a></button>
+                    </td>
+                    <td>
+                        <button value="{{ answer["id"] }}"><a
+                                href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="down") }}">-1
+                        </a></button>
+                    </td>
+                    <td>
+                        <button value="{{ answer["id"] }}"><a
+                                href="{{ url_for("delete_answer", answer_id=answer['id'], question_id=answer['question_id']) }}">Delete
+                        </a></button>
+                    </td>
+                </tr>
+            {% endfor %}
     </table>
-
-    <table>
-    </table>
+    <button><a href="/question/{{ question["id"] }}/edit">Edit question</a></button>
+    <br><br>
     <button><a href="/question/{{ question["id"] }}/new-answer">Add new answer</a></button>
-    <td> Image: </td>
-    <th> <a target="_blank" href="{{ question['image'] }}"><img class="img-thumbnail" src="{{ question['image'] }}" alt="Picture of the question"></a> </th>
-
-
-
     <br><br>
     <button><a href="/">Homepage</a></button>
 {% endblock %}
