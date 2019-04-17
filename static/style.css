@@ -21,6 +21,11 @@ img:hover {
     background-color: aliceblue;
 }
 
+.pageName {
+    text-align: center;
+    background-color: tomato;
+}
+
 #details tr td {
     border: 1px solid cadetblue;
     background-color: beige;
