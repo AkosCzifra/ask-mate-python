@@ -37,6 +37,16 @@ img:hover {
     margin-right:auto;
 }
 
+#details tr td {
+    border: 1px solid cadetblue;
+    background-color: beige;
+}
+
+#image-on-right  {
+    float: right;
+    margin: 0 0 0 15px;
+}
+
 .example_a {
     color: #fff !important;
     text-transform: capitalize;
