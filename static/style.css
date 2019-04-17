@@ -20,3 +20,13 @@ img:hover {
     border: 2px solid darkblue;
     background-color: aliceblue;
 }
+
+#details tr td {
+    border: 1px solid cadetblue;
+    background-color: beige;
+}
+
+#image-on-right  {
+    float: right;
+    margin: 0 0 0 15px;
+}

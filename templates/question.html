@@ -4,30 +4,30 @@
     Question
 {% endblock %}
 {% block body %}
-   <table>
-    <h4>Question</h4>
-    <h2> {{ question["title"] }}</h2>
-    <h4>Details</h4>
-    <h3> {{ question["message"] }}</h3>
-   </table>
-
+    <table id="details">
+        <tr>
+            <td><h4>Question</h4></td>
+            <td><h5>{{ question["title"] }}</h5></td>
+        </tr>
+        <tr>
+            <td>Details: </td>
+            <td> {{ question["message"] }}</td>
+        </tr>
+    </table>
+    <img src=" {{ question["image"] }}" alt="" height="200" id="image-on-right"/>
+    <br>
     <table>
         <tr>
-            <td>
-                <button value="{{ question["id"] }}">
-                    <a href="{{ url_for("delete_question", question_id=question['id']) }}">
-                        DELETE QUESTION
-                    </a>
-                </button>
-            </td>
+            <button value="{{ question["id"] }}"><a href="{{ url_for("delete_question", question_id=question['id']) }}">
+                        DELETE QUESTION</a></button>
+            <button><a href="/question/{{ question["id"] }}/edit">EDIT QUESTION</a></button>
         </tr>
+
+        <br><hr>
+
+        <table id="details">
+        <caption><h2>Answers</h2></caption>
         <tr>
-            <td> Question:</td>
-            <th><p>{{ question["title"] }}</p></th>
-        </tr>
-        <tr>
-            <td> Details:</td>
-            <td><p>{{ question["message"] }}</p></td>
             {% for answer in answers %}
                 </tr>
                 <tr>
@@ -51,9 +51,7 @@
                 </tr>
             {% endfor %}
     </table>
-    <button><a href="/question/{{ question["id"] }}/edit">Edit question</a></button>
-    <br><br>
-    <button><a href="/question/{{ question["id"] }}/new-answer">Add new answer</a></button>
-    <br><br>
-    <button><a href="/">Homepage</a></button>
+        <button><a href="/question/{{ question["id"] }}/new-answer">Add new answer</a></button>
+        <br><br>
+        <button><a href="/">Homepage</a></button>
 {% endblock %}
