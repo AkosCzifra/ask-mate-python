@@ -74,7 +74,7 @@ def answer_vote(answer_id, modifier):
             return redirect(url_for('question_page', question_id=question_id))
 
 
-@app.route("/question/<answer_id>/delete")
+@app.route("/question/<answer_id>/delete_answer")
 def delete_answer(answer_id):
     question_id = request.args.get('question_id')
     answers = data_manager.get_all_answers(True)
@@ -83,7 +83,18 @@ def delete_answer(answer_id):
             del answers[i]
             data_manager.send_user_input(answers, data_manager.ANSWER_CSV_PATH, data_manager.ANSWER_HEADER)
             return redirect(url_for('question_page', question_id=question_id))
+    return "Unexpected error: the answer was not found. Please go back to the home page!"
 
+
+@app.route("/question/<question_id>/delete_question")
+def delete_question(question_id):
+    questions = data_manager.get_all_questions(True)
+    for i in range(len(questions)):
+        if questions[i]['id'] == question_id:
+            del questions[i]
+            data_manager.send_user_input(questions, data_manager.QUESTION_CSV_PATH, data_manager.QUESTION_HEADER)
+            return redirect('/')
+    return "Unexpected error 404: the answer was not found. Please go back to the home page!"
 
 
 if __name__ == '__main__':
