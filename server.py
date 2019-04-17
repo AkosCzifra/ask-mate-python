@@ -127,10 +127,19 @@ def edit_question(question_id):
     if request.method == 'GET':
         return render_template('edit.html', question=question)
     elif request.method == 'POST':
-        for question in questions:
-            if question['id'] == question_id:
-                pass
-        pass
+        title = request.form['title']
+        message = request.form['message']
+        image = request.form['image']
+        for i in range((len(questions))):
+            if question[i]['id'] == question_id:
+                question[i]['title'] == title
+                question[i]['message'] == message
+                question[i]['image'] == image
+                questions.insert(0, question)
+                del questions[i]
+                data_manager.send_user_input(questions, data_manager.QUESTION_CSV_PATH, data_manager.QUESTION_HEADER)
+                return redirect('/question/<question_id>')
+    return redirect('/')
 
 
 if __name__ == '__main__':
