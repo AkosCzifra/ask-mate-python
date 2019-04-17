@@ -12,6 +12,7 @@ app = Flask(__name__)
 def route_list():
     user_questions = data_manager.get_all_questions(convert_linebreak=True)
     if request.method == "GET":
+        user_questions.sort(key=lambda x: x["submission_time"], reverse=True)
         return render_template("list.html", user_questions=user_questions, util=util)
     if request.method == "POST":
         order_by = request.form['order_by']
@@ -22,7 +23,7 @@ def route_list():
         else:
             user_questions.sort(key=lambda x: x[order_by], reverse=True)
         data_manager.send_user_input(user_questions, data_manager.QUESTION_CSV_PATH, data_manager.QUESTION_HEADER)
-        return redirect("/")
+        return render_template("list.html", user_questions=user_questions, util=util)
 
 
 @app.route("/list/<order_by>/<order_direction>")
@@ -119,6 +120,7 @@ def delete_question(question_id):
             return redirect('/')
     return "Unexpected error 404: the answer was not found. Please go back to the home page!"
 
+
 @app.route("/question/<question_id>/edit", methods=['GET', 'POST'])
 def edit_question(question_id):
     questions = data_manager.get_all_questions(True)
@@ -129,6 +131,7 @@ def edit_question(question_id):
         if question['id'] == question_id:
             pass
     pass
+
 
 if __name__ == '__main__':
     app.run(
