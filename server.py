@@ -53,8 +53,8 @@ def add_question():
         submission_time = int(time.time())
         view_number = 0
         vote_number = 0
-        title = request.form['title']
-        message = request.form['message']
+        title = request.form['title'].capitalize()
+        message = request.form['message'].capitalize()
         image = request.form['image']
         new_question = {"id": id, "submission_time": submission_time, "view_number": view_number,
                         "vote_number": vote_number, "title": title, "message": message, "image": image}
@@ -123,25 +123,25 @@ def delete_question(question_id):
 
 @app.route("/question/<question_id>/edit", methods=['GET', 'POST'])
 def edit_question(question_id):
+    question_id = question_id
     questions = data_manager.get_all_questions(True)
     question = data_manager.get_all_questions(key_id=question_id)
     if request.method == 'GET':
-        return render_template('edit.html', question=question)
+        return render_template('edit.html', question=question, question_id=question_id)
     elif request.method == 'POST':
+        submission_time = int(time.time())
         title = request.form['title']
         message = request.form['message']
         image = request.form['image']
-        for i in range((len(questions))):
-            if question[i]['id'] == question_id:
-                question[i]['title'] == title
-                question[i]['message'] == message
-                question[i]['image'] == image
-                questions.insert(0, question)
-                del questions[i]
+        for question in questions:
+            if question['id'] == question_id:
+                question['submission_time'] = submission_time
+                question['title'] = title.capitalize()
+                question['message'] = message.capitalize()
+                question['image'] = image
                 data_manager.send_user_input(questions, data_manager.QUESTION_CSV_PATH, data_manager.QUESTION_HEADER)
-                return redirect('/question/<question_id>')
+                return redirect(f'/question/{question_id}')
     return redirect('/')
-
 
 
 if __name__ == '__main__':
