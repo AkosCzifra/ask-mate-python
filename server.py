@@ -63,7 +63,7 @@ def answer(question_id):
 @app.route("/answer/<answer_id>/vote-<modifier>")
 def answer_vote(answer_id, modifier):
     question_id = request.args.get('question_id')
-    answers = data_manager.get_all_answers_by_question_id(question_id)
+    answers = data_manager.get_all_answers(True)
     for answer in answers:
         if answer['id'] == answer_id:
             if modifier == "up":
@@ -72,6 +72,18 @@ def answer_vote(answer_id, modifier):
                 answer['vote_number'] = int(answer.get('vote_number')) - 1
             data_manager.send_user_input(answers, data_manager.ANSWER_CSV_PATH, data_manager.ANSWER_HEADER)
             return redirect(url_for('question_page', question_id=question_id))
+
+
+@app.route("/question/<answer_id>/delete")
+def delete_answer(answer_id):
+    question_id = request.args.get('question_id')
+    answers = data_manager.get_all_answers(True)
+    for i in range(len(answers)):
+        if answers[i]['id'] == answer_id:
+            del answers[i]
+            data_manager.send_user_input(answers, data_manager.ANSWER_CSV_PATH, data_manager.ANSWER_HEADER)
+            return redirect(url_for('question_page', question_id=question_id))
+
 
 
 if __name__ == '__main__':

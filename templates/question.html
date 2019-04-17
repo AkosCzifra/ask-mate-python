@@ -27,6 +27,11 @@
                                 href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="down") }}">-1
                         </a></button>
                     </td>
+                    <td>
+                        <button value="{{ answer["id"] }}"><a
+                                href="{{ url_for("delete_answer", answer_id=answer['id'], question_id=answer['question_id']) }}">Delete
+                        </a></button>
+                    </td>
                 </tr>
             {% endfor %}
     </table>
