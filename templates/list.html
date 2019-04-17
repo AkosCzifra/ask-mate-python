@@ -31,7 +31,9 @@ Sort Questions by:
         {% for question in user_questions %}
             <tr>
                 <td>{{ util.unix_to_date(question['submission_time']|int) }}</td>
-                <td><a href="/question/{{ question["id"] }}"> {{ question['title'] | safe }}</td>
+                <td>
+                    <a href="{{ url_for("view_counter", question_id=question['id']) }}"> {{ question['title'] | safe }}</a>
+                </td>
                 <td>{{ question['view_number'] }}</td>
                 <td>{{ question['vote_number'] }}</td>
             </tr>
