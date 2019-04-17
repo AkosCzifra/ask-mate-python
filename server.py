@@ -144,6 +144,16 @@ def edit_question(question_id):
     return redirect('/')
 
 
+@app.route("/view_count/<question_id>")
+def view_counter(question_id):
+    questions = util.cast_questions()
+    for i in range(len(questions)):
+        if questions[i]['id'] == question_id:
+            questions[i]['view_number'] += 1
+            data_manager.send_user_input(questions, data_manager.QUESTION_CSV_PATH, data_manager.QUESTION_HEADER)
+            return redirect(url_for("question_page", question_id=question_id))
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
