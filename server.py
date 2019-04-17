@@ -85,6 +85,17 @@ def delete_answer(answer_id):
             return redirect(url_for('question_page', question_id=question_id))
 
 
+@app.route("/question/<question_id>/edit", methods=['GET', 'POST'])
+def edit_question(question_id):
+    questions = data_manager.get_all_questions(True)
+    question = data_manager.get_all_questions(key_id=question_id)
+    if request.method == 'GET':
+        return render_template('edit.html', question=question)
+    for question in questions:
+        if question['id'] == question_id:
+            pass
+    pass
+
 
 if __name__ == '__main__':
     app.run(
