@@ -13,4 +13,5 @@ def cast_questions():
         rows["submission_time"] = int(rows["submission_time"])
         rows["view_number"] = int(rows["view_number"])
         rows["vote_number"] = int(rows["vote_number"])
+        rows["title"] = rows["title"].capitalize()
     return questions
