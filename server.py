@@ -32,8 +32,9 @@ def add_question():
         vote_number = 0
         title = request.form['title']
         message = request.form['message']
+        image = request.form['image']
         new_question = {"id": id, "submission_time": submission_time, "view_number": view_number,
-                        "vote_number": vote_number, "title": title, "message": message}
+                        "vote_number": vote_number, "title": title, "message": message, "image": image}
         existing_data = data_manager.get_all_questions()
         existing_data.insert(0, new_question)
         data_manager.send_user_input(existing_data, data_manager.QUESTION_CSV_PATH, data_manager.QUESTION_HEADER)
