@@ -3,23 +3,37 @@
 {% block title %}Welcome{% endblock %}
 
 {% block body %}
-
-<!- We have only added this style code for presentation purposes and this should be moved to static folder ( blame Zozo )
+    <!- We have only added this style code for presentation purposes and this should be moved to static folder ( blame
+    Zozo )
     -->
-<style>
-img {
-  border: 1px solid #ddd; /* Gray border */
-  border-radius: 4px;  /* Rounded border */
-  padding: 5px; /* Some padding */
-  height: 150px; /* Set a small height */
-}
+    <style>
+        img {
+            border: 1px solid #ddd; /* Gray border */
+            border-radius: 4px; /* Rounded border */
+            padding: 5px; /* Some padding */
+            height: 150px; /* Set a small height */
+        }
 
-/* Add a hover effect (blue shadow) */
-img:hover {
-  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-}
-</style>
-    <button><a href="{{ url_for('add_question') }}">Add new question</a> </button>
+        /* Add a hover effect (blue shadow) */
+        img:hover {
+            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        }
+    </style>
+    <p>
+        <button><a href="{{ url_for('add_question') }}">Add new question</a></button>
+    </p>
+    Sort Questions by:
+    <form method="POST" action={{ url_for('route_list') }}>
+        <select name="order_by">
+            <option value="title" selected>Name</option>
+            <option value="vote_number">Vote Number</option>
+            <option value="view_number">View Number</option>
+            <option value="submission_time">Post Date</option>
+        </select>
+        <input type="radio" name="order_direction" value="asc" checked>Ascending
+        <input type="radio" name="order_direction" value="desc">Descending
+        <input type="submit" value="Sort!">
+    </form>
     <br><br>
 
     <table border="1" frame="border" rules="all">
@@ -36,7 +50,8 @@ img:hover {
                 <td><a href="/question/{{ question["id"] }}"> {{ question['title'] | safe }}</td>
                 <td>{{ question['view_number'] }}</td>
                 <td>{{ question['vote_number'] }}</td>
-                <td><a href="{{ question['image'] }}"><img src="{{ question['image'] }}" alt="Picture of the question"></a></td>
+                <td><a href="{{ question['image'] }}"><img src="{{ question['image'] }}" alt="Picture of the question"></a>
+                </td>
             </tr>
         {% endfor %}
     </table>
