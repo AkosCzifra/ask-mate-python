@@ -28,6 +28,14 @@
 
         <table id="details">
         <caption><h2>Answers</h2></caption>
+       <tr>
+            <th>Number of votes</th>
+            <th>Message</th>
+            <th>Vote UP</th>
+            <th>Vote DOWN</th>
+            <th>Delete answer</th>
+            <th>Image</th>
+        </tr>
         <tr>
             {% for answer in answers %}
                 </tr>
@@ -50,7 +58,7 @@
                         </a></button>
                     </td>
                     <td>
-                        <img src=" {{ answer["image"] }}" alt="" height="200" id="image-on-right"/>
+                        <img src=" {{ answer["image"] }}" alt="" height="100" id="image-on-right"/>
                     </td>
 
                 </tr>
