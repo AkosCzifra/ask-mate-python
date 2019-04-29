@@ -8,23 +8,33 @@ QUESTION_HEADER = connection.QUESTION_HEADER
 ANSWER_HEADER = connection.ANSWER_HEADER
 
 
-def get_all_questions(convert_linebreak=False, key_id=None):
-    all_questions = connection.get_csv_question_data(connection.QUESTION_CSV_PATH, key_id)
-
-    if convert_linebreak:
-        for question in all_questions:
-            question["title"] = convert_linebreak_to_br(question["title"])
-            question["message"] = convert_linebreak_to_br(question["message"])
-
+@connection.connection_handler
+def get_all_questions(cursor):
+    cursor.execute("""
+                    SELECT * FROM question
+                    ORDER BY submission_time DESC;
+    """)
+    all_questions = cursor.fetchall()
     return all_questions
 
 
-def get_all_answers(convert_linebreak=False):
-    all_answers = connection.get_csv_question_data(connection.ANSWER_CSV_PATH)
+@connection.connection_handler
+def get_question_by_question_id(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM question
+                    WHERE id = %(question_id)s;
+    """, {'question_id': question_id})
+    filtered_answers = cursor.fetchall()
+    return filtered_answers
 
-    if convert_linebreak:
-        for question in all_answers:
-            question["message"] = convert_linebreak_to_br(question["message"])
+
+@connection.connection_handler
+def get_all_answers(cursor):
+    cursor.execute("""
+                    SELECT * FROM answer
+                    ORDER BY submission_time DESC;
+    """)
+    all_answers = cursor.fetchall()
     return all_answers
 
 
@@ -32,12 +42,14 @@ def convert_linebreak_to_br(original_str):
     return '<br>'.join(original_str.split('\n'))
 
 
-def get_all_answers_by_question_id(question_id):
-    answers = get_all_answers(True)
-    filtered_answers = []
-    for answer in answers:
-        if answer["question_id"] == question_id:
-            filtered_answers.append(answer)
+@connection.connection_handler
+def get_all_answers_by_question_id(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM answer
+                    WHERE question_id = %(question_id)s
+                    ORDER BY submission_time DESC;
+    """, {'question_id': question_id})
+    filtered_answers = cursor.fetchall()
     return filtered_answers
 
 
@@ -47,7 +59,6 @@ def generate_id(length=4):
     return id_
 
 
+@connection.connection_handler
 def send_user_input(existing_data, path, header):
     connection.write_csv_data(path, header, existing_data)
-
-
