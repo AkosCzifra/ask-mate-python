@@ -10,14 +10,12 @@ app = Flask(__name__)
 @app.route("/")
 @app.route("/list", methods=["GET", "POST"])
 def route_list():
-    user_questions = data_manager.get_all_questions(convert_linebreak=True)
+    user_questions = data_manager.get_all_questions()
     if request.method == "GET":
-        user_questions.sort(key=lambda x: x["submission_time"], reverse=True)
         return render_template("list.html", user_questions=user_questions, util=util)
     if request.method == "POST":
         order_by = request.form['order_by']
         order_direction = request.form['order_direction']
-        user_questions = util.cast_questions()
         if order_direction == 'asc':
             user_questions.sort(key=lambda x: x[order_by], reverse=False)
         else:
@@ -39,7 +37,7 @@ def order_list(order_by, order_direction):
 
 @app.route("/question/<question_id>")
 def question_page(question_id):
-    question = data_manager.get_all_questions(key_id=question_id)
+    question = data_manager.get_question_by_question_id(question_id)
     answers = data_manager.get_all_answers_by_question_id(question_id)
     return render_template("question.html", question=question, answers=answers)
 
@@ -146,7 +144,7 @@ def edit_question(question_id):
 
 @app.route("/view_count/<question_id>")
 def view_counter(question_id):
-    questions = util.cast_questions()
+    questions = data_manager.get_all_questions()
     for i in range(len(questions)):
         if questions[i]['id'] == question_id:
             questions[i]['view_number'] += 1
