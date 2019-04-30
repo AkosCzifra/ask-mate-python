@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 import data_manager
 import time
-import util
 from datetime import datetime
 import connection
+import util
 
 app = Flask(__name__)
 
@@ -33,7 +33,7 @@ def add_question():
     if request.method == "GET":
         return render_template('add-question.html')
     elif request.method == "POST":
-        submission_time = datetime.now()
+        submission_time = datetime.now().isoformat(timespec='seconds')
         view_number = 0
         vote_number = 0
         title = request.form['title'].capitalize()
@@ -47,7 +47,7 @@ def add_question():
 def add_answer(question_id):
     question = data_manager.get_question_by_question_id(question_id)
     if request.method == 'POST':
-        submission_time = datetime.now()
+        submission_time = datetime.now().isoformat(timespec='seconds')
         vote_number = 0
         question_id = question_id
         message = request.form['message']
@@ -72,60 +72,32 @@ def answer_vote(answer_id, modifier):
             return redirect(url_for('question_page', question_id=question_id))
 
 
-@app.route("/question/<answer_id>/delete_answer")
+@app.route("/question/<answer_id>/delete_answer")  # done
 def delete_answer(answer_id):
     question_id = request.args.get('question_id')
-    answers = data_manager.get_all_answers(True)
-    for i in range(len(answers)):
-        if answers[i]['id'] == answer_id:
-            del answers[i]
-            data_manager.send_user_input(answers, data_manager.ANSWER_CSV_PATH, data_manager.ANSWER_HEADER)
-            return redirect(url_for('question_page', question_id=question_id))
-    return "Unexpected error: the answer was not found. Please go back to the home page!"
+    data_manager.delete_answer(answer_id)
+    return redirect(url_for('question_page', question_id=question_id))
 
 
-@app.route("/question/<question_id>/delete_question")
+@app.route("/question/<question_id>/delete_question")  # done
 def delete_question(question_id):
-    questions = data_manager.get_all_questions(True)
-    for i in range(len(questions)):
-        if questions[i]['id'] == question_id:
-            del questions[i]
-            data_manager.send_user_input(questions, data_manager.QUESTION_CSV_PATH, data_manager.QUESTION_HEADER)
-            return redirect('/')
-    return "Unexpected error 404: the answer was not found. Please go back to the home page!"
-
-
-@app.route("/question/<question_id>/edit", methods=['GET', 'POST'])
-def edit_question(question_id):
-    question_id = question_id
-    questions = data_manager.get_all_questions(True)
-    question = data_manager.get_all_questions(key_id=question_id)
-    if request.method == 'GET':
-        return render_template('edit.html', question=question, question_id=question_id)
-    elif request.method == 'POST':
-        submission_time = int(time.time())
-        title = request.form['title']
-        message = request.form['message']
-        image = request.form['image']
-        for question in questions:
-            if question['id'] == question_id:
-                question['submission_time'] = submission_time
-                question['title'] = title.capitalize()
-                question['message'] = message.capitalize()
-                question['image'] = image
-                data_manager.send_user_input(questions, data_manager.QUESTION_CSV_PATH, data_manager.QUESTION_HEADER)
-                return redirect(f'/question/{question_id}')
+    data_manager.delete_question(question_id)
     return redirect('/')
 
 
-@app.route("/view_count/<question_id>")
-def view_counter(question_id):
-    questions = data_manager.get_all_questions()
-    for i in range(len(questions)):
-        if questions[i]['id'] == question_id:
-            questions[i]['view_number'] += 1
-            data_manager.send_user_input(questions, data_manager.QUESTION_CSV_PATH, data_manager.QUESTION_HEADER)
-            return redirect(url_for("question_page", question_id=question_id))
+@app.route("/question/<question_id>/edit", methods=['GET', 'POST'])  # done
+def edit_question(question_id):
+    question = data_manager.get_question_by_question_id(question_id)
+    question_id = question['id']
+    if request.method == 'GET':
+        return render_template('edit.html', question=question, question_id=question_id)
+    elif request.method == 'POST':
+        submission_time = datetime.now().isoformat(timespec='seconds')
+        title = request.form['title']
+        message = request.form['message']
+        image = request.form['image']
+        data_manager.update_question(submission_time, title, message, image, question_id)
+        return redirect(f'/question/{question_id}')
 
 
 if __name__ == '__main__':

@@ -73,6 +73,22 @@ def get_question_by_question_id(cursor, question_id):
 
 
 @connection.connection_handler
+def delete_question(cursor, question_id):
+    cursor.execute("""
+                   DELETE FROM comment WHERE question_id = %(question_id)s;
+                   DELETE FROM answer WHERE question_id = %(question_id)s;
+                   DELETE FROM question WHERE id = %(question_id)s;
+    """, {'id': question_id, 'question_id': question_id})
+
+
+@connection.connection_handler
+def delete_answer(cursor, answer_id):
+    cursor.execute("""
+                    DELETE FROM answer WHERE id=%(answer_id)s
+    """, {'answer_id': answer_id})
+
+
+@connection.connection_handler
 def get_all_answers(cursor):
     cursor.execute("""
                     SELECT * FROM answer
@@ -114,13 +130,3 @@ def add_new_answer(cursor, submission_time, vote_number, question_id, message, i
                     VALUES (%(submission_time)s,%(vote_number)s,%(question_id)s,%(message)s,%(image)s)
     """, {'submission_time': submission_time, 'vote_number': vote_number, 'question_id': question_id,
           'message': message, 'image': image})
-
-
-@connection.connection_handler
-def sort_questions(cursor, order_by, direction):
-    cursor.execute("""
-    SELECT * FROM question
-    ORDER BY %(order_by)s %(direction)s;
-    """, {"order_by": order_by, "direction": direction})
-    sorted_questions = cursor.fetchall()
-    return sorted_questions
