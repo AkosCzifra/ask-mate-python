@@ -1,5 +1,4 @@
 import connection
-from datetime import datetime
 
 
 @connection.connection_handler
@@ -84,6 +83,7 @@ def delete_question(cursor, question_id):
 @connection.connection_handler
 def delete_answer(cursor, answer_id):
     cursor.execute("""
+                    DELETE FROM comment WHERE answer_id=%(answer_id)s;
                     DELETE FROM answer WHERE id=%(answer_id)s
     """, {'answer_id': answer_id})
 
@@ -110,8 +110,48 @@ def get_all_answers_by_question_id(cursor, question_id):
 
 
 @connection.connection_handler
-def send_user_input(existing_data, path, header):
-    connection.write_csv_data(path, header, existing_data)
+def vote_up_for_answer(cursor, answer_id):
+    cursor.execute("""
+                    UPDATE answer
+                    SET vote_number = vote_number+1
+                    WHERE id=%(answer_id)s
+    """, {'answer_id': answer_id})
+
+
+@connection.connection_handler
+def vote_down_for_answer(cursor, answer_id):
+    cursor.execute("""
+                    UPDATE answer
+                    SET vote_number = vote_number-1
+                    WHERE id=%(answer_id)s
+    """, {'answer_id': answer_id})
+
+
+@connection.connection_handler
+def vote_down_for_question(cursor, question_id):
+    cursor.execute("""
+                    UPDATE question
+                    SET vote_number = vote_number-1
+                    WHERE id=%(question_id)s
+    """, {'question_id': question_id})
+
+
+@connection.connection_handler
+def vote_up_for_question(cursor, question_id):
+    cursor.execute("""
+                    UPDATE question
+                    SET vote_number = vote_number+1
+                    WHERE id=%(question_id)s
+    """, {'question_id': question_id})
+
+
+@connection.connection_handler
+def question_view_number(cursor, question_id):
+    cursor.execute("""
+                    UPDATE question
+                    SET view_number = view_number+1
+                    WHERE id=%(question_id)s
+    """, {'question_id': question_id})
 
 
 @connection.connection_handler
@@ -130,3 +170,13 @@ def add_new_answer(cursor, submission_time, vote_number, question_id, message, i
                     VALUES (%(submission_time)s,%(vote_number)s,%(question_id)s,%(message)s,%(image)s)
     """, {'submission_time': submission_time, 'vote_number': vote_number, 'question_id': question_id,
           'message': message, 'image': image})
+
+
+@connection.connection_handler
+def update_question(cursor, submission_time, title, message, image, question_id):
+    cursor.execute("""
+                    UPDATE question
+                    SET submission_time = %(submission_time)s, title = %(title)s, message = %(message)s, image = %(image)s
+                    WHERE id=%(question_id)s
+    """, {'submission_time': submission_time, 'title': title, 'message': message, 'image': image,
+          'question_id': question_id})
