@@ -25,6 +25,7 @@ def order_list(order_by, order_direction):
 def question_page(question_id):
     question = data_manager.get_question_by_question_id(question_id)
     answers = data_manager.get_all_answers_by_question_id(question_id)
+    data_manager.question_view_number(question_id)
     return render_template("question.html", question=question, answers=answers)
 
 
@@ -108,6 +109,6 @@ def edit_question(question_id):
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
-        port=8000,
+        port=5000,
         debug=True,
     )
