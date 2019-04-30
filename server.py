@@ -58,18 +58,23 @@ def add_answer(question_id):
         return render_template("add-answer.html", question=question, question_id=question_id)
 
 
-@app.route("/answer/<answer_id>/vote-<modifier>")
+@app.route("/answer/<answer_id>/vote-<modifier>")  # done
 def answer_vote(answer_id, modifier):
     question_id = request.args.get('question_id')
-    answers = data_manager.get_all_answers(True)
-    for answer in answers:
-        if answer['id'] == answer_id:
-            if modifier == "up":
-                answer['vote_number'] = int(answer.get('vote_number')) + 1
-            elif modifier == "down":
-                answer['vote_number'] = int(answer.get('vote_number')) - 1
-            data_manager.send_user_input(answers, data_manager.ANSWER_CSV_PATH, data_manager.ANSWER_HEADER)
-            return redirect(url_for('question_page', question_id=question_id))
+    if modifier == "up":
+        data_manager.vote_up_for_answer(answer_id)
+    elif modifier == "down":
+        data_manager.vote_down_for_answer(answer_id)
+    return redirect(url_for('question_page', question_id=question_id))
+
+
+@app.route("/question/<question_id>/vote-<modifier>")  # done
+def question_vote(question_id, modifier):
+    if modifier == "up":
+        data_manager.vote_up_for_question(question_id)
+    elif modifier == "down":
+        data_manager.vote_down_for_question(question_id)
+    return redirect(url_for('question_page', question_id=question_id))
 
 
 @app.route("/question/<answer_id>/delete_answer")  # done

@@ -1,5 +1,4 @@
 import connection
-from datetime import datetime
 
 
 @connection.connection_handler
@@ -110,8 +109,37 @@ def get_all_answers_by_question_id(cursor, question_id):
 
 
 @connection.connection_handler
-def send_user_input(existing_data, path, header):
-    connection.write_csv_data(path, header, existing_data)
+def vote_up_for_answer(cursor, answer_id):
+    cursor.execute("""
+                    UPDATE answer
+                    SET vote_number = vote_number+1
+                    WHERE id=%(answer_id)s
+    """, {'answer_id': answer_id})
+
+
+@connection.connection_handler
+def vote_down_for_answer(cursor, answer_id):
+    cursor.execute("""
+                    UPDATE answer
+                    SET vote_number = vote_number-1
+                    WHERE id=%(answer_id)s
+    """, {'answer_id': answer_id})
+
+@connection.connection_handler
+def vote_down_for_question(cursor, question_id):
+    cursor.execute("""
+                    UPDATE question
+                    SET vote_number = vote_number-1
+                    WHERE id=%(question_id)s
+    """, {'question_id': question_id})
+
+@connection.connection_handler
+def vote_up_for_question(cursor, question_id):
+    cursor.execute("""
+                    UPDATE question
+                    SET vote_number = vote_number+1
+                    WHERE id=%(question_id)s
+    """, {'question_id': question_id})
 
 
 @connection.connection_handler
