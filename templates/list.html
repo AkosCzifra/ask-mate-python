@@ -31,7 +31,7 @@
                 </tr>
                 {% for question in user_questions %}
                     <tr>
-                        <td>{{ util.unix_to_date(question['submission_time']|int) }}</td>
+                        <td>{{ question['submission_time'] }}</td>
                         <td>
                             <a href="{{ url_for("question_page", question_id=question['id']) }}"> {{ question['title'] | safe }}</a>
                         </td>
