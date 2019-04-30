@@ -5,7 +5,7 @@ Add new answer
 {% endblock %}
 {% block body %}
 <h1>Add new answer</h1>
-    <h2>Question: {{ question['title']}}</h2>
+    <h2>Question: {{ question['title'] }}</h2>
 <form action="/question/{{question_id}}/new-answer" method="POST">
     <p>Message:</p>
     <p><textarea name="message" rows="7" cols="40" required minlength="10"></textarea></p>
