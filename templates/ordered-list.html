@@ -1,0 +1,95 @@
+{% extends 'basic.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block body %}
+
+    <strong>
+        <button class="example_a"><a class="text-color" href="{{ url_for('add_question') }}"><strong>Add new
+            question</strong></a></button>
+        <br><br>
+        <br>
+        <div class="homePageList">
+            <table id="homePageList" id="homePageListHeader" align="center">
+                <tr>
+                    <th>
+                        {% if order_by == "submission_time" %}
+
+                            {% if order_direction == "ASC" %}
+                                <a href="{{ url_for("order_list_by", order_by="submission_time", order_direction="DESC")}}" >Post date</a>
+                                <img class="ASC" src="http://icons.veryicon.com/256/System/Android%201/Arrow%20down.png" width="10" height="10">
+
+                            {% elif order_direction == "DESC" %}
+                                <a href="{{ url_for("order_list_by", order_by="submission_time", order_direction="ASC")}}" >Post date</a>
+                                <img class="DESC" src="http://icons.veryicon.com/256/System/Android%201/Arrow%20down.png" width="10" height="10">
+                            {% endif %}
+
+                        {% else %}
+                            <a href="{{ url_for("order_list_by", order_by="submission_time", order_direction="ASC")}}" >Post date</a>
+                        {% endif %}</th>
+
+                    <th>
+                        {% if order_by == "title" %}
+
+                            {% if order_direction == "ASC" %}
+                                <a href="{{ url_for("order_list_by", order_by="title", order_direction="DESC")}}" >Title</a>
+                                <img class="ASC" src="http://icons.veryicon.com/256/System/Android%201/Arrow%20down.png" width="10" height="10">
+
+                            {% elif order_direction == "DESC" %}
+                                <a href="{{ url_for("order_list_by", order_by="title", order_direction="ASC")}}" >Title</a>
+                                <img class="DESC" src="http://icons.veryicon.com/256/System/Android%201/Arrow%20down.png" width="10" height="10">
+                            {% endif %}
+
+                        {% else %}
+                            <a href="{{ url_for("order_list_by", order_by="title", order_direction="ASC")}}" >Title</a>
+                        {% endif %}</th>
+
+                    <th>
+                        {% if order_by == "view_number" %}
+
+                            {% if order_direction == "ASC" %}
+                                <a href="{{ url_for("order_list_by", order_by="view_number", order_direction="DESC")}}" >View Number</a>
+                                <img class="ASC" src="http://icons.veryicon.com/256/System/Android%201/Arrow%20down.png" width="10" height="10">
+
+                            {% elif order_direction == "DESC" %}
+                                <a href="{{ url_for("order_list_by", order_by="view_number", order_direction="ASC")}}" >View Number</a>
+                                <img class="DESC" src="http://icons.veryicon.com/256/System/Android%201/Arrow%20down.png" width="10" height="10">
+                            {% endif %}
+
+                        {% else %}
+                            <a href="{{ url_for("order_list_by", order_by="view_number", order_direction="ASC")}}" >View Number</a>
+                        {% endif %}</th>
+
+                    <th>
+                        {% if order_by == "vote_number" %}
+
+                            {% if order_direction == "ASC" %}
+                                <a href="{{ url_for("order_list_by", order_by="vote_number", order_direction="DESC")}}" >Vote Number</a>
+                                <img class="ASC" src="http://icons.veryicon.com/256/System/Android%201/Arrow%20down.png" width="10" height="10">
+
+                            {% elif order_direction == "DESC" %}
+                                <a href="{{ url_for("order_list_by", order_by="vote_number", order_direction="ASC")}}" >Vote Number</a>
+                                <img class="DESC" src="http://icons.veryicon.com/256/System/Android%201/Arrow%20down.png" width="10" height="10">
+                            {% endif %}
+
+                        {% else %}
+                            <a href="{{ url_for("order_list_by", order_by="vote_number", order_direction="ASC")}}" >Vote Number</a>
+                        {% endif %}</th>
+
+
+
+                </tr>
+                {% for question in user_questions %}
+                    <tr>
+                        <td>{{ question['submission_time'] }}</td>
+                        <td>
+                            <a href="{{ url_for("question_page", question_id=question['id']) }}"> {{ question['title'] | safe }}</a>
+                        </td>
+                        <td>{{ question['view_number'] }}</td>
+                        <td>{{ question['vote_number'] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </strong>
+{% endblock %}

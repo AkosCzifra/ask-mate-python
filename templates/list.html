@@ -12,10 +12,10 @@
         <div class="homePageList">
             <table id="homePageList" id="homePageListHeader" align="center">
                 <tr>
-                    <th><a href="{{ url_for("order_list", order_by="submission_time", order_direction="ASC")}}" >Post date</a></th>
-                    <th><a href="{{ url_for("order_list", order_by="title", order_direction="ASC")}}" >Title</a></th>
-                    <th><a href="{{ url_for("order_list", order_by="view_number", order_direction="ASC")}}" >View number</a></th>
-                    <th><a href="{{ url_for("order_list", order_by="vote_number", order_direction="ASC")}}" >Vote number</a></th>
+                    <th><a href="{{ url_for("order_list_by", order_by="submission_time", order_direction="ASC")}}" >Post date</a></th>
+                    <th><a href="{{ url_for("order_list_by", order_by="title", order_direction="ASC")}}" >Title</a></th>
+                    <th><a href="{{ url_for("order_list_by", order_by="view_number", order_direction="ASC")}}" >View number</a></th>
+                    <th><a href="{{ url_for("order_list_by", order_by="vote_number", order_direction="ASC")}}" >Vote number</a></th>
                 </tr>
                 {% for question in user_questions %}
                     <tr>

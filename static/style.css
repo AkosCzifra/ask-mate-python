@@ -82,6 +82,15 @@ img:hover {
     background-color: #ffffcc;
 }
 
-#image-on-center  {
+#image-on-center {
     float: center;
     margin: 0 0 0 15px;
+}
+
+.ASC {
+    transform: scaleY(1);
+}
+
+.DESC {
+    transform: scaleY(-1);
+}

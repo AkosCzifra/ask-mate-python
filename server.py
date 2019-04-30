@@ -16,9 +16,9 @@ def route_list():
 
 
 @app.route("/list/order by:<order_by>/direction:<order_direction>")
-def order_list(order_by, order_direction):
+def order_list_by(order_by, order_direction):
     user_questions = data_manager.get_all_questions(order_by=order_by, direction=order_direction)
-    return render_template("list.html", user_questions=user_questions)
+    return render_template("ordered-list.html", user_questions=user_questions, order_by=order_by, order_direction=order_direction)
 
 
 @app.route("/question/<int:question_id>")  # done

@@ -7,56 +7,56 @@ def get_all_questions(cursor, order_by="submission_time", direction="DESC"):
     if order_by == "submission_time" and direction == "DESC":
         cursor.execute("""
                         SELECT * FROM question
-                        ORDER BY submission_time DESC
+                        ORDER BY submission_time DESC;
                        """)
         all_questions = cursor.fetchall()
         return all_questions
     elif order_by == "submission_time" and direction == "ASC":
         cursor.execute("""
                         SELECT * FROM question
-                        ORDER BY submission_time ASC
+                        ORDER BY submission_time ASC;
                        """)
         all_questions = cursor.fetchall()
         return all_questions
     if order_by == "title" and direction == "DESC":
         cursor.execute("""
                         SELECT * FROM question
-                        ORDER BY title DESC
+                        ORDER BY title DESC;
                        """)
         all_questions = cursor.fetchall()
         return all_questions
     elif order_by == "title" and direction == "ASC":
         cursor.execute("""
                         SELECT * FROM question
-                        ORDER BY title ASC
+                        ORDER BY title ASC;
                        """)
         all_questions = cursor.fetchall()
         return all_questions
     if order_by == "view_number" and direction == "DESC":
         cursor.execute("""
                         SELECT * FROM question
-                        ORDER BY view_number DESC
+                        ORDER BY view_number DESC;
                        """)
         all_questions = cursor.fetchall()
         return all_questions
     elif order_by == "view_number" and direction == "ASC":
         cursor.execute("""
                         SELECT * FROM question
-                        ORDER BY view_number ASC
+                        ORDER BY view_number ASC;
                        """)
         all_questions = cursor.fetchall()
         return all_questions
     if order_by == "vote_number" and direction == "DESC":
         cursor.execute("""
                         SELECT * FROM question
-                        ORDER BY vote_number DESC
+                        ORDER BY vote_number DESC;
                        """)
         all_questions = cursor.fetchall()
         return all_questions
     elif order_by == "vote_number" and direction == "ASC":
         cursor.execute("""
                         SELECT * FROM question
-                        ORDER BY vote_number ASC
+                        ORDER BY vote_number ASC;
                        """)
         all_questions = cursor.fetchall()
         return all_questions
