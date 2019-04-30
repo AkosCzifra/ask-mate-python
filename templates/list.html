@@ -8,30 +8,18 @@
         <button class="example_a"><a class="text-color" href="{{ url_for('add_question') }}"><strong>Add new
             question</strong></a></button>
         <br><br>
-        Sort Questions by:
-        <form method="POST" action={{ url_for('route_list') }}>
-            <select name="order_by">
-                <option value="title" selected>Name</option>
-                <option value="vote_number">Vote Number</option>
-                <option value="view_number">View Number</option>
-                <option value="submission_time">Post Date</option>
-            </select>
-            <input type="radio" name="order_direction" value="asc" checked>Ascending
-            <input type="radio" name="order_direction" value="desc">Descending
-            <input type="submit" value="Sort!">
-        </form>
         <br>
         <div class="homePageList">
             <table id="homePageList" id="homePageListHeader" align="center">
                 <tr>
-                    <th>Post date</th>
-                    <th>Title</th>
-                    <th>View number</th>
-                    <th>Vote number</th>
+                    <th><a href="{{ url_for("order_list", order_by="submission_time", order_direction="ASC")}}" >Post date</a></th>
+                    <th><a href="{{ url_for("order_list", order_by="title", order_direction="ASC")}}" >Title</a></th>
+                    <th><a href="{{ url_for("order_list", order_by="view_number", order_direction="ASC")}}" >View number</a></th>
+                    <th><a href="{{ url_for("order_list", order_by="vote_number", order_direction="ASC")}}" >Vote number</a></th>
                 </tr>
                 {% for question in user_questions %}
                     <tr>
-                        <td>{{ util.unix_to_date(question['submission_time']|int) }}</td>
+                        <td>{{ question['submission_time'] }}</td>
                         <td>
                             <a href="{{ url_for("question_page", question_id=question['id']) }}"> {{ question['title'] | safe }}</a>
                         </td>
