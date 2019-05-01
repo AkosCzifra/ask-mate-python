@@ -14,8 +14,15 @@
 <body class="page-background">
 <div class="page-name">
     <h1 class="page-name"><strong><em>Help me World - The meadow of unsolved questions.</em></strong></h1>
-    <hr>
+    <div id="search">
+        <form action="{{ url_for('get_search_result') }}" method="POST">
+            <p><label><input type="text" name="search" placeholder="Search..."></label>
+                <input type="submit" value="Search"></p>
+        </form>
+    </div>
 </div>
+
+<hr>
 {% block body %}
 {% endblock %}
 <div>

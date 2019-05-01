@@ -95,3 +95,8 @@ img:hover {
 .DESC {
     transform: scaleY(-1);
 }
+
+
+#search {
+    text-align: center;
+}
