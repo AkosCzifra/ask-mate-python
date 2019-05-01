@@ -196,7 +196,11 @@ def get_five_latest_questions(cursor):
 @connection.connection_handler
 def get_search_result(cursor, phrase):
     cursor.execute("""
-                    SELECT * FROM question
-                    WHERE title LIKE % phrase %
-                    OR message LIKE
-""")
+                    SELECT title, message,id,NULL AS question_id FROM question
+                    WHERE question.title ILIKE CONCAT ('%' + %(phrase)s + '%') OR question.message ILIKE CONCAT ('%' + %(phrase)s + '%')
+                    UNION
+                    SELECT NULL,message,NULL,question_id FROM answer
+                    WHERE answer.message ILIKE CONCAT ('%' + %(phrase)s + '%')        
+    """, {'phrase': phrase})
+    result = cursor.fetchall()
+    return result

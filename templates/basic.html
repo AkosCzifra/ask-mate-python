@@ -14,11 +14,11 @@
 <div class="page-name">
     <h1 class="page-name"><strong><em>Help me World - The meadow of unsolved questions.</em></strong></h1>
     <div id="search">
-<form action="result" method="POST">
-    <p><textarea name="search" rows="1" cols="15" required minlength="1" placeholder="Search"></textarea></p>
-    <p><input type="submit" value="Search"></p>
-</form>
-</div>
+        <form action="{{ url_for('get_search_result') }}" method="POST">
+            <p><label><input type="text" name="search" placeholder="Search..."></label>
+                <input type="submit" value="Search"></p>
+        </form>
+    </div>
 </div>
 
 <hr>

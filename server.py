@@ -20,7 +20,8 @@ def route_list():
 @app.route("/list/order by:<order_by>/direction:<order_direction>")
 def order_list_by(order_by, order_direction):
     user_questions = data_manager.get_all_questions(order_by=order_by, direction=order_direction)
-    return render_template("ordered-list.html", user_questions=user_questions, order_by=order_by, order_direction=order_direction)
+    return render_template("ordered-list.html", user_questions=user_questions, order_by=order_by,
+                           order_direction=order_direction)
 
 
 @app.route("/question/<int:question_id>")  # done
@@ -108,13 +109,12 @@ def edit_question(question_id):
         return redirect(f'/question/{question_id}')
 
 
-@app.route("/result", methods=['GET', 'POST'])
-def search_result():
+@app.route("/result", methods=['POST'])
+def get_search_result():
     if request.method == 'POST':
         phrase = request.form['search']
-        question = data_manager.get_search_result(phrase)
-
-
+        results = data_manager.get_search_result(phrase)
+        return render_template("result.html", results=results)
 
 
 if __name__ == '__main__':
