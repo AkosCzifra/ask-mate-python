@@ -1,0 +1,45 @@
+{% extends 'basic.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block body %}
+    <strong>
+        <button class="example_a"><a class="text-color" href="{{ url_for('add_question') }}"><strong>Add new
+            question</strong></a></button>
+        <br><br>
+        <iframe width="560" height="315"
+                src="http://0.0.0.0:5000" frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+        <br>
+        <div class="homePageList">
+            <table id="homePageList" id="homePageListHeader" align="center">
+                <tr>
+                    <th>Post
+                        date
+                    </th>
+                    <th>Title</th>
+                    <th>View
+                        number
+                    </th>
+                    <th>Vote
+                        number
+                    </th>
+                </tr>
+                {% for question in questions %}
+                    <tr>
+                        <td>{{ question['submission_time'] }}</td>
+                        <td>
+                            <a href="{{ url_for("question_page", question_id=question['id']) }}"> {{ question['title'] | safe }}</a>
+                        </td>
+                        <td>{{ question['view_number'] }}</td>
+                        <td>{{ question['vote_number'] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <br>
+        <button class="example_a"><a class="text-color" href="{{ url_for('route_list') }}"><strong>All
+            questions</strong></a></button>
+    </strong>
+{% endblock %}

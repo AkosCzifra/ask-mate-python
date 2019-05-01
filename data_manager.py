@@ -180,3 +180,23 @@ def update_question(cursor, submission_time, title, message, image, question_id)
                     WHERE id=%(question_id)s
     """, {'submission_time': submission_time, 'title': title, 'message': message, 'image': image,
           'question_id': question_id})
+
+
+@connection.connection_handler
+def get_five_latest_questions(cursor):
+    cursor.execute("""
+                SELECT * FROM question
+                ORDER BY submission_time DESC
+                LIMIT 5;
+    """)
+    five_latest_question = cursor.fetchall()
+    return five_latest_question
+
+
+@connection.connection_handler
+def get_search_result(cursor, phrase):
+    cursor.execute("""
+                    SELECT * FROM question
+                    WHERE title LIKE % phrase %
+                    OR message LIKE
+""")

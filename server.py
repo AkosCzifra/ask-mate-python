@@ -6,6 +6,11 @@ app = Flask(__name__)
 
 
 @app.route("/")
+def five_latest_question():
+    five_latest_questions = data_manager.get_five_latest_questions()
+    return render_template("latest-questions.html", questions=five_latest_questions)
+
+
 @app.route("/list")
 def route_list():
     user_questions = data_manager.get_all_questions()
@@ -38,7 +43,7 @@ def add_question():
         message = request.form['message'].capitalize()
         image = request.form['image']
         data_manager.post_new_question(submission_time, view_number, vote_number, title, message, image)
-        return redirect(url_for('route_list'))
+        return redirect(url_for('five_latest_question'))
 
 
 @app.route("/question/<question_id>/new-answer", methods=['GET', 'POST'])  # done
@@ -101,6 +106,15 @@ def edit_question(question_id):
         image = request.form['image']
         data_manager.update_question(submission_time, title, message, image, question_id)
         return redirect(f'/question/{question_id}')
+
+
+@app.route("/result", methods=['GET', 'POST'])
+def search_result():
+    if request.method == 'POST':
+        phrase = request.form['search']
+        question = data_manager.get_search_result(phrase)
+
+
 
 
 if __name__ == '__main__':
