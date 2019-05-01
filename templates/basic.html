@@ -13,7 +13,14 @@
 </head>
 <body class="page-background">
 <div class="page-name">
-    <h1 class="page-name"><strong><em>Help me World - The meadow of unsolved questions.</em></strong></h1>
+    <h1 class="page-name"><strong><em>
+        {{ ["Help me World - The meadow of unsolved questions.",
+            "Feel Free to ask! - The council will determine your fate",
+            "Backhanded Compliments? - You can either give one, or just pass.",
+            "I attack the Ancient Red Dragon!- You know you are smarter than that.",
+            "Random Messages - Because how random can you get?"
+            ] | random}}
+    </em></strong></h1>
     <div id="search">
         <form action="{{ url_for('get_search_result') }}" method="POST">
             <p><label><input type="text" name="search" placeholder="Search..."></label>
