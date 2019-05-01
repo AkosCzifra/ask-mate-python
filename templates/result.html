@@ -5,6 +5,15 @@ Search Result
 {% endblock %}
 
 {% block body %}
-
+    <table>
+    <tr>
+        <th>Title</th>
+    </tr>
+    {% for result in results %}
+        <tr>
+            <td>{{ result['title'] }} </td>
+        </tr>
+    {% endfor %}
+    </table>
 {% endblock %}
 
