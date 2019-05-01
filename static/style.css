@@ -35,12 +35,16 @@ img:hover {
     width: 40%;
     margin-left: auto;
     margin-right: auto;
+
 }
 
 #details tr td {
     border: 1px solid cadetblue;
     background-color: beige;
 }
+
+table.fixed { table-layout:fixed; }
+table.fixed td { overflow: hidden; }
 
 #image-on-right {
     float: right;
@@ -52,17 +56,39 @@ img:hover {
     text-transform: capitalize;
     background: #ffffcc;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 3px;
     display: inline-block;
-    border: double;
     border-style: solid;
     border-color: sienna;
     border-width: 4px;
 }
 
+.example_ab {
+    color: #fff !important;
+    text-transform: capitalize;
+    background: #ffffcc;
+    padding: 10px;
+    border-radius: 2px;
+    display: inline-block;
+    border-style: solid;
+    border-color: sienna;
+    border-width: 2px;
+    float: right;
+    vertical-align: middle
+}
+
 .example_a:hover {
     background: palegoldenrod;
-    letter-spacing: 1px;
+    letter-spacing: 0px;
+    -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+    -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+    box-shadow: 5px 40px -10px rgba(0, 0, 0, 0.57);
+    transition: all 0.4s ease 0s;
+}
+
+.example_ab:hover {
+    background: palegoldenrod;
+    letter-spacing: 0px;
     -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
     -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
     box-shadow: 5px 40px -10px rgba(0, 0, 0, 0.57);
