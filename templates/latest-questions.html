@@ -3,15 +3,22 @@
 {% block title %}Welcome{% endblock %}
 
 {% block body %}
-    <strong>
-        <button class="example_a"><a class="text-color" href="{{ url_for('add_question') }}"><strong>Add new
-            question</strong></a></button>
-        <br><br>
+{#        <button class="example_a"><a class="text-color" href="{{ url_for('add_question') }}"><strong>Add new#}
+{#            question</strong></a></button>#}
+        <strong><h2>About Fusion M8's</h2></strong>
+        <p>
+            Welcome to our page! This small webpage is aimed at our peers, to provide a platform <br>
+            to ask their questions, answer them and help each other. We hope that everyone will ask<br>
+            their questions, and remember: it never hurts to ask a question! It is important! :)<p>
+        <br>
+        <p style="font-style: italic">The smart ones ask when they don’t know. And, sometimes, when they do. - Malcolm Forbes<p>
+        <br>
+
+        <strong><h3>Most Recent Questions:</h3></strong>
 {#        <iframe width="560" height="315"#}
 {#                src="http://0.0.0.0:5000" frameborder="0"#}
 {#                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"#}
 {#                allowfullscreen></iframe> */#}
-        <br>
         <div class="homePageList">
             <table id="homePageList" align="center" class="fixed">
                 <col width="20px" />
@@ -44,5 +51,4 @@
         <br>
         <button class="example_a"><a class="text-color" href="{{ url_for('route_list') }}"><strong>All
             questions</strong></a></button>
-    </strong>
 {% endblock %}

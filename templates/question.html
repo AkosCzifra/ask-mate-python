@@ -3,21 +3,16 @@
 {% block title %}
     Question
 {% endblock %}
+
 {% block body %}
-    <strong>
         <table id="homePageList" align="center" class="fixed">
-            <col width="20px" />
-            <col width="900px" />
-            <col width="40px" />
+            <col width="250px" />
+            <col width="700px" />
+            <col width="80px" />
             <tr>
-                <td><h3>Question</h3></td>
-                <td><h2>{{ question["title"] }}</h2></td>
-                <td><h3><button class="example_ab"><a class="text-color" href="#"><strong>Add comment</strong></a></button></h3></td>
-            </tr>
-            <tr>
-                <td>Details:</td>
-                <td> {{ question["message"] }}</td>
-                <td>
+                <td rowspan="2" height="250px" align="center"><h3> <img src=" {{ question["image"] }}" alt="" height="150px"></h3></td>
+                <td height="20px"><h2>{{ question["title"] }}</h2></td>
+                <td height="20px">Vote for Question:
                     <button value="{{ question["id"] }}" class="example_a"><a class="text-color"
                                                                               href="{{ url_for("question_vote", question_id=question['id'],  modifier="up") }}"><strong>+</strong>
                     </a>
@@ -28,13 +23,16 @@
                     </button>
                 </td>
             </tr>
-            <img src=" {{ question["image"] }}" alt="" height="200" id="image-on-right"/>
+            <tr>
+                <td colspan="2" > {{ question["message"] }}</td>
+            </tr>
         </table>
 
 
-        <br><br><br><br>
+        <br><br>
         <table>
             <tr>
+                <button class="example_a"><a class="text-color" href="#"><strong>Add comment</strong></a></button>
                 <button value="{{ question["id"] }}" class="example_a"><a class="text-color"
                                                                           href="{{ url_for("delete_question", question_id=question['id']) }}">
                     <strong>Delete Question</strong></a></button>
@@ -43,52 +41,53 @@
                 <button class="example_a"><a class="text-color"
                                              href="/question/{{ question["id"] }}/new-answer"><strong>Add new
                     Answer</strong></a></button>
-                <button class="example_a"><a class="text-color" href="/"><strong>Homepage</strong></a></button>
             </tr>
 
-            <br>
+            <br><br><br>
             <hr>
             <div class="homePageList">
-                <table id="homePageList" id="homePageListHeader"  class="fixed" align="center">
-                    <col width="10px" />
-                    <col width="800px" />
-                    <col width="80px" />
-                    <col width="70px" />
-                    <col width="100px" />
-                    <caption><h2>Answers</h2></caption>
-                    <tr>
-                        <th>Number of votes</th>
-                        <th>Message</th>
-                        <th>Vote</th>
-                        <th>Delete answer</th>
-                        <th>Image</th>
+
+
+
+        <table id="homePageList" id="homePageListHeader"  class="fixed" align="center">
+            <col width="10px" />
+            <col width="800px" />
+            <col width="80px" />
+            <col width="70px" />
+            <col width="100px" />
+            <caption><h2>Answers</h2></caption>
+            <tr>
+                <th>Number of votes</th>
+                <th>Message</th>
+                <th>Vote</th>
+                <th>Delete answer</th>
+                <th>Image</th>
+            </tr>
+            <tr>
+                {% for answer in answers %}
                     </tr>
                     <tr>
-                        {% for answer in answers %}
-                            </tr>
-                            <tr>
-                                <td>{{ answer["vote_number"] }}</td>
-                                <td>{{ answer["message"] | safe }}<button class="example_ab"><a class="text-color" href="#"><strong>Add comment</strong></a></button></td>
-                                <td>
-                                    <button value="{{ answer["id"] }}" class="example_a"><a class="text-color"
-                                                                                            href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="up") }}"><strong>+</strong>
-                                    </a></button>
-                                    <button value="{{ answer["id"] }}" class="example_a"><a class="text-color"
-                                                                                            href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="down") }}"><strong>-</strong>
-                                    </a></button>
-                                </td>
-                                <td>
-                                    <button value="{{ answer["id"] }}" class="example_a"><a class="text-color"
-                                                                                            href="{{ url_for("delete_answer", answer_id=answer['id'], question_id=answer['question_id']) }}"><strong>Delete</strong>
-                                    </a></button>
-                                </td>
-                                <td>
-                                    <img src=" {{ answer["image"] }}" alt="" height="100" id="image-on-center"/>
-                                </td>
+                        <td>{{ answer["vote_number"] }}</td>
+                        <td>{{ answer["message"] | safe }}<button class="example_ab"><a class="text-color" href="#"><strong>Add comment</strong></a></button></td>
+                        <td>
+                            <button value="{{ answer["id"] }}" class="example_a"><a class="text-color"
+                                                                                    href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="up") }}"><strong>+</strong>
+                            </a></button>
+                            <button value="{{ answer["id"] }}" class="example_a"><a class="text-color"
+                                                                                    href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="down") }}"><strong>-</strong>
+                            </a></button>
+                        </td>
+                        <td>
+                            <button value="{{ answer["id"] }}" class="example_a"><a class="text-color"
+                                                                                    href="{{ url_for("delete_answer", answer_id=answer['id'], question_id=answer['question_id']) }}"><strong>Delete</strong>
+                            </a></button>
+                        </td>
+                        <td>
+                            <img src=" {{ answer["image"] }}" alt="" height="100" id="image-on-center"/>
+                        </td>
 
-                            </tr>
-                        {% endfor %}
-                </table>
+                    </tr>
+                {% endfor %}
+        </table>
             </div>
-    </strong>
 {% endblock %}
