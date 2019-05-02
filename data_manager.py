@@ -74,9 +74,10 @@ def get_question_by_question_id(cursor, question_id):
 @connection.connection_handler
 def delete_question(cursor, question_id):
     cursor.execute("""
-                   DELETE FROM comment WHERE question_id = %(question_id)s;
-                   DELETE FROM answer WHERE question_id = %(question_id)s;
-                   DELETE FROM question WHERE id = %(question_id)s;
+                    DELETE FROM question_tag WHERE question_id = %(question_id)s;
+                    DELETE FROM comment WHERE question_id = %(question_id)s;
+                    DELETE FROM answer WHERE question_id = %(question_id)s;
+                    DELETE FROM question WHERE id = %(question_id)s;
     """, {'id': question_id, 'question_id': question_id})
 
 
