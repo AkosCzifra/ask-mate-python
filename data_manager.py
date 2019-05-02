@@ -206,9 +206,20 @@ def get_search_result(cursor, phrase):
 
 
 @connection.connection_handler
-def post_new_comment(cursor, question_id, answer_id, message, submission_time, edited_count):
+def add_new_comment(cursor, question_id, answer_id, message, submission_time, edited_count):
     cursor.execute("""
                     INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)
                     VALUES (%(question_id)s,%(answer_id)s,%(message)s,%(submission_time)s,%(edited_count)s)
     """, {'question_id': question_id, 'answer_id': answer_id, 'message': message, 'submission_time': submission_time,
           'edited_count': edited_count})
+
+
+@connection.connection_handler
+def get_question_comments(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM comment
+                    WHERE question_id = %(question_id)s
+                    ORDER BY submission_time DESC;
+    """, {'question_id': question_id})
+    all_comments = cursor.fetchall()
+    return all_comments

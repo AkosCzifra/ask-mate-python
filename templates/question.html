@@ -32,7 +32,8 @@
         <br><br>
         <table>
             <tr>
-                <button class="example_a"><a class="text-color" href="#"><strong>Add comment</strong></a></button>
+                <button><a href="{{ url_for("question_comment_page", question_id=question['id']) }}">Show comment</a></button>
+                <button class="example_a"><a class="text-color" href="/question/{{ question["id"] }}/new-comment"><strong>Add comment</strong></a></button>
                 <button value="{{ question["id"] }}" class="example_a"><a class="text-color"
                                                                           href="{{ url_for("delete_question", question_id=question['id']) }}">
                     <strong>Delete Question</strong></a></button>
