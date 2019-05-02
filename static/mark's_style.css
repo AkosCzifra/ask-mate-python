@@ -58,6 +58,8 @@ hr {
 .dropdown-content {
   display: none;
   position: absolute;
+  margin-left: -70%;
+  margin-top: 5%;
   background-color: rgb(255, 209, 155);
   border: 1px solid #321f0e;
   min-width: 160px;
@@ -257,4 +259,16 @@ iframe {
 
 .comments {
     background-color: rgba(255, 255, 255, 0);
+}
+
+.question-table td{
+    background-color: #ffe1a9;
+}
+
+.question-table td:nth-child(3) {
+    text-align: center;
+}
+
+.question-table td.question-title {
+    background-color: #ecb255;
 }
