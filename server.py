@@ -28,9 +28,11 @@ def order_list_by(order_by, order_direction):
 def question_page(question_id):
     question = data_manager.get_question_by_question_id(question_id)
     answers = data_manager.get_all_answers_by_question_id(question_id)
+    tags = data_manager.get_tags(question_id)
     question_comments = data_manager.get_question_comments(question_id)
     data_manager.question_view_number(question_id)
-    return render_template("question.html", question=question, answers=answers, question_comments=question_comments)
+    return render_template("question.html", question=question, answers=answers, question_comments=question_comments,
+                           tags=tags)
 
 
 @app.route("/add-question", methods=["GET", "POST"])  # done
@@ -118,6 +120,25 @@ def get_search_result():
         return render_template("result.html", results=results)
 
 
+@app.route("/question/<question_id>/new-tag", methods=['GET', 'POST'])
+def add_tag_to_question(question_id):
+    question = data_manager.get_question_by_question_id(question_id)
+    if request.method == 'GET':
+        return render_template("add-tag.html", question_id=question_id, question=question)
+    if request.method == 'POST':
+        name = request.form['name']
+        data_manager.add_new_tag_to_tags(name)
+        tag_id = data_manager.pass_tag_id(name)[0]['id']
+        data_manager.add_new_tag_to_question_tag(question_id, tag_id)
+    return redirect(f'/question/{question_id}')
+
+
+@app.route("/question/<question_id>/tag/<tag_id>/delete")
+def delete_tag(tag_id, question_id):
+    data_manager.delete_tag(tag_id, question_id)  # 2 lépésben kell törölni
+    return redirect(url_for('question_page', question_id=question_id))
+
+
 @app.route("/question/<question_id>/new-comment", methods=['GET', 'POST'])
 def add_comment_to_question(question_id):
     if request.method == "POST":
@@ -142,7 +163,8 @@ def add_comment_to_answer(answer_id):
         data_manager.add_new_comment(question_id, answer_id, message, submission_time, edited_count)
         return redirect(url_for('question_page', question_id=answer['question_id']))
     elif request.method == "GET":
-        return render_template('add-answer-comment.html', question_id=answer['question_id'], answer_id=answer_id, answer=answer)
+        return render_template('add-answer-comment.html', question_id=answer['question_id'], answer_id=answer_id,
+                               answer=answer)
 
 
 if __name__ == '__main__':

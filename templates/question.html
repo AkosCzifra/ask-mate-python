@@ -9,6 +9,7 @@
         <col width="250px"/>
         <col width="700px"/>
         <col width="80px"/>
+        <col width="80px"/>
         <tr>
             <td rowspan="2" height="250px" align="center"><h3><img src=" {{ question["image"] }}" alt="" height="150px">
             </h3></td>
@@ -23,10 +24,22 @@
                 </a>
                 </button>
             </td>
+            <td>
+                <button value="{{ question["id"] }}"><a
+                        href="{{ url_for("add_tag_to_question", question_id=question['id']) }}">Add Tag</a></button>
+            </td>
         </tr>
         <tr>
             <td colspan="2"> {{ question["message"] }}</td>
+            <td>
+                {% for tag in tags %}
+                    <p>#{{ tag['name'] }} <a
+                            href="{{ url_for("delete_tag", tag_id=tag['tag_id'], question_id=question['id'] ) }}">X</a>
+                    </p>
+                {% endfor %}
+            </td>
         </tr>
+
     </table>
 
 
@@ -71,6 +84,8 @@
         </div>
         <hr>
         <div class="homePageList">
+
+
             <table id="homePageList" id="homePageListHeader" class="fixed" align="center">
                 <col width="10px"/>
                 <col width="800px"/>
@@ -91,7 +106,7 @@
                         <tr>
                             <td>{{ answer["vote_number"] }}</td>
                             <td>{{ answer["message"] | safe }}
-                                <button class="example_ab"><a class="text-color" href="/answer/{{ answer["id"] }}/new-comment""><strong>Add
+                                <button class="example_ab"><a class="text-color" href="/answer/{{ answer["id"] }}/new-comment"><strong>Add
                                     comment</strong></a></button>
                             </td>
                             <td>
