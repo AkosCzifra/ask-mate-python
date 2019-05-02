@@ -65,7 +65,7 @@
             {% for answer in answers %}
             <tr>
                 <td>{{ answer["vote_number"] }}</td>
-                <td>{{ answer["message"] | safe }}<button ><a href="#">Add comment</a></button></td>
+                <td>{{ answer["message"] | safe }}<button ><a href="/answer/{{ answer["id"] }}/new-comment">Add comment</a></button></td>
                 <td>
                     <button value="{{ answer["id"] }}"><a href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="up") }}">+</a></button>
                     <button value="{{ answer["id"] }}"><a href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="down") }}">-</a></button>
