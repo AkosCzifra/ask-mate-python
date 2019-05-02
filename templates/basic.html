@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <link href="/static/style.css" rel="stylesheet">
+    <link href="/static/mark's_style.css" rel="stylesheet">
     <link rel="shortcut icon" href="https://www.shareicon.net/data/256x256/2016/11/03/849459_social_512x512.png"
           type="image/x-icon"/>
     <title>
@@ -15,35 +15,44 @@
     </title>
 </head>
 
-<body class="page-background">
-    <div class="page-top">
-    <a href="{{ url_for("five_latest_question") }}" class="page-name"><strong>Fusion Mates' Fantastic Forum.</strong></a>
-    <br>
-    <a class="welcome-quote"><em>
-        {{ ["Help me World - The meadow of unsolved questions.",
-            "Feel Free to ask! - The council will determine your fate",
-            "Backhanded Compliments? - You can either give one, or just pass.",
-            "I attack the Ancient Red Dragon!- You know you are smarter than that.",
-            "Random Messages - Because how random can you get?"
-            ] | random }}
-    </em></a>
-    </div>
+<body>
+        <a class="basic-header" href="{{ url_for("five_latest_question") }}"><h1>Fusion M8s' Fantastic Forum.</h1></a>
+        <a><em>
+            {{ ["Help me World - The meadow of unsolved questions.",
+                "Feel Free to ask! - The council will determine your fate",
+                "Backhanded Compliments? - You can either give one, or just pass.",
+                "I attack the Ancient Red Dragon!- You know you are smarter than that.",
+                "Random Messages - Because how random can you get?"
+                ] | random }}
+        </em></a>
 
-    <hr>
-        <p><form action="{{ url_for('get_search_result') }}" method="POST" class="search" id="search">
-            <label><input type="text" name="search" placeholder="Search..."></label>
+
+
+    <div class="basic-menu"><hr>
+        <p>
+            <div class="topnav">
+              <a {% block home_active %} {% endblock %}href="{{ url_for('five_latest_question') }}">Home</a>
+              <a {% block questions_active %} {% endblock %}href="{{ url_for('route_list') }}">Questions</a>
+            </div>
+
+            <p><form class="search" action="{{ url_for('get_search_result') }}" method="POST">
+                <label><input type="text" name="search" placeholder="Looking for something...?" ></label>
                 <input type="submit" value="Search">
-        </form></p>
-    <hr>
-
-    <div class="page_body">
-    {% block body %}
-    {% endblock %}
-    </div>
+            </form></p>
+        </p>
+    <hr></div>
 
     <div>
-        <hr>
-        <h5>Created by: Fusion M8s</h5>
+        {% block body %}
+        {% endblock %}
     </div>
+
+    <hr>
+    <h5>
+        Created by:<br>
+        Alpek Alex | Czifra Ákos | Haragos Zoltán | Ungvári Márk
+    </h5>
+
+
 </body>
 </html>

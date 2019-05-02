@@ -1,20 +1,22 @@
 {% extends 'basic.html' %}
 
 {% block title %}
-Add new answer
+    Add new answer
 {% endblock %}
-{% block body %}
-<h1>Add new answer</h1>
-    <h2>Question: {{ question['title'] }}</h2>
-<form action="/question/{{question_id}}/new-answer" method="POST">
-    <p>Message:</p>
-    <p><textarea name="message" rows="7" cols="40" required minlength="10"></textarea></p>
-    <p>Image:</p>
-    <p><input type="text" name="image"></p>
 
-    <p><input type="submit" value="Add new Answer"></p>
-</form>
-    <button><a href="/question/{{ question["id"] }}">Back to Question</a></button>
-    <br><br>
-    <button><a href="/">Homepage</a></button>
+{% block body %}
+    <h1>Add new answer</h1>
+        <h2>Question: {{ question['title'] }}</h2>
+
+    <form action="/question/{{question_id}}/new-answer" method="POST" class="add-forms">
+        <p>Message:<br>
+            <textarea name="message" rows="7" cols="40" required minlength="10"></textarea></p>
+
+        <p>Image:<br>
+            <input type="text" name="image"></p>
+
+        <p><input type="submit" value="Add new Answer"></p>
+    </form>
+        <a class="button" href="/question/{{ question["id"] }}"><button >Back to Question</button></a>
+
 {% endblock %}

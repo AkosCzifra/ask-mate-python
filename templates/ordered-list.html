@@ -3,93 +3,109 @@
 {% block title %}Welcome{% endblock %}
 
 {% block body %}
+        <div class="page-description"> <h2 align="center">Question Forest</h2>
+            <p class="title-line">
+                Greetings! On this page you can see all the questions that have been posted
+                here.
+            </p>
+            <p>
+                You can click on them to go to the post itself, or you can add a new answer,
+                and await your answer eagerly. Or you can just browse, it is up to your liking. Enjoy
+                your stay!
+            </p>
+            <p>
+                Some important things to remember:
+                <ul>
+                    <li><p><em>Be polite!</em></p> When you decide to answer a question, you shouldn't be condescending
+                        or rude, nor should you insult the poster about their question.</li>
+                    <li><p><em>Keep it professional</em></p> We know that life can be hard sometimes. We have been there.
+                        But try to keep your private life to yourself, or discuss it with others on other platforms.</li>
+                    <li><p><em>Try to be specific</em></p>When asking a questions, it is better to try and include more
+                        information, and narrowing down the topics. </li>
+            </ul>
+            </p>
+            <br>
 
-    <strong>
-        <button class="example_a"><a class="text-color" href="{{ url_for('add_question') }}"><strong>Add new
-            question</strong></a></button>
-        <br><br>
-        <br>
-        <div class="homePageList">
-            <table id="homePageList" id="homePageListHeader" align="center">
-                <tr>
-                    <th>
-                        {% if order_by == "submission_time" %}
-
-                            {% if order_direction == "ASC" %}
-                                <a href="{{ url_for("order_list_by", order_by="submission_time", order_direction="DESC")}}" >Post date</a>
-                                <img class="ASC" src="http://icons.veryicon.com/256/System/Android%201/Arrow%20down.png" width="10" height="10">
-
-                            {% elif order_direction == "DESC" %}
-                                <a href="{{ url_for("order_list_by", order_by="submission_time", order_direction="ASC")}}" >Post date</a>
-                                <img class="DESC" src="http://icons.veryicon.com/256/System/Android%201/Arrow%20down.png" width="10" height="10">
-                            {% endif %}
-
-                        {% else %}
-                            <a href="{{ url_for("order_list_by", order_by="submission_time", order_direction="ASC")}}" >Post date</a>
-                        {% endif %}</th>
-
-                    <th>
-                        {% if order_by == "title" %}
-
-                            {% if order_direction == "ASC" %}
-                                <a href="{{ url_for("order_list_by", order_by="title", order_direction="DESC")}}" >Title</a>
-                                <img class="ASC" src="http://icons.veryicon.com/256/System/Android%201/Arrow%20down.png" width="10" height="10">
-
-                            {% elif order_direction == "DESC" %}
-                                <a href="{{ url_for("order_list_by", order_by="title", order_direction="ASC")}}" >Title</a>
-                                <img class="DESC" src="http://icons.veryicon.com/256/System/Android%201/Arrow%20down.png" width="10" height="10">
-                            {% endif %}
-
-                        {% else %}
-                            <a href="{{ url_for("order_list_by", order_by="title", order_direction="ASC")}}" >Title</a>
-                        {% endif %}</th>
-
-                    <th>
-                        {% if order_by == "view_number" %}
-
-                            {% if order_direction == "ASC" %}
-                                <a href="{{ url_for("order_list_by", order_by="view_number", order_direction="DESC")}}" >View Number</a>
-                                <img class="ASC" src="http://icons.veryicon.com/256/System/Android%201/Arrow%20down.png" width="10" height="10">
-
-                            {% elif order_direction == "DESC" %}
-                                <a href="{{ url_for("order_list_by", order_by="view_number", order_direction="ASC")}}" >View Number</a>
-                                <img class="DESC" src="http://icons.veryicon.com/256/System/Android%201/Arrow%20down.png" width="10" height="10">
-                            {% endif %}
-
-                        {% else %}
-                            <a href="{{ url_for("order_list_by", order_by="view_number", order_direction="ASC")}}" >View Number</a>
-                        {% endif %}</th>
-
-                    <th>
-                        {% if order_by == "vote_number" %}
-
-                            {% if order_direction == "ASC" %}
-                                <a href="{{ url_for("order_list_by", order_by="vote_number", order_direction="DESC")}}" >Vote Number</a>
-                                <img class="ASC" src="http://icons.veryicon.com/256/System/Android%201/Arrow%20down.png" width="10" height="10">
-
-                            {% elif order_direction == "DESC" %}
-                                <a href="{{ url_for("order_list_by", order_by="vote_number", order_direction="ASC")}}" >Vote Number</a>
-                                <img class="DESC" src="http://icons.veryicon.com/256/System/Android%201/Arrow%20down.png" width="10" height="10">
-                            {% endif %}
-
-                        {% else %}
-                            <a href="{{ url_for("order_list_by", order_by="vote_number", order_direction="ASC")}}" >Vote Number</a>
-                        {% endif %}</th>
-
-
-
-                </tr>
-                {% for question in user_questions %}
-                    <tr>
-                        <td>{{ question['submission_time'] }}</td>
-                        <td>
-                            <a href="{{ url_for("question_page", question_id=question['id']) }}"> {{ question['title'] | safe }}</a>
-                        </td>
-                        <td>{{ question['view_number'] }}</td>
-                        <td>{{ question['vote_number'] }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
+            <p><a href="{{ url_for('add_question') }}" class="button"><button>Add new question</button></a></p>
         </div>
-    </strong>
+        <table class="table">
+            <tr>
+                <th>
+                    {% if order_by == "submission_time" %}
+
+                        {% if order_direction == "ASC" %}
+                            <a href="{{ url_for("order_list_by", order_by="submission_time", order_direction="DESC")}}" >Post date</a>
+                            <img src="https://i.imgur.com/F9uSQ9k.png" width="10" height="10">
+
+                        {% elif order_direction == "DESC" %}
+                            <a href="{{ url_for("order_list_by", order_by="submission_time", order_direction="ASC")}}" >Post date</a>
+                            <img src="https://i.imgur.com/a9NBKP4.png" width="10" height="10">
+                        {% endif %}
+
+                    {% else %}
+                        <a href="{{ url_for("order_list_by", order_by="submission_time", order_direction="ASC")}}" >Post date</a>
+                    {% endif %}</th>
+
+                <th>
+                    {% if order_by == "title" %}
+
+                        {% if order_direction == "ASC" %}
+                            <a href="{{ url_for("order_list_by", order_by="title", order_direction="DESC")}}" >Title</a>
+                            <img src="https://i.imgur.com/F9uSQ9k.png" width="10" height="10">
+
+                        {% elif order_direction == "DESC" %}
+                            <a href="{{ url_for("order_list_by", order_by="title", order_direction="ASC")}}" >Title</a>
+                            <img csrc="https://i.imgur.com/a9NBKP4.png" width="10" height="10">
+                        {% endif %}
+
+                    {% else %}
+                        <a href="{{ url_for("order_list_by", order_by="title", order_direction="ASC")}}" >Title</a>
+                    {% endif %}</th>
+
+                <th>
+                    {% if order_by == "view_number" %}
+
+                        {% if order_direction == "ASC" %}
+                            <a href="{{ url_for("order_list_by", order_by="view_number", order_direction="DESC")}}" >View Number</a>
+                            <img src="https://i.imgur.com/F9uSQ9k.png" width="10" height="10">
+
+                        {% elif order_direction == "DESC" %}
+                            <a href="{{ url_for("order_list_by", order_by="view_number", order_direction="ASC")}}" >View Number</a>
+                            <img csrc="https://i.imgur.com/a9NBKP4.png" width="10" height="10">
+                        {% endif %}
+
+                    {% else %}
+                        <a href="{{ url_for("order_list_by", order_by="view_number", order_direction="ASC")}}" >View Number</a>
+                    {% endif %}</th>
+
+                <th>
+                    {% if order_by == "vote_number" %}
+
+                        {% if order_direction == "ASC" %}
+                            <a href="{{ url_for("order_list_by", order_by="vote_number", order_direction="DESC")}}" >Vote Number</a>
+                            <img src="https://i.imgur.com/F9uSQ9k.png" width="10" height="10">
+
+                        {% elif order_direction == "DESC" %}
+                            <a href="{{ url_for("order_list_by", order_by="vote_number", order_direction="ASC")}}" >Vote Number</a>
+                            <img csrc="https://i.imgur.com/a9NBKP4.png" width="10" height="10">
+                        {% endif %}
+
+                    {% else %}
+                        <a href="{{ url_for("order_list_by", order_by="vote_number", order_direction="ASC")}}" >Vote Number</a>
+                    {% endif %}</th>
+
+            </tr>
+
+            {% for question in user_questions %}
+                <tr>
+                    <td>{{ question['submission_time'] }}</td>
+                    <td>
+                        <a href="{{ url_for("question_page", question_id=question['id']) }}"> {{ question['title'] | safe }}</a>
+                    </td>
+                    <td>{{ question['view_number'] }}</td>
+                    <td>{{ question['vote_number'] }}</td>
+                </tr>
+            {% endfor %}
+
+        </table>
 {% endblock %}

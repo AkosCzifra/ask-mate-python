@@ -2,32 +2,54 @@
 
 {% block title %}Welcome{% endblock %}
 
+{% block questions_active %}class="active"{% endblock %}
+
 {% block body %}
 
-    <strong>
-        <button class="example_a"><a class="text-color" href="{{ url_for('add_question') }}"><strong>Add new
-            question</strong></a></button>
-        <br><br>
-        <br>
-        <div class="homePageList">
-            <table id="homePageList" id="homePageListHeader" align="center">
-                <tr>
-                    <th><a href="{{ url_for("order_list_by", order_by="submission_time", order_direction="ASC")}}" >Post date</a></th>
-                    <th><a href="{{ url_for("order_list_by", order_by="title", order_direction="ASC")}}" >Title</a></th>
-                    <th><a href="{{ url_for("order_list_by", order_by="view_number", order_direction="ASC")}}" >View number</a></th>
-                    <th><a href="{{ url_for("order_list_by", order_by="vote_number", order_direction="ASC")}}" >Vote number</a></th>
-                </tr>
-                {% for question in user_questions %}
-                    <tr>
-                        <td>{{ question['submission_time'] }}</td>
-                        <td>
-                            <a href="{{ url_for("question_page", question_id=question['id']) }}"> {{ question['title'] | safe }}</a>
-                        </td>
-                        <td>{{ question['view_number'] }}</td>
-                        <td>{{ question['vote_number'] }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
+        <div class="page-description"> <h2 align="center">Question Forest</h2>
+            <p class="title-line">
+                Greetings! On this page you can see all the questions that have been posted
+                here.
+            </p>
+            <p>
+                You can click on them to go to the post itself, or you can add a new answer,
+                and await your answer eagerly. Or you can just browse, it is up to your liking. Enjoy
+                your stay!
+            </p>
+            <p>
+                Some important things to remember:
+                <ul>
+                    <li><p><em>Be polite!</em></p> When you decide to answer a question, you shouldn't be condescending
+                        or rude, nor should you insult the poster about their question.</li>
+                    <li><p><em>Keep it professional</em></p> We know that life can be hard sometimes. We have been there.
+                        But try to keep your private life to yourself, or discuss it with others on other platforms.</li>
+                    <li><p><em>Try to be specific</em></p>When asking a questions, it is better to try and include more
+                        information, and narrowing down the topics. </li>
+            </ul>
+            </p>
+            <br>
+
+            <p><a href="{{ url_for('add_question') }}" class="button"><button>Add new question</button></a></p>
         </div>
-    </strong>
+        <table class="table">
+        <caption><h2>Questions:</h2></caption>
+            <tr>
+                <th><a href="{{ url_for("order_list_by", order_by="submission_time", order_direction="ASC")}}" >Post date</a></th>
+                <th><a href="{{ url_for("order_list_by", order_by="title", order_direction="ASC")}}" >Title</a></th>
+                <th><a href="{{ url_for("order_list_by", order_by="view_number", order_direction="ASC")}}" >View number</a></th>
+                <th><a href="{{ url_for("order_list_by", order_by="vote_number", order_direction="ASC")}}" >Vote number</a></th>
+            </tr>
+
+            {% for question in user_questions %}
+                <tr>
+                    <td>{{ question['submission_time'] }}</td>
+                    <td>
+                        <a href="{{ url_for("question_page", question_id=question['id']) }}"> {{ question['title'] | safe }}</a>
+                    </td>
+                    <td>{{ question['view_number'] }}</td>
+                    <td>{{ question['vote_number'] }}</td>
+                </tr>
+
+            {% endfor %}
+        </table>
 {% endblock %}
