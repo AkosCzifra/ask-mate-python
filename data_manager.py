@@ -74,6 +74,8 @@ def get_question_by_question_id(cursor, question_id):
 @connection.connection_handler
 def delete_question(cursor, question_id):
     cursor.execute("""
+                    DELETE FROM comment WHERE answer_id = 16 17 18 19
+    
                    DELETE FROM comment WHERE question_id = %(question_id)s;
                    DELETE FROM answer WHERE question_id = %(question_id)s;
                    DELETE FROM question WHERE id = %(question_id)s;
@@ -203,3 +205,98 @@ def get_search_result(cursor, phrase):
     """, {'phrase': phrase})
     result = cursor.fetchall()
     return result
+
+
+@connection.connection_handler
+def add_new_comment(cursor, question_id, answer_id, message, submission_time, edited_count):
+    cursor.execute("""
+                    INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)
+                    VALUES (%(question_id)s,%(answer_id)s,%(message)s,%(submission_time)s,%(edited_count)s)
+    """, {'question_id': question_id, 'answer_id': answer_id, 'message': message, 'submission_time': submission_time,
+          'edited_count': edited_count})
+
+
+@connection.connection_handler
+def get_question_comments(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM comment
+                    WHERE question_id = %(question_id)s
+                    ORDER BY submission_time DESC;
+    """, {'question_id': question_id})
+    all_comments = cursor.fetchall()
+    return all_comments
+
+
+@connection.connection_handler
+def get_answer_comments(cursor, answer_id):
+    cursor.execute("""
+                    SELECT * FROM comment
+                    WHERE answer_id = %(answer_id)s
+                    ORDER BY submission_time DESC;
+    """, {'answer_id': answer_id})
+    all_comments = cursor.fetchall()
+    return all_comments
+
+
+@connection.connection_handler
+def get_answer_by_answer_id(cursor, answer_id):
+    cursor.execute("""
+                    SELECT * FROM answer
+                    WHERE id = %(answer_id)s;
+    """, {'answer_id': answer_id})
+    answer = cursor.fetchall()
+    return answer[0]
+
+
+@connection.connection_handler
+def add_new_tag_to_tags(cursor, name):
+    cursor.execute("""
+                    INSERT INTO tag (name)
+                    VALUES (%(name)s);
+    """, {'name': name})
+
+
+@connection.connection_handler
+def add_new_tag_to_question_tag(cursor, question_id, tag_id):
+    cursor.execute("""
+                    INSERT INTO question_tag (question_id, tag_id)
+                    VALUES (%(question_id)s, %(tag_id)s)
+    """, {'question_id': question_id, 'tag_id': tag_id})
+
+
+@connection.connection_handler
+def get_tags(cursor, question_id):
+    cursor.execute("""
+                    SELECT name,question_id,tag_id
+                    FROM ((question_tag
+                    INNER JOIN tag ON tag_id = tag.id)
+                    INNER JOIN question ON question_id = question.id)
+                    WHERE question_id=%(question_id)s;
+                    
+    """, {'question_id': question_id})
+    tags = cursor.fetchall()
+    return tags
+
+
+@connection.connection_handler
+def pass_tag_id(cursor, name):
+    cursor.execute("""
+                    SELECT id
+                    FROM tag
+                    WHERE name = %(name)s
+    """, {'name': name})
+    id_ = cursor.fetchall()
+    return id_
+
+
+@connection.connection_handler
+def delete_tag(cursor, tag_id, question_id):
+    cursor.execute("""
+                    DELETE FROM question_tag WHERE question_id=%(question_id)s AND tag_id=%(tag_id)s;
+                    DELETE FROM tag WHERE id=%(tag_id)s;
+                    
+    """, {'tag_id': tag_id, 'question_id': question_id})
+
+
+
+

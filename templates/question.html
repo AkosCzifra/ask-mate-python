@@ -22,17 +22,31 @@
                     <div class="dropdown-content">
                     <a href="/question/{{ question["id"] }}/edit">Edit Question</a>
                     <a href="{{ url_for("delete_question", question_id=question['id']) }}">Delete Question</a>
+                    <a href="{{ url_for("add_tag_to_question", question_id=question['id']) }}">Add Tag</a>
                     </div>
                     </div>
                 </td>
+                <td>
+                    {% for tag in tags %}
+                    <p>#{{ tag['name'] }} <a
+                            href="{{ url_for("delete_tag", tag_id=tag['tag_id'], question_id=question['id'] ) }}">X</a>
+                    </p>
+                {% endfor %}
+                </td>
             </tr>
         </table>
+
+        <h2>Question comments</h2>
+        <hr>
+        <iframe width="1060" height="200" src="/question/{{ question["id"] }}/comments" frameborder="0"
+                allow="accelerometer;"></iframe>
+        <hr>
 
         <br><br>
         <table class="button-table" align="center">
             <tr>
                 <td><a class="button" href="/question/{{ question["id"] }}/new-answer"><button>Add new Answer</button></a></td>
-                <td><a class="button" href="#"><button>Add comment</button></a></td>
+                <td><a class="button" href="/question/{{ question["id"] }}/new-comment"><button>Add comment</button></a></td>
             </tr>
 
             <hr>
@@ -63,7 +77,9 @@
                     <img src=" {{ answer["image"] }}" alt="" height="100">
                 </td>
             </tr>
+            <tr>
+                <td colspan="5" height="100px"><iframe width="1060" height="200" src="/answer/{{ answer["id"] }}/comments" frameborder="0";></iframe></td>
+            </tr>
                 {% endfor %}
-
         </table>
 {% endblock %}

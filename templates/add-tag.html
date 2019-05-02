@@ -1,0 +1,17 @@
+{% extends 'basic.html' %}
+
+{% block title %}
+    Add New Tag
+{% endblock %}
+
+{% block body %}
+    <h1>Add new Tag</h1>
+    <form method="POST">
+        <label for="name">New tag:</label><br>
+        <input type="text" name="name" id="name" required><br><br>
+        <p><input type="submit" value="Add new tag"></p>
+    </form>
+    <br>
+    <button><a href="/question/{{ question["id"] }}">Back to Question</a></button>
+
+{% endblock %}

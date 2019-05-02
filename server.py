@@ -28,8 +28,11 @@ def order_list_by(order_by, order_direction):
 def question_page(question_id):
     question = data_manager.get_question_by_question_id(question_id)
     answers = data_manager.get_all_answers_by_question_id(question_id)
+    tags = data_manager.get_tags(question_id)
+    question_comments = data_manager.get_question_comments(question_id)
     data_manager.question_view_number(question_id)
-    return render_template("question.html", question=question, answers=answers)
+    return render_template("question.html", question=question, answers=answers, question_comments=question_comments,
+                           tags=tags)
 
 
 @app.route("/add-question", methods=["GET", "POST"])  # done
@@ -90,6 +93,7 @@ def delete_answer(answer_id):
 
 @app.route("/question/<question_id>/delete_question")  # done
 def delete_question(question_id):
+    answers = data_manager.get_all_answers_by_question_id(question_id)
     data_manager.delete_question(question_id)
     return redirect('/')
 
@@ -115,6 +119,70 @@ def get_search_result():
         phrase = request.form['search']
         results = data_manager.get_search_result(phrase)
         return render_template("result.html", results=results)
+
+
+@app.route("/question/<question_id>/new-tag", methods=['GET', 'POST'])
+def add_tag_to_question(question_id):
+    question = data_manager.get_question_by_question_id(question_id)
+    if request.method == 'GET':
+        return render_template("add-tag.html", question_id=question_id, question=question)
+    if request.method == 'POST':
+        name = request.form['name']
+        data_manager.add_new_tag_to_tags(name)
+        tag_id = data_manager.pass_tag_id(name)[0]['id']
+        data_manager.add_new_tag_to_question_tag(question_id, tag_id)
+    return redirect(f'/question/{question_id}')
+
+
+@app.route("/question/<question_id>/tag/<tag_id>/delete")
+def delete_tag(tag_id, question_id):
+    data_manager.delete_tag(tag_id, question_id)  # 2 lépésben kell törölni
+    return redirect(url_for('question_page', question_id=question_id))
+
+
+@app.route("/question/<question_id>/new-comment", methods=['GET', 'POST'])
+def add_comment_to_question(question_id):
+    if request.method == "POST":
+        answer_id = None
+        message = request.form['message'].capitalize()
+        submission_time = datetime.now().isoformat(timespec='seconds')
+        edited_count = None
+        data_manager.add_new_comment(question_id, answer_id, message, submission_time, edited_count)
+        return redirect(url_for('question_page', question_id=question_id))
+    elif request.method == "GET":
+        return render_template('add-question-comment.html', question_id=question_id)
+
+
+@app.route("/answer/<answer_id>/new-comment", methods=['GET', 'POST'])
+def add_comment_to_answer(answer_id):
+    answer = data_manager.get_answer_by_answer_id(answer_id)
+    if request.method == "POST":
+        question_id = None
+        message = request.form['message'].capitalize()
+        submission_time = datetime.now().isoformat(timespec='seconds')
+        edited_count = None
+        data_manager.add_new_comment(question_id, answer_id, message, submission_time, edited_count)
+        return redirect(url_for('question_page', question_id=answer['question_id']))
+    elif request.method == "GET":
+        return render_template('add-answer-comment.html', question_id=answer['question_id'], answer_id=answer_id,
+                               answer=answer)
+
+
+@app.route("/question/<question_id>/comments")
+def question_comments(question_id):
+    comments = data_manager.get_question_comments(question_id)
+    if request.method == "GET":
+        return render_template('question-comments.html', comments=comments)
+
+
+@app.route("/answer/<answer_id>/comments")
+def answer_comments(answer_id):
+    comments = data_manager.get_answer_comments(answer_id)
+    if request.method == "GET":
+        return render_template('question-comments.html', comments=comments)
+
+
+
 
 
 if __name__ == '__main__':
