@@ -247,5 +247,14 @@ hr {
     border: none;
 }
 
+iframe {
+    margin-left: 10%;
+}
 
+.table iframe {
+    margin-left: 0%;
+}
 
+.comments {
+    background-color: rgba(255, 255, 255, 0);
+}

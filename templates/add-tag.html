@@ -6,12 +6,12 @@
 
 {% block body %}
     <h1>Add new Tag</h1>
-    <form method="POST">
+    <form method="POST" class="add-forms">
         <label for="name">New tag:</label><br>
         <input type="text" name="name" id="name" required><br><br>
         <p><input type="submit" value="Add new tag"></p>
     </form>
     <br>
-    <button><a href="/question/{{ question["id"] }}">Back to Question</a></button>
+    <a class="button" href="/question/{{ question["id"] }}"><button>Back to Question</button></a>
 
 {% endblock %}
