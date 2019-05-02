@@ -6,10 +6,12 @@
     <link href="/static/mark's_style.css" rel="stylesheet">
 </head>
 <body class="comments">
-    <table class="table">
+    <table class="answer-table">
+        <col width="100px">
+        <col width="700px">
         <tr>
             <th>Post date</th>
-            <th>Comments</th>
+            <th>Comment(s)</th>
         </tr>
         <tr>
             {% for comment in comments %}

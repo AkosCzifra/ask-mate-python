@@ -6,6 +6,9 @@
 
 {% block body %}
         <table class="question-table">
+        <col width="150px">
+        <col width="1000px">
+        <col width="100px">
             <tr>
                 <td rowspan="2"><img src=" {{ question["image"] }}" alt="" height="150" width="150"></td>
                 <td class="question-title">{{ question["title"] }}</td>
@@ -24,9 +27,9 @@
                 <td> {{ question["message"] }}</td>
                 <td>
                     <table>
-                    <trh><td>Vote for Question:<br>
-                        <button value="{{ question["id"] }}"><a href="{{ url_for("question_vote", question_id=question['id'],  modifier="up") }}">+</a></button>
-                        <button value="{{ question["id"] }}"><a href="{{ url_for("question_vote", question_id=question['id'], modifier="down") }}">-</a></button>
+                    <tr><td>Vote for Question:<br>
+                        <a class="vote-button" href="{{ url_for("question_vote", question_id=question['id'],  modifier="up") }}"><button value="{{ question["id"] }}">+</button></a>
+                        <a class="vote-button" href="{{ url_for("question_vote", question_id=question['id'], modifier="down") }}"><button value="{{ question["id"] }}">-</button></a>
                     </td></tr>
                     <tr><td>
                         Tags:
@@ -43,7 +46,7 @@
 
         <h2>Question comments</h2>
         <hr>
-        <iframe width="1060" height="200" src="/question/{{ question["id"] }}/comments" frameborder="0"
+        <iframe class="main-iframe" width="1060" height="200" src="/question/{{ question["id"] }}/comments" frameborder="0"
                 allow="accelerometer;"></iframe>
         <hr>
 
@@ -57,30 +60,37 @@
             <hr>
         </table>
 
-        <table class="table">
+        <table class="answer-table">
             <caption><h2>Answers</h2></caption>
+            <col width="100px">
+            <col width="800px">
+            <col width="155px">
+            <col width="10px">
             <tr>
-                <th>Number of votes</th>
-                <th>Message</th>
-                <th>Vote</th>
-                <th>Delete answer</th>
                 <th>Image</th>
+                <th>Message</th>
+                <th>Options</th>
+                <th>Votes</th>
             </tr>
 
             {% for answer in answers %}
             <tr>
-                <td>{{ answer["vote_number"] }}</td>
-                <td>{{ answer["message"] | safe }}<button ><a href="/answer/{{ answer["id"] }}/new-comment">Add comment</a></button></td>
-                <td>
-                    <button value="{{ answer["id"] }}"><a href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="up") }}">+</a></button>
-                    <button value="{{ answer["id"] }}"><a href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="down") }}">-</a></button>
-                </td>
-                <td>
-                    <button value="{{ answer["id"] }}"><a href="{{ url_for("delete_answer", answer_id=answer['id'], question_id=answer['question_id']) }}">Delete</a></button>
-                </td>
                 <td>
                     <img src=" {{ answer["image"] }}" alt="" height="100">
                 </td>
+                <td>{{ answer["message"] | safe }}</td>
+                <td>
+                    <p><a class="comment-button" href="/answer/{{ answer["id"] }}/new-comment"><button >Add comment</button></a>
+                    </p>
+                    <p>Voting:
+                    <a class="vote-button" href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="up") }}"><button value="{{ answer["id"] }}">+</button></a>
+                    <a class="vote-button" href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="down") }}"><button value="{{ answer["id"] }}">-</button></a>
+                    </p>
+                    <p><a class="comment-button" href="{{ url_for("delete_answer", answer_id=answer['id'], question_id=answer['question_id']) }}"><button value="{{ answer["id"] }}">Delete Answer</button></a>
+                    </p>
+                </td>
+
+                <td>{{ answer["vote_number"] }}</td>
             </tr>
             <tr>
                 <td colspan="5" height="100px"><iframe  width="1060" height="200" src="/answer/{{ answer["id"] }}/comments" frameborder="0";></iframe></td>
