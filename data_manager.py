@@ -223,3 +223,24 @@ def get_question_comments(cursor, question_id):
     """, {'question_id': question_id})
     all_comments = cursor.fetchall()
     return all_comments
+
+
+@connection.connection_handler
+def get_answer_comments(cursor, answer_id):
+    cursor.execute("""
+                    SELECT * FROM comment
+                    WHERE question_id = %(answer_id)s
+                    ORDER BY submission_time DESC;
+    """, {'answer_id': answer_id})
+    all_comments = cursor.fetchall()
+    return all_comments
+
+
+@connection.connection_handler
+def get_answer_by_answer_id(cursor, answer_id):
+    cursor.execute("""
+                    SELECT * FROM answer
+                    WHERE id = %(answer_id)s;
+    """, {'answer_id': answer_id})
+    answer = cursor.fetchall()
+    return answer[0]

@@ -120,29 +120,29 @@ def get_search_result():
 
 @app.route("/question/<question_id>/new-comment", methods=['GET', 'POST'])
 def add_comment_to_question(question_id):
-    question = data_manager.get_question_by_question_id(question_id)
     if request.method == "POST":
         answer_id = None
         message = request.form['message'].capitalize()
         submission_time = datetime.now().isoformat(timespec='seconds')
         edited_count = None
         data_manager.add_new_comment(question_id, answer_id, message, submission_time, edited_count)
-        return redirect(url_for('question_page', question=question, question_id=question_id))
+        return redirect(url_for('question_page', question_id=question_id))
     elif request.method == "GET":
-        return render_template('add-comment.html', question=question, question_id=question_id)
+        return render_template('add-question-comment.html', question_id=question_id)
 
 
 @app.route("/answer/<answer_id>/new-comment", methods=['GET', 'POST'])
 def add_comment_to_answer(answer_id):
-    pass
-
-
-@app.route("/comments/<question_id>")
-def question_comment_page(question_id):
-    comments = data_manager.get_question_comments(question_id)
-    return render_template("comments.html", comments=comments)
-
-
+    answer = data_manager.get_answer_by_answer_id(answer_id)
+    if request.method == "POST":
+        question_id = None
+        message = request.form['message'].capitalize()
+        submission_time = datetime.now().isoformat(timespec='seconds')
+        edited_count = None
+        data_manager.add_new_comment(question_id, answer_id, message, submission_time, edited_count)
+        return redirect(url_for('question_page', question_id=answer['question_id']))
+    elif request.method == "GET":
+        return render_template('add-answer-comment.html', question_id=answer['question_id'], answer_id=answer_id, answer=answer)
 
 
 if __name__ == '__main__':
