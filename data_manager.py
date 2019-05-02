@@ -198,7 +198,7 @@ def get_five_latest_questions(cursor):
 def get_search_result(cursor, phrase):
     phrase = f'%{phrase}%'
     cursor.execute("""
-                    SELECT DISTINCT title FROM question
+                    SELECT DISTINCT title,question.id FROM question
                     LEFT JOIN answer ON question.id = answer.question_id
                     WHERE title LIKE %(phrase)s OR question.message LIKE %(phrase)s OR answer.message LIKE %(phrase)s   
     """, {'phrase': phrase})
