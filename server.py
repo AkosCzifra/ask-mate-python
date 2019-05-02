@@ -93,6 +93,7 @@ def delete_answer(answer_id):
 
 @app.route("/question/<question_id>/delete_question")  # done
 def delete_question(question_id):
+    answers = data_manager.get_all_answers_by_question_id(question_id)
     data_manager.delete_question(question_id)
     return redirect('/')
 
@@ -165,6 +166,23 @@ def add_comment_to_answer(answer_id):
     elif request.method == "GET":
         return render_template('add-answer-comment.html', question_id=answer['question_id'], answer_id=answer_id,
                                answer=answer)
+
+
+@app.route("/question/<question_id>/comments")
+def question_comments(question_id):
+    comments = data_manager.get_question_comments(question_id)
+    if request.method == "GET":
+        return render_template('question-comments.html', comments=comments)
+
+
+@app.route("/answer/<answer_id>/comments")
+def answer_comments(answer_id):
+    comments = data_manager.get_answer_comments(answer_id)
+    if request.method == "GET":
+        return render_template('question-comments.html', comments=comments)
+
+
+
 
 
 if __name__ == '__main__':

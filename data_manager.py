@@ -74,6 +74,8 @@ def get_question_by_question_id(cursor, question_id):
 @connection.connection_handler
 def delete_question(cursor, question_id):
     cursor.execute("""
+                    DELETE FROM comment WHERE answer_id = 16 17 18 19
+    
                    DELETE FROM comment WHERE question_id = %(question_id)s;
                    DELETE FROM answer WHERE question_id = %(question_id)s;
                    DELETE FROM question WHERE id = %(question_id)s;
@@ -229,7 +231,7 @@ def get_question_comments(cursor, question_id):
 def get_answer_comments(cursor, answer_id):
     cursor.execute("""
                     SELECT * FROM comment
-                    WHERE question_id = %(answer_id)s
+                    WHERE answer_id = %(answer_id)s
                     ORDER BY submission_time DESC;
     """, {'answer_id': answer_id})
     all_comments = cursor.fetchall()
@@ -294,3 +296,7 @@ def delete_tag(cursor, tag_id, question_id):
                     DELETE FROM tag WHERE id=%(tag_id)s;
                     
     """, {'tag_id': tag_id, 'question_id': question_id})
+
+
+
+

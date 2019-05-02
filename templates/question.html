@@ -56,32 +56,11 @@
             <button class="example_a"><a class="text-color"
                                          href="/question/{{ question["id"] }}/new-answer"><strong>Add new
                 Answer</strong></a></button>
+            <h2>Question comments</h2>
         </tr>
-
-        <br><br><br>
         <hr>
-        <div class="homePageList">
-            <table id="homePageList" id="homePageListHeader" class="fixed" align="center">
-                <col width="10px"/>
-                <col width="800px"/>
-                <col width="80px"/>
-                <col width="70px"/>
-                <col width="100px"/>
-                <caption><h2>Comments</h2></caption>
-                <tr>
-                    <th>Post date</th>
-                    <th>Comment</th>
-                </tr>
-                <tr>
-                    {% for comment in question_comments %}
-                        </tr>
-                        <tr>
-                            <td>{{ comment["submission_time"] }}</td>
-                            <td>{{ comment["message"] | safe }}</td>
-                        </tr>
-                    {% endfor %}
-            </table>
-        </div>
+        <iframe width="1060" height="200" src="/question/{{ question["id"] }}/comments" frameborder="0"
+                allow="accelerometer;"></iframe>
         <hr>
         <div class="homePageList">
 
@@ -100,13 +79,12 @@
                     <th>Delete answer</th>
                     <th>Image</th>
                 </tr>
-                <tr>
                     {% for answer in answers %}
-                        </tr>
                         <tr>
                             <td>{{ answer["vote_number"] }}</td>
                             <td>{{ answer["message"] | safe }}
-                                <button class="example_ab"><a class="text-color" href="/answer/{{ answer["id"] }}/new-comment"><strong>Add
+                                <button class="example_ab"><a class="text-color"
+                                                              href="/answer/{{ answer["id"] }}/new-comment"><strong>Add
                                     comment</strong></a></button>
                             </td>
                             <td>
@@ -125,9 +103,12 @@
                             <td>
                                 <img src=" {{ answer["image"] }}" alt="" height="100" id="image-on-center"/>
                             </td>
-
+                        </tr>
+                        <tr>
+                        <td colspan="5" height="100px"><iframe width="1060" height="200" src="/answer/{{ answer["id"] }}/comments" frameborder="0";></iframe></td>
                         </tr>
                     {% endfor %}
+
             </table>
         </div>
 {% endblock %}
