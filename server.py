@@ -117,6 +117,20 @@ def get_search_result():
         return render_template("result.html", results=results)
 
 
+@app.route("/question/<question_id>/new-comment")
+def add_comment_to_question(question_id):
+    question = data_manager.get_question_by_question_id(question_id)
+    if request.method == "POST":
+        answer_id = None
+        message = request.form['message'].capitalize()
+        submission_time = datetime.now().isoformat(timespec='seconds')
+        edited_count = 0
+        data_manager.post_new_comment(question_id, answer_id, message, submission_time, edited_count)
+        return redirect(url_for('question_page', question=question, question_id=question_id))
+    elif request.method == "GET":
+        return render_template('add-comment.html', question=question, question_id=question_id)
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',

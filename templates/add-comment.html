@@ -1,0 +1,15 @@
+{% extends 'basic.html' %}
+
+{% block title %}
+Add new comment
+{% endblock %}
+{% block body %}
+<form action="{{ id }}" method="POST">
+    <p>Message:</p>
+    <p><textarea name="message" rows="7" cols="40" required minlength="10"></textarea></p>
+    <p><input type="submit" value="Add new Comment"></p>
+</form>
+    <button><a href="/question/{{ question["id"] }}">Back to Question</a></button>
+    <br><br>
+    <button><a href="/">Homepage</a></button>
+{% endblock %}
