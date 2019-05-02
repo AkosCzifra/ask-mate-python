@@ -11,7 +11,7 @@ Search Result
     </tr>
     {% for result in results %}
         <tr>
-            <td>{{ result['title'] }} </td>
+            <td><a href="{{ url_for("question_page", question_id=result['id'])}}">{{ result['title'] }}</a></td>
         </tr>
     {% endfor %}
     </table>

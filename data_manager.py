@@ -197,9 +197,59 @@ def get_five_latest_questions(cursor):
 def get_search_result(cursor, phrase):
     phrase = f'%{phrase}%'
     cursor.execute("""
-                    SELECT DISTINCT title FROM question
+                    SELECT DISTINCT title, question.id FROM question
                     LEFT JOIN answer ON question.id = answer.question_id
                     WHERE title LIKE %(phrase)s OR question.message LIKE %(phrase)s OR answer.message LIKE %(phrase)s   
     """, {'phrase': phrase})
     result = cursor.fetchall()
     return result
+
+
+@connection.connection_handler
+def add_new_tag_to_tags(cursor, name):
+    cursor.execute("""
+                    INSERT INTO tag (name)
+                    VALUES (%(name)s);
+    """, {'name': name})
+
+
+@connection.connection_handler
+def add_new_tag_to_question_tag(cursor, question_id, tag_id):
+    cursor.execute("""
+                    INSERT INTO question_tag (question_id, tag_id)
+                    VALUES (%(question_id)s, %(tag_id)s)
+    """, {'question_id': question_id, 'tag_id': tag_id})
+
+
+@connection.connection_handler
+def get_tags(cursor, question_id):
+    cursor.execute("""
+                    SELECT name,question_id,tag_id
+                    FROM ((question_tag
+                    INNER JOIN tag ON tag_id = tag.id)
+                    INNER JOIN question ON question_id = question.id)
+                    WHERE question_id=%(question_id)s;
+                    
+    """, {'question_id': question_id})
+    tags = cursor.fetchall()
+    return tags
+
+
+@connection.connection_handler
+def pass_tag_id(cursor, name):
+    cursor.execute("""
+                    SELECT id
+                    FROM tag
+                    WHERE name = %(name)s
+    """, {'name': name})
+    id_ = cursor.fetchall()
+    return id_
+
+
+@connection.connection_handler
+def delete_tag(cursor, tag_id, question_id):
+    cursor.execute("""
+                    DELETE FROM question_tag WHERE question_id=%(question_id)s AND tag_id=%(tag_id)s;
+                    DELETE FROM tag WHERE id=%(tag_id)s;
+                    
+    """, {'tag_id': tag_id, 'question_id': question_id})

@@ -28,8 +28,9 @@ def order_list_by(order_by, order_direction):
 def question_page(question_id):
     question = data_manager.get_question_by_question_id(question_id)
     answers = data_manager.get_all_answers_by_question_id(question_id)
+    tags = data_manager.get_tags(question_id)
     data_manager.question_view_number(question_id)
-    return render_template("question.html", question=question, answers=answers)
+    return render_template("question.html", question=question, answers=answers, tags=tags)
 
 
 @app.route("/add-question", methods=["GET", "POST"])  # done
@@ -115,6 +116,25 @@ def get_search_result():
         phrase = request.form['search']
         results = data_manager.get_search_result(phrase)
         return render_template("result.html", results=results)
+
+
+@app.route("/question/<question_id>/new-tag", methods=['GET', 'POST'])
+def add_tag_to_question(question_id):
+    question = data_manager.get_question_by_question_id(question_id)
+    if request.method == 'GET':
+        return render_template("add-tag.html", question_id=question_id, question=question)
+    if request.method == 'POST':
+        name = request.form['name']
+        data_manager.add_new_tag_to_tags(name)
+        tag_id = data_manager.pass_tag_id(name)[0]['id']
+        data_manager.add_new_tag_to_question_tag(question_id, tag_id)
+    return redirect(f'/question/{question_id}')
+
+
+@app.route("/question/<question_id>/tag/<tag_id>/delete")
+def delete_tag(tag_id, question_id):
+    data_manager.delete_tag(tag_id, question_id) #2 lépésben kell törölni
+    return redirect(url_for('question_page', question_id=question_id))
 
 
 if __name__ == '__main__':
