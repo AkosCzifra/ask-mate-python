@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
 <head>
     <meta charset="UTF-8">
     <link href="/static/style.css" rel="stylesheet">
-    <link rel="shortcut icon" href="https://www.shareicon.net/data/256x256/2016/11/03/849459_social_512x512.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="https://www.shareicon.net/data/256x256/2016/11/03/849459_social_512x512.png"
+          type="image/x-icon"/>
     <title>
         {% block title %}
             Title
@@ -11,30 +14,36 @@
         # FusionM8s
     </title>
 </head>
+
 <body class="page-background">
-<div class="page-name">
-    <h1 class="page-name"><strong><em>
+    <div class="page-top">
+    <a href="{{ url_for("five_latest_question") }}" class="page-name"><strong>Fusion Mates' Fantastic Forum.</strong></a>
+    <br>
+    <a class="welcome-quote"><em>
         {{ ["Help me World - The meadow of unsolved questions.",
             "Feel Free to ask! - The council will determine your fate",
             "Backhanded Compliments? - You can either give one, or just pass.",
             "I attack the Ancient Red Dragon!- You know you are smarter than that.",
             "Random Messages - Because how random can you get?"
-            ] | random}}
-    </em></strong></h1>
-    <div id="search">
-        <form action="{{ url_for('get_search_result') }}" method="POST">
-            <p><label><input type="text" name="search" placeholder="Search..."></label>
-                <input type="submit" value="Search"></p>
-        </form>
+            ] | random }}
+    </em></a>
     </div>
-</div>
 
-<hr>
-{% block body %}
-{% endblock %}
-<div>
     <hr>
-    <h5>Created by: Fusion M8s</h5>
-</div>
+        <p><form action="{{ url_for('get_search_result') }}" method="POST" class="search" id="search">
+            <label><input type="text" name="search" placeholder="Search..."></label>
+                <input type="submit" value="Search">
+        </form></p>
+    <hr>
+
+    <div class="page_body">
+    {% block body %}
+    {% endblock %}
+    </div>
+
+    <div>
+        <hr>
+        <h5>Created by: Fusion M8s</h5>
+    </div>
 </body>
 </html>
