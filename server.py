@@ -93,7 +93,11 @@ def delete_answer(answer_id):
 
 @app.route("/question/<question_id>/delete_question")  # done
 def delete_question(question_id):
-    data_manager.delete_question(question_id)
+    answers = data_manager.get_all_answers_by_question_id(question_id)
+    answer_id_list = [answer['id'] for answer in answers]
+    for answer_id in answer_id_list:
+        data_manager.delete_answer_comment_by_answer_id(answer_id)
+    data_manager.delete_question(question_id)  # original
     return redirect('/')
 
 
@@ -179,8 +183,6 @@ def answer_comments(answer_id):
     comments = data_manager.get_answer_comments(answer_id)
     if request.method == "GET":
         return render_template('question-comments.html', comments=comments)
-
-
 
 
 

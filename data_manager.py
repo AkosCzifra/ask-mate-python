@@ -297,5 +297,11 @@ def delete_tag(cursor, tag_id, question_id):
     """, {'tag_id': tag_id, 'question_id': question_id})
 
 
+@connection.connection_handler
+def delete_answer_comment_by_answer_id(cursor, answer_id):
+    cursor.execute("""
+                    DELETE FROM comment WHERE answer_id=%(answer_id)s;
+    """, {'answer_id': answer_id})
+
 
 
