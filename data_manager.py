@@ -200,7 +200,7 @@ def get_search_result(cursor, phrase):
     cursor.execute("""
                     SELECT DISTINCT title,question.id FROM question
                     LEFT JOIN answer ON question.id = answer.question_id
-                    WHERE title LIKE %(phrase)s OR question.message LIKE %(phrase)s OR answer.message LIKE %(phrase)s   
+                    WHERE title ILIKE %(phrase)s OR question.message ILIKE %(phrase)s OR answer.message ILIKE %(phrase)s   
     """, {'phrase': phrase})
     result = cursor.fetchall()
     return result
