@@ -254,11 +254,19 @@ iframe {
 }
 
 .main-iframe {
-    margin-left: 10%;
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%;
 }
 
 .comments {
     background-color: rgba(255, 255, 255, 0);
+}
+
+.question-table {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .question-table td{
@@ -331,5 +339,5 @@ iframe {
 }
 
 .answer-table tr:nth-child(2) {
-    line-height: 0.1px;
+    line-height: 30px;
 }
