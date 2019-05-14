@@ -1,6 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
+from psycopg2._psycopg import IntegrityError
+
 import data_manager
 from datetime import datetime
+
+from util import hash_password
 
 app = Flask(__name__)
 
@@ -93,10 +97,6 @@ def delete_answer(answer_id):
 
 @app.route("/question/<question_id>/delete_question")  # done
 def delete_question(question_id):
-    answers = data_manager.get_all_answers_by_question_id(question_id)
-    answer_id_list = [answer['id'] for answer in answers]
-    for answer_id in answer_id_list:
-        data_manager.delete_answer_comment_by_answer_id(answer_id)
     data_manager.delete_question(question_id)  # original
     return redirect('/')
 
@@ -183,6 +183,24 @@ def answer_comments(answer_id):
     comments = data_manager.get_answer_comments(answer_id)
     if request.method == "GET":
         return render_template('answer-comments.html', comments=comments)
+
+
+@app.route("/registration", methods=["GET", "POST"])
+def registration():
+    if request.method == "GET":
+        error = False
+        return render_template('registration.html', error=error)
+    elif request.method == "POST":
+        username = request.form['username']
+        registration_date = datetime.now().isoformat(timespec='seconds')
+        password = hash_password(request.form['password'])
+        try:
+            data_manager.registration(username, password, registration_date)
+            return redirect('/')
+        except IntegrityError:
+            error = True
+            return render_template('registration.html', error=error)
+
 
 if __name__ == '__main__':
     app.run(

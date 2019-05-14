@@ -270,8 +270,7 @@ def get_tags(cursor, question_id):
                     FROM ((question_tag
                     INNER JOIN tag ON tag_id = tag.id)
                     INNER JOIN question ON question_id = question.id)
-                    WHERE question_id=%(question_id)s;
-                    
+                    WHERE question_id=%(question_id)s;             
     """, {'question_id': question_id})
     tags = cursor.fetchall()
     return tags
@@ -292,8 +291,7 @@ def pass_tag_id(cursor, name):
 def delete_tag(cursor, tag_id, question_id):
     cursor.execute("""
                     DELETE FROM question_tag WHERE question_id=%(question_id)s AND tag_id=%(tag_id)s;
-                    DELETE FROM tag WHERE id=%(tag_id)s;
-                    
+                    DELETE FROM tag WHERE id=%(tag_id)s;                
     """, {'tag_id': tag_id, 'question_id': question_id})
 
 
@@ -304,4 +302,9 @@ def delete_answer_comment_by_answer_id(cursor, answer_id):
     """, {'answer_id': answer_id})
 
 
-
+@connection.connection_handler
+def registration(cursor, username, password, registration_date):
+    cursor.execute("""
+                    INSERT INTO userdata (user_name, password, registration_date) 
+                    VALUES (%(username)s, %(password)s, %(registration_date)s);
+    """, {'username': username, 'password': password, 'registration_date': registration_date})

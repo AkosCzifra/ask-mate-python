@@ -1,0 +1,26 @@
+{% extends 'basic.html' %}
+
+{% block title %}
+Registration
+{% endblock %}
+
+{% block body %}
+    </br></br></br>
+    <h1 id="register">Registration</h1>
+
+    <form method="POST" class="add-forms" id="register">
+        <p><label for="title">Username:</label><br>
+        <input type="text" name="username" id="title" required minlength="3">
+        </p>
+
+        <p><label for="message">Password:</label><br>
+        <input type="password" name="password" id="title" required minlength="3"></p>
+
+        <p><input type="submit" value="Register"></p>
+        {% if error == True %}
+            <h2 id="error">Username already taken</h2>
+        {% endif %}
+    </form>
+    </br></br></br>
+
+{% endblock %}

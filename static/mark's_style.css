@@ -345,3 +345,13 @@ iframe {
 #no_answers{
     text-align: center;
 }
+
+#register {
+margin: 0 auto;
+width:250px;
+}
+
+#error {
+    color: #cc0000;
+    font-size: 120%;
+}
