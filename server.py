@@ -182,8 +182,7 @@ def question_comments(question_id):
 def answer_comments(answer_id):
     comments = data_manager.get_answer_comments(answer_id)
     if request.method == "GET":
-        return render_template('question-comments.html', comments=comments)
-
+        return render_template('answer-comments.html', comments=comments)
 
 
 if __name__ == '__main__':
