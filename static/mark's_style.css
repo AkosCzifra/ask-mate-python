@@ -341,3 +341,7 @@ iframe {
 .answer-table tr:nth-child(2) {
     line-height: 30px;
 }
+
+#no_answers{
+    text-align: center;
+}
