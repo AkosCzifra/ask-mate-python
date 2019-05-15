@@ -290,8 +290,7 @@ def pass_tag_id(cursor, name):
 @connection.connection_handler
 def delete_tag(cursor, tag_id, question_id):
     cursor.execute("""
-                    DELETE FROM question_tag WHERE question_id=%(question_id)s AND tag_id=%(tag_id)s;
-                    DELETE FROM tag WHERE id=%(tag_id)s;                
+                    DELETE FROM question_tag WHERE question_id=%(question_id)s AND tag_id=%(tag_id)s;               
     """, {'tag_id': tag_id, 'question_id': question_id})
 
 
