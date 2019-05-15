@@ -348,3 +348,12 @@ def get_questions_by_tags(cursor):
     """)
     questions = cursor.fetchall()
     return questions
+
+
+@connection.connection_handler
+def get_users(cursor):
+    cursor.execute("""
+                    SELECT id, user_name, registration_date FROM userdata;
+    """)
+    users = cursor.fetchall()
+    return users

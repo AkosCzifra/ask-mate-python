@@ -34,7 +34,7 @@ hr {
 }
 
 /* Aligns the text inside the little "box" */
-.basic-menu{
+.basic-menu {
     -ms-text-align-last: center;
     text-align-last: center;
 }
@@ -42,72 +42,77 @@ hr {
 
 /* Dropdown Button */
 .dropbtn {
-  background-color: rgba(255, 169, 61, 0);
-  color: #321f0e;
-  font-size: 16px;
-  border: none;
+    background-color: rgba(255, 169, 61, 0);
+    color: #321f0e;
+    font-size: 16px;
+    border: none;
 }
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
-  display: none;
-  position: absolute;
-  margin-left: -70%;
-  margin-top: 5%;
-  background-color: rgb(255, 209, 155);
-  border: 1px solid #321f0e;
-  min-width: 160px;
-  z-index: 1;
+    display: none;
+    position: absolute;
+    margin-left: -70%;
+    margin-top: 5%;
+    background-color: rgb(255, 209, 155);
+    border: 1px solid #321f0e;
+    min-width: 160px;
+    z-index: 1;
 }
 
 /* Links inside the dropdown */
 .dropdown-content a {
-  color: rgb(92, 55, 27);
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
+    color: rgb(92, 55, 27);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #bb956d;}
+.dropdown-content a:hover {
+    background-color: #bb956d;
+}
 
 /* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {background-color: #bb956d;}
-
+.dropdown:hover .dropbtn {
+    background-color: #bb956d;
+}
 
 
 /* Add a black background color to the top navigation */
 .topnav {
-  overflow: hidden;
+    overflow: hidden;
 }
 
 /* Style the links inside the navigation bar */
 .topnav a {
-  float: inside;
-  color: rgb(92, 55, 27);
-  text-align: center;
-  text-decoration: none;
-  padding-left: 10px;
-  font-size: 17px;
+    float: inside;
+    color: rgb(92, 55, 27);
+    text-align: center;
+    text-decoration: none;
+    padding-left: 10px;
+    font-size: 17px;
 }
 
 /* Change the color of links on hover */
 .topnav a:hover {
-  color: #bb956d;
+    color: #bb956d;
 }
 
 /* Add a color to the active/current link */
 .topnav a.active {
-  color: rgb(221, 123, 72);
+    color: rgb(221, 123, 72);
 }
 
 .page-description {
@@ -117,15 +122,15 @@ hr {
     width: 60%;
 }
 
-.page-description .title-line{
+.page-description .title-line {
     text-align: center;
 }
 
-.page-description li{
+.page-description li {
     padding: 10px 10px;
 }
 
-.page-description ul{
+.page-description ul {
     border: 2px solid rgba(50, 31, 14, 0.73);
     border-radius: 12px;
     background-color: #e2bd85;
@@ -171,7 +176,7 @@ hr {
     background-color: #e7ca95;
 }
 
-.table td:nth-child(2):hover{
+.table td:nth-child(2):hover {
     text-decoration: underline;
 }
 
@@ -197,19 +202,20 @@ hr {
 .button button:hover {
     background-color: rgb(247, 192, 124);
 }
-.add-forms input:focus, textarea{
+
+.add-forms input:focus, textarea {
     resize: none;
 }
 
-.add-forms input:focus, textarea:focus{
+.add-forms input:focus, textarea:focus {
     background-color: rgb(230, 208, 234);
 }
 
-.add-forms input[type=text], textarea{
+.add-forms input[type=text], textarea {
     border-radius: 8px;
 }
 
-.add-forms input[type=submit]{
+.add-forms input[type=submit] {
     width: 150px;
     height: 30px;
     background-color: #ffe1a9;
@@ -219,11 +225,11 @@ hr {
     text-decoration: none;
 }
 
-.add-forms input[type=submit]:hover{
+.add-forms input[type=submit]:hover {
     background-color: rgb(247, 192, 124);
 }
 
-.search input[type=submit]{
+.search input[type=submit] {
     width: 75px;
     height: 20px;
     background-color: #ffe1a9;
@@ -233,17 +239,17 @@ hr {
     text-decoration: none;
 }
 
-.search input[type=submit]:hover{
+.search input[type=submit]:hover {
     background-color: rgb(247, 192, 124);
 }
 
-.search input[type=text]{
+.search input[type=text] {
     border-radius: 12px;
     border: 1px solid rgba(50, 31, 14, 0.73);
 }
 
 
-.button-table td{
+.button-table td {
     text-align: center;
     padding: 20px;
     border: none;
@@ -269,7 +275,7 @@ iframe {
     margin-right: auto;
 }
 
-.question-table td{
+.question-table td {
     background-color: #ffe1a9;
 }
 
@@ -334,7 +340,7 @@ iframe {
     text-align: center;
 }
 
-.answer-table td:nth-child(2){
+.answer-table td:nth-child(2) {
     text-align: left;
 }
 
@@ -342,13 +348,13 @@ iframe {
     line-height: 30px;
 }
 
-#no_answers{
+#no_answers {
     text-align: center;
 }
 
 #register {
-margin: 0 auto;
-width:250px;
+    margin: 0 auto;
+    width: 250px;
 }
 
 #error {
@@ -362,4 +368,16 @@ width:250px;
 
 #tag_table td:nth-child(2):hover {
     text-decoration: none
+}
+
+#user_table td:nth-child(2):hover {
+    text-decoration: none;
+}
+
+#user_table td:nth-child(2) {
+    text-align: center;
+}
+
+#user_table td:nth-child(1):hover {
+    text-decoration: underline;
 }

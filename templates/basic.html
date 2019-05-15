@@ -34,7 +34,7 @@
                 <a {% block home_active %} {% endblock %}href="{{ url_for('five_latest_question') }}">Home</a>
                 <a {% block questions_active %} {% endblock %}href="{{ url_for('route_list') }}">Questions</a>
                 <a {% block tags_active %} {% endblock %}href="{{ url_for('tags') }}">Tag Cloud</a>
-
+                <a {% block users_active %} {% endblock %}href="{{ url_for('users') }}">Users</a>
                 {% if 'username' in session %}
                     {% if session['username'] |length < 16 %}
                         <a href="#">{{ session['username'] }}'s page ID {{ session['id'] }}</a>

@@ -259,6 +259,12 @@ def tags():
     return render_template('tags.html', questions=questions)
 
 
+@app.route("/users")
+def users():
+    users = data_manager.get_users()
+    return render_template('users.html', users=users)
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
