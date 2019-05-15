@@ -308,3 +308,13 @@ def registration(cursor, username, password, registration_date):
                     INSERT INTO userdata (user_name, password, registration_date) 
                     VALUES (%(username)s, %(password)s, %(registration_date)s);
     """, {'username': username, 'password': password, 'registration_date': registration_date})
+
+
+@connection.connection_handler
+def get_password_from_user_name(cursor, username):
+    cursor.execute("""
+                    SELECT password FROM userdata
+                    WHERE %(username)s = user_name
+    """, {"username": username})
+    password = cursor.fetchall()
+    return password

@@ -1,12 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from psycopg2._psycopg import IntegrityError
 
 import data_manager
 from datetime import datetime
 
-from util import hash_password
+from util import hash_password, verify_password
 
 app = Flask(__name__)
+
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 
 @app.route("/")
@@ -200,6 +202,29 @@ def registration():
         except IntegrityError:
             error = True
             return render_template('registration.html', error=error)
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        error = False
+        return render_template("login.html", error=error)
+    elif request.method == "POST":
+        username = request.form['username']
+        hashed_password = data_manager.get_password_from_user_name(username)
+        result = verify_password(request.form['password'], hashed_password[0]['password'])
+        if result:
+            session['username'] = request.form['username']
+            return redirect(url_for('five_latest_question'))
+        else:
+            error = True
+            return render_template("login.html", error=error)
+
+
+@app.route("/logout")
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('five_latest_question'))
 
 
 if __name__ == '__main__':
