@@ -37,7 +37,7 @@
 
                 {% if 'username' in session %}
                     {% if session['username'] |length < 16 %}
-                        <a href="#">{{ session['username'] }}'s page</a>
+                        <a href="#">{{ session['username'] }}'s page ID {{ session['id'] }}</a>
                     {% else %}
                         <a href="#">User page</a>
                     {% endif %}
