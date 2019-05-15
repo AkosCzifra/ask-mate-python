@@ -1,0 +1,28 @@
+{% extends 'basic.html' %}
+
+{% block title %}Tags{% endblock %}
+{% block tags_active %}class="active"{% endblock %}
+{% block body %}
+    <div>
+        <table class="table" id="tag_table">
+            <tr>
+                <th>Tag</th>
+                <th>Post date</th>
+                <th>Title</th>
+                <th>View number</th>
+                <th>Vote number</th>
+            </tr>
+            {% for question in questions %}
+                <tr>
+                    <td>{{ question['name'] }}</td>
+                    <td>{{ question['submission_time'] }}</td>
+                    <td>
+                        <a href="{{ url_for("question_page", question_id=question['id']) }}"> {{ question['title'] | safe }}</a>
+                    </td>
+                    <td>{{ question['view_number'] }}</td>
+                    <td>{{ question['vote_number'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

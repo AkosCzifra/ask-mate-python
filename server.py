@@ -140,11 +140,10 @@ def add_tag_to_question(question_id):
                         tag_id = data_manager.pass_tag_id(newtag)[0]['id']
                         data_manager.add_new_tag_to_question_tag(question_id, tag_id)
                         return redirect(f'/question/{question_id}')
-                    else:
-                        data_manager.add_new_tag_to_tags(newtag)
-                        tag_id = data_manager.pass_tag_id(newtag)[0]['id']
-                        data_manager.add_new_tag_to_question_tag(question_id, tag_id)
-                        return redirect(f'/question/{question_id}')
+                data_manager.add_new_tag_to_tags(newtag)
+                tag_id = data_manager.pass_tag_id(newtag)[0]['id']
+                data_manager.add_new_tag_to_question_tag(question_id, tag_id)
+                return redirect(f'/question/{question_id}')
             except IntegrityError:
                 error = True
                 return render_template('add-tag.html', question_id=question_id, tags=tags, error=error)
@@ -226,7 +225,9 @@ def registration():
 
 @app.route("/tags")
 def tags():
-    pass
+    questions = data_manager.get_questions_by_tags()
+    print(questions)
+    return render_template('tags.html', questions=questions)
 
 
 if __name__ == '__main__':

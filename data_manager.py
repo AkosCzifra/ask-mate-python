@@ -309,9 +309,22 @@ def get_existing_tags(cursor):
     tags = cursor.fetchall()
     return tags
 
+
 @connection.connection_handler
 def registration(cursor, username, password, registration_date):
     cursor.execute("""
                     INSERT INTO userdata (user_name, password, registration_date) 
                     VALUES (%(username)s, %(password)s, %(registration_date)s);
     """, {'username': username, 'password': password, 'registration_date': registration_date})
+
+
+@connection.connection_handler
+def get_questions_by_tags(cursor):
+    cursor.execute("""
+                    SELECT q.*, question_tag.*, tag.name FROM question_tag
+                    INNER JOIN question q on q.id = question_tag.question_id
+                    INNER JOIN tag on tag.id = question_tag.tag_id
+                    ORDER BY tag.name;
+    """)
+    questions = cursor.fetchall()
+    return questions

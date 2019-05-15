@@ -33,6 +33,7 @@
             <div class="topnav">
                 <a {% block home_active %} {% endblock %}href="{{ url_for('five_latest_question') }}">Home</a>
                 <a {% block questions_active %} {% endblock %}href="{{ url_for('route_list') }}">Questions</a>
+                <a {% block tags_active %} {% endblock %}href="{{ url_for('tags') }}">Tag Cloud</a>
                 <a href="{{ url_for('registration') }}">Register</a>
                 <a href="#">Log in</a>
             </div>
