@@ -309,6 +309,7 @@ def get_existing_tags(cursor):
     tags = cursor.fetchall()
     return tags
 
+
 @connection.connection_handler
 def registration(cursor, username, password, registration_date):
     cursor.execute("""
@@ -325,3 +326,13 @@ def get_password_from_user_name(cursor, username):
     """, {"username": username})
     password = cursor.fetchall()
     return password
+
+
+@connection.connection_handler
+def get_id_from_user_name(cursor, username):
+    cursor.execute("""
+                    SELECT id FROM userdata
+                    WHERE %(username)s = user_name
+    """, {"username": username})
+    id_ = cursor.fetchall()
+    return id_[0]['id']

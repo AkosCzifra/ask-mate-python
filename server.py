@@ -231,6 +231,7 @@ def login():
         result = verify_password(request.form['password'], hashed_password[0]['password'])
         if result:
             session['username'] = request.form['username']
+            session['id'] = data_manager.get_id_from_user_name(session['username'])
             return redirect(url_for('five_latest_question'))
         else:
             error = True
