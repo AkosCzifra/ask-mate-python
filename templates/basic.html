@@ -33,8 +33,24 @@
             <div class="topnav">
                 <a {% block home_active %} {% endblock %}href="{{ url_for('five_latest_question') }}">Home</a>
                 <a {% block questions_active %} {% endblock %}href="{{ url_for('route_list') }}">Questions</a>
-                <a href="{{ url_for('registration') }}">Register</a>
-                <a href="#">Log in</a>
+
+
+                {% if 'username' in session %}
+                    {% if session['username'] |length < 16 %}
+                        <a href="#">{{ session['username'] }}'s page ID {{ session['id'] }}</a>
+                    {% else %}
+                        <a href="#">User page</a>
+                    {% endif %}
+                {% elif 'username' not in session %}
+                    <a href="{{ url_for('registration') }}">Register</a>
+                {% endif %}
+
+
+                {% if 'username' in session %}
+                    <a href="{{ url_for('logout') }}">Log out</a>
+                {% elif 'username' not in session %}
+                    <a href="{{ url_for('login') }}">Log in</a>
+                {% endif %}
             </div>
 
             <p><form class="search" action="{{ url_for('get_search_result') }}" method="POST">
