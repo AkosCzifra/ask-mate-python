@@ -256,7 +256,6 @@ def logout():
 @app.route("/tags")
 def tags():
     questions = data_manager.get_questions_by_tags()
-    print(questions)
     return render_template('tags.html', questions=questions)
 
 
