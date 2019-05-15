@@ -126,20 +126,42 @@ def get_search_result():
 
 @app.route("/question/<question_id>/new-tag", methods=['GET', 'POST'])
 def add_tag_to_question(question_id):
-    question = data_manager.get_question_by_question_id(question_id)
+    tags = data_manager.get_existing_tags()
     if request.method == 'GET':
-        return render_template("add-tag.html", question_id=question_id, question=question)
-    if request.method == 'POST':
-        name = request.form['name']
-        data_manager.add_new_tag_to_tags(name)
-        tag_id = data_manager.pass_tag_id(name)[0]['id']
-        data_manager.add_new_tag_to_question_tag(question_id, tag_id)
-    return redirect(f'/question/{question_id}')
+        error = False
+        return render_template("add-tag.html", question_id=question_id, tags=tags, error=error)
+    elif request.method == 'POST':
+        return_record = request.form.to_dict()
+        if 'newtag' in return_record:
+            try:
+                newtag = request.form.to_dict()['newtag']
+                for tag in tags:
+                    if newtag == tag['name']:
+                        tag_id = data_manager.pass_tag_id(newtag)[0]['id']
+                        data_manager.add_new_tag_to_question_tag(question_id, tag_id)
+                        return redirect(f'/question/{question_id}')
+                    else:
+                        data_manager.add_new_tag_to_tags(newtag)
+                        tag_id = data_manager.pass_tag_id(newtag)[0]['id']
+                        data_manager.add_new_tag_to_question_tag(question_id, tag_id)
+                        return redirect(f'/question/{question_id}')
+            except IntegrityError:
+                error = True
+                return render_template('add-tag.html', question_id=question_id, tags=tags, error=error)
+        elif 'newtag' not in return_record:
+            try:
+                existingtag = request.form['selecttag']
+                tag_id = data_manager.pass_tag_id(existingtag)[0]['id']
+                data_manager.add_new_tag_to_question_tag(question_id, tag_id)
+                return redirect(f'/question/{question_id}')
+            except IntegrityError:
+                error = True
+                return render_template('add-tag.html', question_id=question_id, tags=tags, error=error)
 
 
 @app.route("/question/<question_id>/tag/<tag_id>/delete")
 def delete_tag(tag_id, question_id):
-    data_manager.delete_tag(tag_id, question_id)  # 2 lépésben kell törölni
+    data_manager.delete_tag(tag_id, question_id)
     return redirect(url_for('question_page', question_id=question_id))
 
 
