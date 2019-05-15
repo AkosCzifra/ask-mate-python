@@ -1,12 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from psycopg2._psycopg import IntegrityError
 
 import data_manager
 from datetime import datetime
 
-from util import hash_password
+from util import hash_password, verify_password
 
 app = Flask(__name__)
+
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 
 @app.route("/")
@@ -50,7 +52,8 @@ def add_question():
         title = request.form['title'].capitalize()
         message = request.form['message'].capitalize()
         image = request.form['image']
-        data_manager.post_new_question(submission_time, view_number, vote_number, title, message, image)
+        user_id = session['id']
+        data_manager.post_new_question(submission_time, view_number, vote_number, title, message, image, user_id)
         return redirect(url_for('five_latest_question'))
 
 
@@ -63,7 +66,8 @@ def add_answer(question_id):
         question_id = question_id
         message = request.form['message']
         image = request.form['image']
-        data_manager.add_new_answer(submission_time, vote_number, question_id, message, image)
+        user_id = session['id']
+        data_manager.add_new_answer(submission_time, vote_number, question_id, message, image, user_id)
         return redirect(url_for('question_page', question=question, question_id=question_id))
     elif request.method == 'GET':
         return render_template("add-answer.html", question=question, question_id=question_id)
@@ -171,7 +175,8 @@ def add_comment_to_question(question_id):
         message = request.form['message'].capitalize()
         submission_time = datetime.now().isoformat(timespec='seconds')
         edited_count = None
-        data_manager.add_new_comment(question_id, answer_id, message, submission_time, edited_count)
+        user_id = session['id']
+        data_manager.add_new_comment(question_id, answer_id, message, submission_time, edited_count, user_id)
         return redirect(url_for('question_page', question_id=question_id))
     elif request.method == "GET":
         return render_template('add-question-comment.html', question_id=question_id)
@@ -185,7 +190,8 @@ def add_comment_to_answer(answer_id):
         message = request.form['message'].capitalize()
         submission_time = datetime.now().isoformat(timespec='seconds')
         edited_count = None
-        data_manager.add_new_comment(question_id, answer_id, message, submission_time, edited_count)
+        user_id = session['id']
+        data_manager.add_new_comment(question_id, answer_id, message, submission_time, edited_count, user_id)
         return redirect(url_for('question_page', question_id=answer['question_id']))
     elif request.method == "GET":
         return render_template('add-answer-comment.html', question_id=answer['question_id'], answer_id=answer_id,
@@ -221,6 +227,30 @@ def registration():
         except IntegrityError:
             error = True
             return render_template('registration.html', error=error)
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        error = False
+        return render_template("login.html", error=error)
+    elif request.method == "POST":
+        username = request.form['username']
+        hashed_password = data_manager.get_password_from_user_name(username)
+        result = verify_password(request.form['password'], hashed_password[0]['password'])
+        if result:
+            session['username'] = request.form['username']
+            session['id'] = data_manager.get_id_from_user_name(session['username'])
+            return redirect(url_for('five_latest_question'))
+        else:
+            error = True
+            return render_template("login.html", error=error)
+
+
+@app.route("/logout")
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('five_latest_question'))
 
 
 @app.route("/tags")

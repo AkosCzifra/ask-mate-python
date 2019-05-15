@@ -156,21 +156,21 @@ def question_view_number(cursor, question_id):
 
 
 @connection.connection_handler
-def post_new_question(cursor, submission_time, view_number, vote_number, title, message, image):
+def post_new_question(cursor, submission_time, view_number, vote_number, title, message, image, user_id):
     cursor.execute("""
-                    INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
-                    VALUES (%(submission_time)s,%(view_number)s,%(vote_number)s,%(title)s,%(message)s,%(image)s)
+                    INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id)
+                    VALUES (%(submission_time)s,%(view_number)s,%(vote_number)s,%(title)s,%(message)s,%(image)s,%(user_id)s)
     """, {'submission_time': submission_time, 'view_number': view_number, 'vote_number': vote_number, 'title': title,
-          'message': message, 'image': image})
+          'message': message, 'image': image, 'user_id': user_id})
 
 
 @connection.connection_handler
-def add_new_answer(cursor, submission_time, vote_number, question_id, message, image):
+def add_new_answer(cursor, submission_time, vote_number, question_id, message, image, user_id):
     cursor.execute("""
-                    INSERT INTO answer (submission_time, vote_number, question_id, message, image)
-                    VALUES (%(submission_time)s,%(vote_number)s,%(question_id)s,%(message)s,%(image)s)
+                    INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id)
+                    VALUES (%(submission_time)s,%(vote_number)s,%(question_id)s,%(message)s,%(image)s,%(user_id)s)
     """, {'submission_time': submission_time, 'vote_number': vote_number, 'question_id': question_id,
-          'message': message, 'image': image})
+          'message': message, 'image': image, 'user_id': user_id})
 
 
 @connection.connection_handler
@@ -207,12 +207,12 @@ def get_search_result(cursor, phrase):
 
 
 @connection.connection_handler
-def add_new_comment(cursor, question_id, answer_id, message, submission_time, edited_count):
+def add_new_comment(cursor, question_id, answer_id, message, submission_time, edited_count, user_id):
     cursor.execute("""
-                    INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)
-                    VALUES (%(question_id)s,%(answer_id)s,%(message)s,%(submission_time)s,%(edited_count)s)
+                    INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count, user_id)
+                    VALUES (%(question_id)s,%(answer_id)s,%(message)s,%(submission_time)s,%(edited_count)s,%(user_id)s)
     """, {'question_id': question_id, 'answer_id': answer_id, 'message': message, 'submission_time': submission_time,
-          'edited_count': edited_count})
+          'edited_count': edited_count, 'user_id': user_id})
 
 
 @connection.connection_handler
@@ -316,6 +316,26 @@ def registration(cursor, username, password, registration_date):
                     INSERT INTO userdata (user_name, password, registration_date) 
                     VALUES (%(username)s, %(password)s, %(registration_date)s);
     """, {'username': username, 'password': password, 'registration_date': registration_date})
+
+
+@connection.connection_handler
+def get_password_from_user_name(cursor, username):
+    cursor.execute("""
+                    SELECT password FROM userdata
+                    WHERE %(username)s = user_name
+    """, {"username": username})
+    password = cursor.fetchall()
+    return password
+
+
+@connection.connection_handler
+def get_id_from_user_name(cursor, username):
+    cursor.execute("""
+                    SELECT id FROM userdata
+                    WHERE %(username)s = user_name
+    """, {"username": username})
+    id_ = cursor.fetchall()
+    return id_[0]['id']
 
 
 @connection.connection_handler
