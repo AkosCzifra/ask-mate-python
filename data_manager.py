@@ -304,4 +304,11 @@ def delete_answer_comment_by_answer_id(cursor, answer_id):
     """, {'answer_id': answer_id})
 
 
+@connection.connection_handler
+def get_existing_tags(cursor):
+    cursor.execute("""
+                    SELECT DISTINCT name FROM tag;
+    """)
+    tags = cursor.fetchall()
+    return tags
 

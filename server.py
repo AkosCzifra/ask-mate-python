@@ -126,15 +126,26 @@ def get_search_result():
 
 @app.route("/question/<question_id>/new-tag", methods=['GET', 'POST'])
 def add_tag_to_question(question_id):
-    question = data_manager.get_question_by_question_id(question_id)
+    tags = data_manager.get_existing_tags()
+    print(tags)
     if request.method == 'GET':
-        return render_template("add-tag.html", question_id=question_id, question=question)
-    if request.method == 'POST':
-        name = request.form['name']
-        data_manager.add_new_tag_to_tags(name)
-        tag_id = data_manager.pass_tag_id(name)[0]['id']
-        data_manager.add_new_tag_to_question_tag(question_id, tag_id)
-    return redirect(f'/question/{question_id}')
+        return render_template("add-tag.html", question_id=question_id, tags=tags)
+    elif request.method == 'POST':
+        return_record = request.form.to_dict()
+        if 'newtag'  in return_record:
+            newtag = request.form.to_dict()['newtag']
+            data_manager.add_new_tag_to_tags(newtag)
+            tag_id = data_manager.pass_tag_id(newtag)[0]['id']
+            data_manager.add_new_tag_to_question_tag(question_id, tag_id)
+            return redirect(f'/question/{question_id}')
+        elif 'newtag' not in return_record:
+            existingtag = request.form['selecttag']
+            tag_id = data_manager.pass_tag_id(existingtag)[0]['id']
+            data_manager.add_new_tag_to_question_tag(question_id, tag_id)
+            return redirect(f'/question/{question_id}')
+
+
+
 
 
 @app.route("/question/<question_id>/tag/<tag_id>/delete")
