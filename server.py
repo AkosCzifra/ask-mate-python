@@ -202,6 +202,11 @@ def registration():
             return render_template('registration.html', error=error)
 
 
+@app.route("/tags")
+def tags():
+    pass
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',

@@ -78,7 +78,8 @@ DROP TABLE IF EXISTS public.tag;
 DROP SEQUENCE IF EXISTS public.tag_id_seq;
 CREATE TABLE tag (
     id serial NOT NULL,
-    name text
+    name text,
+    unique (name)
 );
 
 ALTER TABLE ONLY userdata
