@@ -341,3 +341,17 @@ iframe {
 .answer-table tr:nth-child(2) {
     line-height: 30px;
 }
+
+#no_answers{
+    text-align: center;
+}
+
+#register {
+margin: 0 auto;
+width:250px;
+}
+
+#error {
+    color: #cc0000;
+    font-size: 120%;
+}

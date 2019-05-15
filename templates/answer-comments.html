@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <link href="/static/mark's_style.css" rel="stylesheet">
 </head>
+{% if comments != [] %}
 <body class="comments">
     <table class="answer-table">
         <col width="100px">
@@ -22,6 +23,9 @@
                 </tr>
             {% endfor %}
     </table>
+{% elif comments == [] %}
+    <h2 id="no_answers">No comments yet!</h2>
+{% endif %}
 </body>
 </html>
 

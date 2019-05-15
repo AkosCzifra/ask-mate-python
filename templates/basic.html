@@ -16,23 +16,25 @@
 </head>
 
 <body>
-        <a class="basic-header" href="{{ url_for("five_latest_question") }}"><h1>Fusion M8s' Fantastic Forum.</h1></a>
-        <a><em>
-            {{ ["Help me World - The meadow of unsolved questions.",
-                "Feel Free to ask! - The council will determine your fate",
-                "Backhanded Compliments? - You can either give one, or just pass.",
-                "I attack the Ancient Red Dragon!- You know you are smarter than that.",
-                "Random Messages - Because how random can you get?"
-                ] | random }}
-        </em></a>
-
-
-
+    <div>
+            <a class="basic-header" href="{{ url_for("five_latest_question") }}"><h1>Fusion M8s' Fantastic Forum.</h1></a>
+            <a><em>
+                {{ ["Help me World - The meadow of unsolved questions.",
+                    "Feel Free to ask! - The council will determine your fate",
+                    "Backhanded Compliments? - You can either give one, or just pass.",
+                    "I attack the Ancient Red Dragon!- You know you are smarter than that.",
+                    "Random Messages - Because how random can you get?",
+                    "Random Easter Egg Here - Will Mark ever notice this?"
+                    ] | random }}
+            </em></a>
+    </div>
     <div class="basic-menu"><hr>
         <p>
             <div class="topnav">
-              <a {% block home_active %} {% endblock %}href="{{ url_for('five_latest_question') }}">Home</a>
-              <a {% block questions_active %} {% endblock %}href="{{ url_for('route_list') }}">Questions</a>
+                <a {% block home_active %} {% endblock %}href="{{ url_for('five_latest_question') }}">Home</a>
+                <a {% block questions_active %} {% endblock %}href="{{ url_for('route_list') }}">Questions</a>
+                <a href="{{ url_for('registration') }}">Register</a>
+                <a href="#">Log in</a>
             </div>
 
             <p><form class="search" action="{{ url_for('get_search_result') }}" method="POST">
