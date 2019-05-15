@@ -290,8 +290,7 @@ def pass_tag_id(cursor, name):
 @connection.connection_handler
 def delete_tag(cursor, tag_id, question_id):
     cursor.execute("""
-                    DELETE FROM question_tag WHERE question_id=%(question_id)s AND tag_id=%(tag_id)s;
-                    DELETE FROM tag WHERE id=%(tag_id)s;                
+                    DELETE FROM question_tag WHERE question_id=%(question_id)s AND tag_id=%(tag_id)s;               
     """, {'tag_id': tag_id, 'question_id': question_id})
 
 
@@ -301,6 +300,14 @@ def delete_answer_comment_by_answer_id(cursor, answer_id):
                     DELETE FROM comment WHERE answer_id=%(answer_id)s;
     """, {'answer_id': answer_id})
 
+
+@connection.connection_handler
+def get_existing_tags(cursor):
+    cursor.execute("""
+                    SELECT DISTINCT name FROM tag;
+    """)
+    tags = cursor.fetchall()
+    return tags
 
 @connection.connection_handler
 def registration(cursor, username, password, registration_date):
