@@ -357,3 +357,27 @@ def get_users(cursor):
     """)
     users = cursor.fetchall()
     return users
+
+@connection.connection_handler
+def get_user_info_by_id(cursor, user_id):
+    cursor.execute("""
+                    SELECT * FROM question
+                    WHERE user_id = %(user_id)s;
+    """, {"user_id": user_id})
+    data = [cursor.fetchall()]
+    cursor.execute("""
+                    SELECT * FROM answer
+                    WHERE user_id = %(user_id)s;
+        """, {"user_id": user_id})
+    data.append(cursor.fetchall())
+    cursor.execute("""
+                    SELECT * FROM comment
+                    WHERE user_id = %(user_id)s;
+            """, {"user_id": user_id})
+    data.append(cursor.fetchall())
+    cursor.execute("""
+                    SELECT user_name FROM userdata
+                    WHERE id = %(user_id)s;
+                """, {"user_id": user_id})
+    data.append(cursor.fetchall())
+    return data

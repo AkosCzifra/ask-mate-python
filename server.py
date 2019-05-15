@@ -265,6 +265,12 @@ def users():
     return render_template('users.html', users=users)
 
 
+@app.route("/user/<user_id>")
+def user_page(user_id):
+    user_data = data_manager.get_user_info_by_id(user_id)
+    return render_template("user-page.html", user_data=user_data)
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
