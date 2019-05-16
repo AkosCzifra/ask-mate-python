@@ -384,3 +384,25 @@ iframe {
 #user_table td:nth-child(1):hover {
     text-decoration: underline;
 }
+
+.page404 img {
+    position: fixed;
+    bottom: 0;
+    right: -60px;
+    width: 75%;
+    max-width: 100%;
+    height: auto;
+}
+
+.error-message {
+    position: fixed;
+    left: 25%;
+    bottom: 25%;
+    right: 25%;
+    top: 0;
+    font-size: 30px;
+}
+
+.error-title {
+    font-size: 60px;
+}
