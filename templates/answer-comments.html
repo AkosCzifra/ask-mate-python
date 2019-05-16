@@ -9,8 +9,10 @@
 <body class="comments">
     <table class="answer-table">
         <col width="100px">
+        <col width="100px">
         <col width="700px">
         <tr>
+            <th>User</th>
             <th>Post date</th>
             <th>Comments</th>
         </tr>
@@ -18,6 +20,12 @@
             {% for comment in comments %}
                 </tr>
                 <tr>
+                    <td> {% if comment["user_name"] != None %}
+                            <a href="{{ url_for("user_page", user_id =comment["user_id"])  }}" target="_parent">{{ comment["user_name"] }}
+                        {% elif comment["user_name"] == None %}
+                            anonymus
+                        {% endif %}
+                    </td>
                     <td>{{ comment["submission_time"] }}</td>
                     <td>{{ comment["message"] | safe }}</td>
                 </tr>

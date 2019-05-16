@@ -10,7 +10,12 @@
         <col width="1000px">
         <col width="100px">
             <tr>
-                <td rowspan="2"><img src=" {{ question["image"] }}" alt="" height="150" width="150"></td>
+                <td> {% if question["user_name"] != None %}
+                        <a href="{{ url_for("user_page", user_id =question["user_id"]) }}">{{ question["user_name"] }}</a>
+                    {% elif question["user_name"] == None %}
+                        anonymus
+                    {% endif %}
+                </td>
                 <td class="question-title">{{ question["title"] }}</td>
                 <td>
                     <div class="dropdown">
@@ -24,6 +29,7 @@
                 </td>
             </tr>
             <tr>
+                <td><img src=" {{ question["image"] }}" alt="" height="150" width="150"></td>
                 <td> {{ question["message"] }}</td>
                 <td>
                     <table>
@@ -62,10 +68,12 @@
             <table class="answer-table">
                 <caption><h2>Answers</h2></caption>
                 <col width="100px">
+                <col width="150px">
                 <col width="800px">
                 <col width="155px">
                 <col width="10px">
                 <tr>
+                    <th>User</th>
                     <th>Image</th>
                     <th>Message</th>
                     <th>Options</th>
@@ -74,6 +82,13 @@
 
                     {% for answer in answers %}
                     <tr>
+                        <td>
+                            {% if answer["user_name"] != None %}
+                                <a href="{{ url_for("user_page", user_id =answer["user_id"]) }}">{{ answer["user_name"] }}</a>
+                            {% elif answer["user_name"] == None %}
+                                anonymus
+                            {% endif %}
+                        </td>
                         <td>
                             <img src=" {{ answer["image"] }}" alt="" height="100">
                         </td>

@@ -64,8 +64,9 @@ def get_all_questions(cursor, order_by="submission_time", direction="DESC"):
 @connection.connection_handler
 def get_question_by_question_id(cursor, question_id):
     cursor.execute("""
-                    SELECT * FROM question
-                    WHERE id = %(question_id)s;
+                    SELECT user_name, question.* FROM userdata
+                    RIGHT JOIN question on question.user_id = userdata.id
+                    WHERE question.id = %(question_id)s;
     """, {'question_id': question_id})
     filtered_answers = cursor.fetchall()
     return filtered_answers[0]
@@ -102,7 +103,8 @@ def get_all_answers(cursor):
 @connection.connection_handler
 def get_all_answers_by_question_id(cursor, question_id):
     cursor.execute("""
-                    SELECT * FROM answer
+                    SELECT user_name, answer.* FROM userdata
+                    RIGHT JOIN answer on answer.user_id = userdata.id
                     WHERE question_id = %(question_id)s
                     ORDER BY submission_time DESC;
     """, {'question_id': question_id})
@@ -218,7 +220,8 @@ def add_new_comment(cursor, question_id, answer_id, message, submission_time, ed
 @connection.connection_handler
 def get_question_comments(cursor, question_id):
     cursor.execute("""
-                    SELECT * FROM comment
+                    SELECT user_name, comment.* FROM userdata
+                    RIGHT JOIN comment on comment.user_id = userdata.id
                     WHERE question_id = %(question_id)s
                     ORDER BY submission_time DESC;
     """, {'question_id': question_id})
@@ -229,7 +232,8 @@ def get_question_comments(cursor, question_id):
 @connection.connection_handler
 def get_answer_comments(cursor, answer_id):
     cursor.execute("""
-                    SELECT * FROM comment
+                    SELECT user_name, comment.* FROM userdata
+                    RIGHT JOIN comment on comment.user_id = userdata.id
                     WHERE answer_id = %(answer_id)s
                     ORDER BY submission_time DESC;
     """, {'answer_id': answer_id})
