@@ -424,3 +424,11 @@ def delete_comment(cursor, comment_id):
                     WHERE id=%(comment_id)s;
     """, {'comment_id': comment_id})
 
+
+@connection.connection_handler
+def update_comment(cursor, message, submission_time, edited_count, comment_id):
+    cursor.execute("""
+                    UPDATE comment
+                    SET message = %(message)s, submission_time = %(submission_time)s, edited_count = %(edited_count)s
+                    WHERE id = %(comment_id)s
+    """, {'message': message, 'submission_time': submission_time, 'edited_count': edited_count, 'comment_id': comment_id})

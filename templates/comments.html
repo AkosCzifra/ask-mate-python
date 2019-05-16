@@ -8,11 +8,17 @@
             <tr>
                 <th>Post date</th>
                 <th>Message</th>
+                {% if comment['edited_count'] is not None %}
+                    <th>Edited</th>
+                {% endif %}
             </tr>
             {% for comment in comments %}
                 <tr>
                     <td>{{ comment['submission_time'] }}</td>
                     <td>{{ comment['message'] }}</td>
+                    {% if comment['edited_count'] is not None %}
+                        <td>{{ comment['edited_count'] }}</td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>
