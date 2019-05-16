@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, abort
+from jinja2 import UndefinedError
 from psycopg2._psycopg import IntegrityError
 
 import data_manager
@@ -9,6 +10,11 @@ from util import hash_password, verify_password
 app = Flask(__name__)
 
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 
 @app.route("/")
@@ -32,13 +38,16 @@ def order_list_by(order_by, order_direction):
 
 @app.route("/question/<int:question_id>")  # done
 def question_page(question_id):
-    question = data_manager.get_question_by_question_id(question_id)
-    answers = data_manager.get_all_answers_by_question_id(question_id)
-    tags = data_manager.get_tags(question_id)
-    question_comments = data_manager.get_question_comments(question_id)
-    data_manager.question_view_number(question_id)
-    return render_template("question.html", question=question, answers=answers, question_comments=question_comments,
-                           tags=tags)
+    try:
+        question = data_manager.get_question_by_question_id(question_id)
+        answers = data_manager.get_all_answers_by_question_id(question_id)
+        tags = data_manager.get_tags(question_id)
+        question_comments = data_manager.get_question_comments(question_id)
+        data_manager.question_view_number(question_id)
+        return render_template("question.html", question=question, answers=answers, question_comments=question_comments,
+                               tags=tags)
+    except (IndexError, UndefinedError):
+        abort(404)
 
 
 @app.route("/add-question", methods=["GET", "POST"])  # done
@@ -72,39 +81,54 @@ def add_answer(question_id):
         data_manager.add_new_answer(submission_time, vote_number, question_id, message, image, user_id)
         return redirect(url_for('question_page', question=question, question_id=question_id))
     elif request.method == 'GET':
-        return render_template("add-answer.html", question=question, question_id=question_id)
+        try:
+            return render_template("add-answer.html", question=question, question_id=question_id)
+        except (IndexError, UndefinedError):
+            abort(404)
 
 
 @app.route("/answer/<answer_id>/vote-<modifier>")  # done
 def answer_vote(answer_id, modifier):
-    question_id = request.args.get('question_id')
-    if modifier == "up":
-        data_manager.vote_up_for_answer(answer_id)
-    elif modifier == "down":
-        data_manager.vote_down_for_answer(answer_id)
-    return redirect(url_for('question_page', question_id=question_id))
+    try:
+        question_id = request.args.get('question_id')
+        if modifier == "up":
+            data_manager.vote_up_for_answer(answer_id)
+        elif modifier == "down":
+            data_manager.vote_down_for_answer(answer_id)
+        return redirect(url_for('question_page', question_id=question_id))
+    except (IndexError, UndefinedError):
+        abort(404)
 
 
 @app.route("/question/<question_id>/vote-<modifier>")  # done
 def question_vote(question_id, modifier):
-    if modifier == "up":
-        data_manager.vote_up_for_question(question_id)
-    elif modifier == "down":
-        data_manager.vote_down_for_question(question_id)
-    return redirect(url_for('question_page', question_id=question_id))
+    try:
+        if modifier == "up":
+            data_manager.vote_up_for_question(question_id)
+        elif modifier == "down":
+            data_manager.vote_down_for_question(question_id)
+        return redirect(url_for('question_page', question_id=question_id))
+    except (IndexError, UndefinedError):
+        abort(404)
 
 
 @app.route("/question/<answer_id>/delete_answer")  # done
 def delete_answer(answer_id):
-    question_id = request.args.get('question_id')
-    data_manager.delete_answer(answer_id)
-    return redirect(url_for('question_page', question_id=question_id))
+    try:
+        question_id = request.args.get('question_id')
+        data_manager.delete_answer(answer_id)
+        return redirect(url_for('question_page', question_id=question_id))
+    except (IndexError, UndefinedError):
+        abort(404)
 
 
 @app.route("/question/<question_id>/delete_question")  # done
 def delete_question(question_id):
-    data_manager.delete_question(question_id)  # original
-    return redirect('/')
+    try:
+        data_manager.delete_question(question_id)  # original
+        return redirect('/')
+    except (IndexError, UndefinedError):
+        abort(404)
 
 
 @app.route("/question/<question_id>/edit", methods=['GET', 'POST'])  # done
@@ -112,7 +136,10 @@ def edit_question(question_id):
     question = data_manager.get_question_by_question_id(question_id)
     question_id = question['id']
     if request.method == 'GET':
-        return render_template('edit.html', question=question, question_id=question_id)
+        try:
+            return render_template('edit.html', question=question, question_id=question_id)
+        except (IndexError, UndefinedError):
+            abort(404)
     elif request.method == 'POST':
         submission_time = datetime.now().isoformat(timespec='seconds')
         title = request.form['title']
@@ -136,29 +163,32 @@ def get_search_result():
 def add_tag_to_question(question_id):
     tags = data_manager.get_existing_tags()
     if request.method == 'GET':
-        error = False
-        return render_template("add-tag.html", question_id=question_id, tags=tags, error=error)
+        try:
+            error = False
+            return render_template("add-tag.html", question_id=question_id, tags=tags, error=error)
+        except (IndexError, UndefinedError):
+            abort(404)
     elif request.method == 'POST':
         return_record = request.form.to_dict()
-        if 'newtag' in return_record:
+        if 'new_tag' in return_record:
             try:
-                newtag = request.form.to_dict()['newtag']
+                new_tag = request.form.to_dict()['new_tag']
                 for tag in tags:
-                    if newtag == tag['name']:
-                        tag_id = data_manager.pass_tag_id(newtag)[0]['id']
+                    if new_tag == tag['name']:
+                        tag_id = data_manager.pass_tag_id(new_tag)[0]['id']
                         data_manager.add_new_tag_to_question_tag(question_id, tag_id)
                         return redirect(f'/question/{question_id}')
-                data_manager.add_new_tag_to_tags(newtag)
-                tag_id = data_manager.pass_tag_id(newtag)[0]['id']
+                data_manager.add_new_tag_to_tags(new_tag)
+                tag_id = data_manager.pass_tag_id(new_tag)[0]['id']
                 data_manager.add_new_tag_to_question_tag(question_id, tag_id)
                 return redirect(f'/question/{question_id}')
             except IntegrityError:
                 error = True
                 return render_template('add-tag.html', question_id=question_id, tags=tags, error=error)
-        elif 'newtag' not in return_record:
+        elif 'new_tag' not in return_record:
             try:
-                existingtag = request.form['selecttag']
-                tag_id = data_manager.pass_tag_id(existingtag)[0]['id']
+                existing_tag = request.form['select_tag']
+                tag_id = data_manager.pass_tag_id(existing_tag)[0]['id']
                 data_manager.add_new_tag_to_question_tag(question_id, tag_id)
                 return redirect(f'/question/{question_id}')
             except IntegrityError:
@@ -168,8 +198,11 @@ def add_tag_to_question(question_id):
 
 @app.route("/question/<question_id>/tag/<tag_id>/delete")
 def delete_tag(tag_id, question_id):
-    data_manager.delete_tag(tag_id, question_id)
-    return redirect(url_for('question_page', question_id=question_id))
+    try:
+        data_manager.delete_tag(tag_id, question_id)
+        return redirect(url_for('question_page', question_id=question_id))
+    except (IndexError, UndefinedError):
+        abort(404)
 
 
 @app.route("/question/<question_id>/new-comment", methods=['GET', 'POST'])
@@ -183,7 +216,10 @@ def add_comment_to_question(question_id):
         data_manager.add_new_comment(question_id, answer_id, message, submission_time, edited_count, user_id)
         return redirect(url_for('question_page', question_id=question_id))
     elif request.method == "GET":
-        return render_template('add-question-comment.html', question_id=question_id)
+        try:
+            return render_template('add-question-comment.html', question_id=question_id)
+        except (IndexError, UndefinedError):
+            abort(404)
 
 
 @app.route("/answer/<answer_id>/new-comment", methods=['GET', 'POST'])
@@ -198,29 +234,41 @@ def add_comment_to_answer(answer_id):
         data_manager.add_new_comment(question_id, answer_id, message, submission_time, edited_count, user_id)
         return redirect(url_for('question_page', question_id=answer['question_id']))
     elif request.method == "GET":
-        return render_template('add-answer-comment.html', question_id=answer['question_id'], answer_id=answer_id,
+        try:
+            return render_template('add-answer-comment.html', question_id=answer['question_id'], answer_id=answer_id,
                                answer=answer)
+        except (IndexError, UndefinedError):
+            abort(404)
 
 
 @app.route("/question/<question_id>/comments")
 def question_comments(question_id):
     comments = data_manager.get_question_comments(question_id)
     if request.method == "GET":
-        return render_template('question-comments.html', comments=comments)
+        try:
+            return render_template('question-comments.html', comments=comments)
+        except (IndexError, UndefinedError):
+            abort(404)
 
 
 @app.route("/answer/<answer_id>/comments")
 def answer_comments(answer_id):
     comments = data_manager.get_answer_comments(answer_id)
     if request.method == "GET":
-        return render_template('answer-comments.html', comments=comments)
+        try:
+            return render_template('answer-comments.html', comments=comments)
+        except (IndexError, UndefinedError):
+            abort(404)
 
 
 @app.route("/registration", methods=["GET", "POST"])
 def registration():
     if request.method == "GET":
-        error = False
-        return render_template('registration.html', error=error)
+        try:
+            error = False
+            return render_template('registration.html', error=error)
+        except (IndexError, UndefinedError):
+            abort(404)
     elif request.method == "POST":
         username = request.form['username']
         registration_date = datetime.now().isoformat(timespec='seconds')
@@ -236,8 +284,11 @@ def registration():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        error = False
-        return render_template("login.html", error=error)
+        try:
+            error = False
+            return render_template("login.html", error=error)
+        except (IndexError, UndefinedError):
+            abort(404)
     elif request.method == "POST":
         username = request.form['username']
         hashed_password = data_manager.get_password_from_user_name(username)
@@ -271,8 +322,11 @@ def users():
 
 @app.route("/user/<user_id>")
 def user_page(user_id):
-    user_data = data_manager.get_user_info_by_id(user_id)
-    return render_template("user-page.html", user_data=user_data)
+    try:
+        user_data = data_manager.get_user_info_by_id(user_id)
+        return render_template("user-page.html", user_data=user_data)
+    except (IndexError, UndefinedError):
+        abort(404)
 
 
 @app.route("/comments/<comment_id>/delete", methods=['GET', 'POST'])

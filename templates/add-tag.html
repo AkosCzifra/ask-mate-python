@@ -8,15 +8,15 @@
     <h1>Add new Tag</h1>
 
     <form method="POST" class="add-forms">
-        <label for="newtag">New tag:</label><br>
-        <input type="text" name="newtag" id="newtag" required><br><br>
+        <label for="new_tag">New tag:</label><br>
+        <input type="text" name="new_tag" id="new_tag" required><br><br>
         <p><input type="submit" value="Add new tag"></p>
     </form>
 
 
     <form method="POST" class="add-forms">
-        <label for="selecttag">Select tag:</label><br>
-        <select name="selecttag" id="selecttag">
+        <label for="select_tag">Select tag:</label><br>
+        <select name="select_tag" id="select_tag">
             {% for tag in tags %}
                 <option value={{ tag['name'] }}>{{ tag['name'] }}</option>
             {% endfor %}
