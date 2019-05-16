@@ -34,8 +34,7 @@
                     <tr><td>
                         Tags:
                         {% for tag in tags %}
-                    <p>#{{ tag['name'] }} <a
-                            href="{{ url_for("delete_tag", tag_id=tag['tag_id'], question_id=question['id'] ) }}">X</a>
+                    <p>#{{ tag['name'] }} <a class="vote-button" href="{{ url_for("delete_tag", tag_id=tag['tag_id'], question_id=question['id'] ) }}"><button>x</button></a>
                     </p>
                 {% endfor %}
                     </td></tr>

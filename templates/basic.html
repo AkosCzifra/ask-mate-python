@@ -37,7 +37,7 @@
                 <a {% block users_active %} {% endblock %}href="{{ url_for('users') }}">Users</a>
                 {% if 'username' in session %}
                     {% if session['username'] |length < 16 %}
-                        <a href="#">{{ session['username'] }}'s page ID {{ session['id'] }}</a>
+                        <a href="{{ url_for('user_page', user_id = session['id']) }}">{{ session['username'] }}'s page</a>
                     {% else %}
                         <a href="#">User page</a>
                     {% endif %}

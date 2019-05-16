@@ -56,22 +56,21 @@ hr {
 
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
-    display: none;
-    position: absolute;
-    margin-left: -70%;
-    margin-top: 5%;
-    background-color: rgb(255, 209, 155);
-    border: 1px solid #321f0e;
-    min-width: 160px;
-    z-index: 1;
+  display: none;
+  position: absolute;
+  margin-left: -70%;
+  background-color: rgb(255, 209, 155);
+  border: 1px solid #321f0e;
+  min-width: 160px;
+  z-index: 1;
 }
 
 /* Links inside the dropdown */
 .dropdown-content a {
-    color: rgb(92, 55, 27);
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
+  color: rgb(92, 55, 27);
+  padding: 12px 12px;
+  text-decoration: none;
+  display: block;
 }
 
 /* Change color of dropdown links on hover */
@@ -307,9 +306,9 @@ iframe {
     background-color: #ffe1a9;
     border-radius: 12px;
     border: 1px solid rgba(50, 31, 14, 0.73);
-    font-size: 15px;
+    font-size: 13px;
     text-decoration: none;
-    text-align: center;
+    color: #cc0000;
 }
 
 .vote-button button:hover {
@@ -360,6 +359,10 @@ iframe {
 #error {
     color: #cc0000;
     font-size: 120%;
+}
+
+#comments_table td:nth-child(2){
+    text-decoration: None;
 }
 
 #tag_table td:nth-child(3):hover {

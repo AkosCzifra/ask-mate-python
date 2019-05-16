@@ -5,8 +5,9 @@
 {% endblock %}
 
 {% block body %}
-    <h2>{{ user_data[3][0]["user_name"] }}</h2>
-    <h2>Questions by this user:</h2>
+    <h1>{{ user_data[3][0]["user_name"] }}</h1>
+    <h3>Questions by this user:</h3>
+        {% if user_data[0] != [] %}
         <table class="table">
             <tr>
                 <th>Post Date</th>
@@ -22,32 +23,43 @@
                 <td>{{ question["vote_number"] }}</td>
             </tr>
             {% endfor %}
+            {% elif user_data[2] == [] %}
+                <p style="text-align: center">No questions yet!</p>
+            {% endif %}
         </table>
-    <h2>Answers by this user:</h2>
-        <table class="table">
-            <tr>
-                <th>Votes</th>
-                <th>Message</th>
-            </tr>
-            {% for answer in user_data[1] %}
-            <tr>
-                <td>{{ answer["vote_number"] }}</td>
-                <td><a href="{{ url_for("question_page", question_id=answer['question_id']) }}"> {{ answer["message"] }}</a></td>
-            </tr>
-            {% endfor %}
+    <h3>Answers by this user:</h3>
+        {% if user_data[1] != [] %}
+            <table class="table">
+                <tr>
+                    <th>Votes</th>
+                    <th>Message</th>
+                </tr>
+                {% for answer in user_data[1] %}
+                <tr>
+                    <td>{{ answer["vote_number"] }}</td>
+                    <td><a href="{{ url_for("question_page", question_id=answer['question_id']) }}"> {{ answer["message"] }}</a></td>
+                </tr>
+                {% endfor %}
+            {% elif user_data[2] == [] %}
+                <p style="text-align: center">No answers yet!</p>
+            {% endif %}
         </table>
-    <h2>Comments by this user:</h2>
-        <table class="table">
-            <tr>
-                <th>Post Date</th>
-                <th>Message</th>
-            </tr>
-            {% for comment in user_data[2] %}
-            <tr>
-                <td>{{ comment["submission_time"] }}</td>
-                <td><a href="{{ url_for("question_page", question_id=comment['question_id']) }}">{{ comment["message"] }}</a></td>
-            </tr>
-            {% endfor %}
+    <h3>Comments by this user:</h3>
+        {% if user_data[2] != [] %}
+            <table class="table" id="comments_table">
+                <tr>
+                    <th>Post Date</th>
+                    <th>Message</th>
+                </tr>
+                {% for comment in user_data[2] %}
+                <tr>
+                    <td>{{ comment["submission_time"] }}</td>
+                        <td>{{ comment["message"] }}</td>
+                </tr>
+                {% endfor %}
+        {% elif user_data[2] == [] %}
+            <p style="text-align: center">No comments yet!</p>
+        {% endif %}
         </table>
 
 {% endblock %}
