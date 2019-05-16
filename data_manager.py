@@ -75,17 +75,13 @@ def get_question_by_question_id(cursor, question_id):
 @connection.connection_handler
 def delete_question(cursor, question_id):
     cursor.execute("""
-                    DELETE FROM question_tag WHERE question_id = %(question_id)s;
-                    DELETE FROM comment WHERE question_id = %(question_id)s;
-                    DELETE FROM answer WHERE question_id = %(question_id)s;
                     DELETE FROM question WHERE id = %(question_id)s;
-    """, {'id': question_id, 'question_id': question_id})
+    """, {'question_id': question_id})
 
 
 @connection.connection_handler
 def delete_answer(cursor, answer_id):
     cursor.execute("""
-                    DELETE FROM comment WHERE answer_id=%(answer_id)s;
                     DELETE FROM answer WHERE id=%(answer_id)s
     """, {'answer_id': answer_id})
 
@@ -424,3 +420,11 @@ def delete_comment(cursor, comment_id):
                     WHERE id=%(comment_id)s;
     """, {'comment_id': comment_id})
 
+
+@connection.connection_handler
+def update_comment(cursor, message, submission_time, edited_count, comment_id):
+    cursor.execute("""
+                    UPDATE comment
+                    SET message = %(message)s, submission_time = %(submission_time)s, edited_count = %(edited_count)s
+                    WHERE id = %(comment_id)s
+    """, {'message': message, 'submission_time': submission_time, 'edited_count': edited_count, 'comment_id': comment_id})

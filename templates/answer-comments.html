@@ -6,7 +6,7 @@
     <link href="/static/mark's_style.css" rel="stylesheet">
 </head>
 {% if comments != [] %}
-<body class="comments">
+    <body class="comments">
     <table class="answer-table">
         <col width="100px">
         <col width="100px">
@@ -16,25 +16,32 @@
             <th>User</th>
             <th>Post date</th>
             <th>Comments</th>
-            <th>NO_IDEA</th>
+            <th>Edited</th>
+            <th>Edit</th>
         </tr>
         <tr>
             {% for comment in comments %}
                 </tr>
                 <tr>
                     <td> {% if comment["user_name"] != None %}
-                            <a href="{{ url_for("user_page", user_id =comment["user_id"])  }}" target="_parent">{{ comment["user_name"] }}
-                        {% elif comment["user_name"] == None %}
-                            anonymus
-                        {% endif %}
+                        <a href="{{ url_for("user_page", user_id =comment["user_id"]) }}" target="_parent">
+                        {{ comment["user_name"] }}
+                    {% elif comment["user_name"] == None %}
+                        anonymus
+                    {% endif %}
                     </td>
                     <td>{{ comment["submission_time"] }}</td>
                     <td>{{ comment["message"] | safe }}</td>
+                    {% if comment['edited_count'] == None %}
+                        <td>0</td>
+                    {% else %}
+                        <td>{{ comment['edited_count'] }}</td>
+                    {% endif %}
                     <td>
                         <div class="dropdown" id="table-option">
                         <button class="dropbtn">Options</button>
                         <div class="dropdown-content">
-                        <a href="#">Edit Comment</a>
+                        <a href="/comments/{{ comment["id"] }}/edit" target="_parent">Edit Comment</a>
                         <a href="/comments/{{ comment["id"] }}/delete" target="_parent">Delete Comment</a>
                         </div>
                         </div>

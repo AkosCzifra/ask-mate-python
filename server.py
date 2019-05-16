@@ -381,6 +381,26 @@ def delete_comment(comment_id):
         return redirect(url_for('question_page', question_id=question_id))
 
 
+@app.route("/comments/<comment_id>/edit", methods=["GET", "POST"])
+def edit_comment(comment_id):
+    comment = data_manager.get_comment_by_comment_id(comment_id)
+    if comment['question_id'] is not None:
+        question_id = comment['question_id']
+    elif comment['question_id'] is None and comment['answer_id'] is not None:
+        question_id = data_manager.get_question_id_by_answer_id(comment['answer_id'])
+    if request.method == 'GET':
+        return render_template('edit-comment.html', comment_id=comment_id, comment=comment, question_id=question_id)
+    elif request.method == 'POST':
+        submission_time = datetime.now().isoformat(timespec='seconds')
+        message = request.form['message']
+        edited_count = comment['edited_count']
+        if edited_count is None:
+            edited_count = 0
+        edited_count += 1
+        data_manager.update_comment(message, submission_time, edited_count, comment_id)
+        return redirect(f'/question/{question_id}')
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
