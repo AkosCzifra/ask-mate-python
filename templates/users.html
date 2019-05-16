@@ -1,0 +1,23 @@
+{% extends 'basic.html' %}
+
+{% block title %}Users{% endblock %}
+{% block users_active %}class="active"{% endblock %}
+
+{% block body %}
+    <div>
+        <table class="table" id="user_table">
+            <tr>
+                <th>Username</th>
+                <th>Registration Date</th>
+
+            </tr>
+            {% for user in users %}
+                <tr>
+
+                    <td><a href="/user/{{ user['id'] }}">{{ user['user_name'] }}</td>
+                    <td>{{ user['registration_date'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

@@ -339,6 +339,26 @@ def get_id_from_user_name(cursor, username):
 
 
 @connection.connection_handler
+def get_questions_by_tags(cursor):
+    cursor.execute("""
+                    SELECT q.*, question_tag.*, tag.name FROM question_tag
+                    INNER JOIN question q on q.id = question_tag.question_id
+                    INNER JOIN tag on tag.id = question_tag.tag_id
+                    ORDER BY tag.name;
+    """)
+    questions = cursor.fetchall()
+    return questions
+
+
+@connection.connection_handler
+def get_users(cursor):
+    cursor.execute("""
+                    SELECT id, user_name, registration_date FROM userdata;
+    """)
+    users = cursor.fetchall()
+    return users
+
+@connection.connection_handler
 def get_user_info_by_id(cursor, user_id):
     cursor.execute("""
                     SELECT * FROM question

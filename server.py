@@ -148,11 +148,10 @@ def add_tag_to_question(question_id):
                         tag_id = data_manager.pass_tag_id(newtag)[0]['id']
                         data_manager.add_new_tag_to_question_tag(question_id, tag_id)
                         return redirect(f'/question/{question_id}')
-                    else:
-                        data_manager.add_new_tag_to_tags(newtag)
-                        tag_id = data_manager.pass_tag_id(newtag)[0]['id']
-                        data_manager.add_new_tag_to_question_tag(question_id, tag_id)
-                        return redirect(f'/question/{question_id}')
+                data_manager.add_new_tag_to_tags(newtag)
+                tag_id = data_manager.pass_tag_id(newtag)[0]['id']
+                data_manager.add_new_tag_to_question_tag(question_id, tag_id)
+                return redirect(f'/question/{question_id}')
             except IntegrityError:
                 error = True
                 return render_template('add-tag.html', question_id=question_id, tags=tags, error=error)
@@ -256,6 +255,18 @@ def login():
 def logout():
     session.pop('username', None)
     return redirect(url_for('five_latest_question'))
+
+
+@app.route("/tags")
+def tags():
+    questions = data_manager.get_questions_by_tags()
+    return render_template('tags.html', questions=questions)
+
+
+@app.route("/users")
+def users():
+    users = data_manager.get_users()
+    return render_template('users.html', users=users)
 
 
 @app.route("/user/<user_id>")
