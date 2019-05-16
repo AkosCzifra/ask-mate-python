@@ -29,7 +29,15 @@
                 </td>
             </tr>
             <tr>
-                <td><img src=" {{ question["image"] }}" alt="" height="150" width="150"></td>
+                <td>
+                    <img id="myImg" src="{{ question["image"] }}" alt="" style="width:100%;max-width:300px">
+                    <div id="myModal" class="modal">
+                      <span class="close">&times;</span>
+                      <img class="modal-content" id="img01">
+                      <div id="caption"></div>
+                    </div>
+                    <script src="/static/image_view.js"></script>
+                </td>
                 <td> {{ question["message"] }}</td>
                 <td>
                     <table>
@@ -90,7 +98,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            <img src=" {{ answer["image"] }}" alt="" height="100"></td>
+                            <img src="{{ answer["image"] }}" alt="" height="100"></td>
                         <td>{{ answer["message"] | safe }}</td>
                         <td>
                             <p><a class="comment-button" href="/answer/{{ answer["id"] }}/new-comment"><button >Add comment</button></a>
