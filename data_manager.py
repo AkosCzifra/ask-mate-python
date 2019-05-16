@@ -252,6 +252,15 @@ def get_answer_by_answer_id(cursor, answer_id):
 
 
 @connection.connection_handler
+def edit_answer(cursor, submission_time, message, image, answer_id):
+    cursor.execute("""
+                    UPDATE answer
+                    SET submission_time = %(submission_time)s , message = %(message)s, image = %(image)s
+                    WHERE id = %(answer_id)s
+    """, {'submission_time': submission_time, 'message': message, 'image': image, 'answer_id': answer_id})
+
+
+@connection.connection_handler
 def add_new_tag_to_tags(cursor, name):
     cursor.execute("""
                     INSERT INTO tag (name)

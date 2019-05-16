@@ -87,6 +87,26 @@ def add_answer(question_id):
             abort(404)
 
 
+@app.route("/answer/<int:answer_id>/edit", methods=['GET', 'POST'])
+def answer_edit(answer_id):
+    answer = data_manager.get_answer_by_answer_id(answer_id)
+    question_id = answer['question_id']
+    question = data_manager.get_question_by_question_id(question_id)
+    try:
+        if request.method == 'GET':
+            return render_template('edit-answer.html', answer=answer, question_id=question_id, question=question)
+        elif request.method == 'POST':
+            submission_time = datetime.now().isoformat(timespec='seconds')
+            message = request.form['message']
+            image = request.form['image']
+            if image == "":
+                image = None
+            data_manager.edit_answer(submission_time, message, image, answer_id)
+            return redirect(f'/question/{question_id}')
+    except IndexError:
+        abort(404)
+
+
 @app.route("/answer/<answer_id>/vote-<modifier>")  # done
 def answer_vote(answer_id, modifier):
     try:
@@ -236,7 +256,7 @@ def add_comment_to_answer(answer_id):
     elif request.method == "GET":
         try:
             return render_template('add-answer-comment.html', question_id=answer['question_id'], answer_id=answer_id,
-                               answer=answer)
+                                   answer=answer)
         except (IndexError, UndefinedError):
             abort(404)
 
@@ -305,6 +325,7 @@ def login():
 @app.route("/logout")
 def logout():
     session.pop('username', None)
+    session.pop('id', None)
     return redirect(url_for('five_latest_question'))
 
 
@@ -320,7 +341,7 @@ def users():
     return render_template('users.html', users=users)
 
 
-@app.route("/user/<user_id>")
+@app.route("/user/<int:user_id>")
 def user_page(user_id):
     try:
         user_data = data_manager.get_user_info_by_id(user_id)
