@@ -63,7 +63,11 @@ def add_question():
         image = request.form['image']
         if image == "":
             image = None
-        user_id = session['id']
+        try:
+            user_id = session['id']
+        except KeyError:
+            login_error = True
+            return render_template('add-question.html', login_error=login_error)
         data_manager.post_new_question(submission_time, view_number, vote_number, title, message, image, user_id)
         return redirect(url_for('five_latest_question'))
 
@@ -77,7 +81,11 @@ def add_answer(question_id):
         question_id = question_id
         message = request.form['message']
         image = request.form['image']
-        user_id = session['id']
+        try:
+            user_id = session['id']
+        except KeyError:
+            login_error = True
+            return render_template('add-answer.html', login_error=login_error, question=question, question_id=question_id)
         data_manager.add_new_answer(submission_time, vote_number, question_id, message, image, user_id)
         return redirect(url_for('question_page', question=question, question_id=question_id))
     elif request.method == 'GET':
@@ -232,7 +240,11 @@ def add_comment_to_question(question_id):
         message = request.form['message'].capitalize()
         submission_time = datetime.now().isoformat(timespec='seconds')
         edited_count = None
-        user_id = session['id']
+        try:
+            user_id = session['id']
+        except KeyError:
+            login_error = True
+            return render_template('add-question-comment.html', login_error=login_error, question_id=question_id)
         data_manager.add_new_comment(question_id, answer_id, message, submission_time, edited_count, user_id)
         return redirect(url_for('question_page', question_id=question_id))
     elif request.method == "GET":
@@ -250,7 +262,12 @@ def add_comment_to_answer(answer_id):
         message = request.form['message'].capitalize()
         submission_time = datetime.now().isoformat(timespec='seconds')
         edited_count = None
-        user_id = session['id']
+        try:
+            user_id = session['id']
+        except KeyError:
+            login_error = True
+            return render_template('add-answer-comment.html', login_error=login_error, question_id=answer['question_id'], answer_id=answer_id,
+                                   answer=answer)
         data_manager.add_new_comment(question_id, answer_id, message, submission_time, edited_count, user_id)
         return redirect(url_for('question_page', question_id=answer['question_id']))
     elif request.method == "GET":

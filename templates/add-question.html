@@ -18,6 +18,10 @@ Add Question
         <input type="text" name="image" id="image"><br></p>
 
         <p><input type="submit" value="Add new Question"></p>
+
+        {% if login_error == True %}
+            <h2 id="error">You have to log-in first!</h2>
+        {% endif %}
     </form>
 
 {% endblock %}

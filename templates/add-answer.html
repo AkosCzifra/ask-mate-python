@@ -18,5 +18,7 @@
         <p><input type="submit" value="Add new Answer"></p>
     </form>
         <a class="button" href="/question/{{ question["id"] }}"><button >Back to Question</button></a>
-
+    {% if login_error == True %}
+            <h2 id="error">You have to log-in first!</h2>
+        {% endif %}
 {% endblock %}

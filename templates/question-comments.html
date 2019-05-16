@@ -15,6 +15,7 @@
         <th>Post date</th>
         <th>Comments</th>
         <th>Edited</th>
+        <th>NO_IDEA</th>
     </tr>
     <tr>
         {% for comment in comments %}
@@ -34,6 +35,15 @@
                 {% else %}
                     <td>{{ comment['edited_count'] }}</td>
                 {% endif %}
+                <td>
+                    <div class="dropdown" id="table-option">
+                        <button class="dropbtn">Options</button>
+                        <div class="dropdown-content">
+                            <a href="#">Edit Comment</a>
+                            <a href="/comments/{{ comment["id"] }}/delete" target="_parent">Delete Comment</a>
+                        </div>
+                    </div>
+                </td>
             </tr>
         {% endfor %}
 </table>
