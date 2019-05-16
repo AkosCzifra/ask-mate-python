@@ -10,10 +10,12 @@
         <col width="100px">
         <col width="130px">
         <col width="700px">
+        <col width="100px">
         <tr>
             <th>User</th>
             <th>Post date</th>
             <th>Comment(s)</th>
+            <th>NO_IDEA</th>
         </tr>
         <tr>
             {% for comment in comments %}
@@ -27,6 +29,15 @@
                     </td>
                     <td>{{ comment["submission_time"] }}</td>
                     <td>{{ comment["message"] | safe }}</td>
+                    <td>
+                        <div class="dropdown" id="table-option">
+                        <button class="dropbtn">Options</button>
+                        <div class="dropdown-content">
+                        <a href="#">Edit Comment</a>
+                        <a href="/comments/{{ comment["id"] }}/delete" target="_parent">Delete Comment</a>
+                        </div>
+                        </div>
+                    </td>
                 </tr>
             {% endfor %}
     </table>

@@ -100,7 +100,14 @@
                             <a class="vote-button" href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="up") }}"><button value="{{ answer["id"] }}">+</button></a>
                             <a class="vote-button" href="{{ url_for("answer_vote", answer_id=answer['id'], question_id=answer['question_id'], modifier="down") }}"><button value="{{ answer["id"] }}">-</button></a>
                             </p>
-                            <p><a class="comment-button" href="{{ url_for("delete_answer", answer_id=answer['id'], question_id=answer['question_id']) }}"><button value="{{ answer["id"] }}">Delete Answer</button></a>
+                            <p>
+                                <div class="dropdown" id="table-option">
+                                <button class="dropbtn">Options</button>
+                                <div class="dropdown-content">
+                                <a href="{{ url_for("answer_edit", answer=answer, question_id=question['id'], question=question, answer_id=answer['id']) }}">Edit Answer</a>
+                                <a href="{{ url_for("delete_answer", question_id=question['id'], answer_id=answer['id']) }}">Delete Answer</a>
+                                </div>
+                                </div>
                             </p>
                         </td>
 
