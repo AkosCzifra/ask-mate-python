@@ -59,7 +59,7 @@ CREATE TABLE comment (
 );
 
 DROP TABLE IF EXISTS public.userdata;
-DROP SEQUENCE IF EXISTS public.user_data_id_seq;
+DROP SEQUENCE IF EXISTS public.userdata_id_seq;
 CREATE TABLE userdata (
     id serial NOT NULL,
     user_name text,
@@ -124,29 +124,31 @@ ALTER TABLE ONLY comment
 ALTER TABLE ONLY question_tag
     ADD CONSTRAINT fk_tag_id FOREIGN KEY (tag_id) REFERENCES tag(id);
 
-INSERT INTO question VALUES (0, '2017-04-28 08:29:00', 29, 7, 'How to make lists in Python?', 'I am totally new to this, any hints?', NULL);
-INSERT INTO question VALUES (1, '2017-04-29 09:19:00', 15, 9, 'Wordpress loading multiple jQuery Versions', 'I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $(".myBook").booklet();
+INSERT INTO userdata VALUES (1,'admin','$2b$12$RPuFU0GJX7lT.H.xWWsFd.DqDCkk2yN2.mgEoNddyoilN0FI.eU6q','0001-01-01 12:00:00');
+INSERT INTO userdata VALUES (2,'alexadmin','$2b$12$SPYguIxuNd0XOHeAS/Q3FOA/hiIvjMvF.ye1x7DItWYZEYqYXhqFG','1994-09-26 08:30:15');
+INSERT INTO userdata VALUES (3,'markadmin','$2b$12$4Q7C46iPJnOHj81ohppq2eKGVEn70GAXqUYWDQIsSY0gbn3PpDlUO','1998-01-14 20:38:53');
+INSERT INTO userdata VALUES (4,'akosadmin','$2b$12$i0VnCZuf.yOt7IsMVTqhAu.EQH1aYAvgw/sZfWPZz8yEwN3NcJn2G','1994-04-16 13:42:41');
+INSERT INTO userdata VALUES (5,'zoliadmin','$2b$12$pSiCtGgef.dZbBSdn4mGAOwIHWPLKATsu7vA592cw4CEIZhpBMrqW','1980-02-02 12:00:00');
+SELECT pg_catalog.setval('userdata_id_seq', 5, true);
 
-I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
-
-BUT in my theme i also using jquery via webpack so the loading order is now following:
-
-jquery
-booklet
-app.js (bundled file with webpack, including jquery)', 'images/image1.png');
+INSERT INTO question VALUES (0, '2017-04-28 08:29:00', 8, 123, 'Fusion M8s, Assemble!', 'Let me introduce you the team!', 'https://upload.wikimedia.org/wikipedia/commons/9/9a/M8_autopalya.png', 1);
+INSERT INTO question VALUES (1, '2017-04-29 09:19:00', 15, 9, 'Git Workflow', 'The image is small, huh? Well, let''s see what can we do about it... ', 'http://www.kepfeltoltes.eu/images/2019/03/925Screenshot_from_2019_0.png',2);
 INSERT INTO question VALUES (2, '2017-05-01 10:41:00', 1364, 57, 'Drawing canvas with an image picked with Cordova Camera Plugin', 'I''m getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I''m on IOS, it throws errors such as cross origin issue, or that I''m trying to use an unknown format.
 ', NULL);
 SELECT pg_catalog.setval('question_id_seq', 2, true);
 
-INSERT INTO answer VALUES (1, '2017-04-28 16:49:00', 4, 0, 'You need to use brackets: my_list = []', NULL);
-INSERT INTO answer VALUES (2, '2017-04-25 14:42:00', 35, 0, 'Look it up in the Python docs', 'images/image2.jpg');
+INSERT INTO answer VALUES (1, '2017-04-28 16:49:00', 8, 0, 'List your name here fast and let''s get this going!',null, 1);
+INSERT INTO answer VALUES (2, '2017-04-25 14:42:00', -4, 0, 'Sorry m8s, I gotta go :(', 'https://www.thestampmaker.com/stock_rubber_stamp_images/SSS2_SAD_FACE.jpg',5);
 SELECT pg_catalog.setval('answer_id_seq', 2, true);
 
-INSERT INTO comment VALUES (1, 0, NULL, 'Please clarify the question as it is too vague!', '2017-05-01 05:49:00');
-INSERT INTO comment VALUES (2, NULL, 1, 'I think you could use my_list = list() as well.', '2017-05-02 16:55:00');
-SELECT pg_catalog.setval('comment_id_seq', 2, true);
+INSERT INTO comment VALUES (1, NULL, 1, 'Hey it''s me Alex!', '2017-05-02 16:55:00', NULL, 2);
+INSERT INTO comment VALUES (2, NULL, 1, 'Mark ready for duty!', '2017-05-02 16:55:00', NULL, 3);
+INSERT INTO comment VALUES (3, NULL, 1, 'Hey folks, Ákos here!', '2017-05-02 16:55:00', NULL, 4);
+INSERT INTO comment VALUES (4, NULL, 1, 'Zoli here!', '2017-05-02 16:55:00', NULL, 5);
+INSERT INTO comment VALUES (5, NULL, 2, ':(', '2017-05-02 16:55:00', NULL, 2);
+SELECT pg_catalog.setval('comment_id_seq', 5, true);
 
-INSERT INTO tag VALUES (1, 'python');
+INSERT INTO tag VALUES (1, 'intro');
 INSERT INTO tag VALUES (2, 'sql');
 INSERT INTO tag VALUES (3, 'css');
 SELECT pg_catalog.setval('tag_id_seq', 3, true);
@@ -155,5 +157,3 @@ INSERT INTO question_tag VALUES (0, 1);
 INSERT INTO question_tag VALUES (1, 3);
 INSERT INTO question_tag VALUES (2, 3);
 
-INSERT INTO userdata VALUES (1,'admin','$2b$12$RPuFU0GJX7lT.H.xWWsFd.DqDCkk2yN2.mgEoNddyoilN0FI.eU6q','0001-01-01 12:00:00');
-SELECT pg_catalog.setval('userdata_id_seq', 1, true);
