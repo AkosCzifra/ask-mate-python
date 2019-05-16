@@ -95,6 +95,26 @@ def add_answer(question_id):
             abort(404)
 
 
+@app.route("/answer/<int:answer_id>/edit", methods=['GET', 'POST'])
+def answer_edit(answer_id):
+    answer = data_manager.get_answer_by_answer_id(answer_id)
+    question_id = answer['question_id']
+    question = data_manager.get_question_by_question_id(question_id)
+    try:
+        if request.method == 'GET':
+            return render_template('edit-answer.html', answer=answer, question_id=question_id, question=question)
+        elif request.method == 'POST':
+            submission_time = datetime.now().isoformat(timespec='seconds')
+            message = request.form['message']
+            image = request.form['image']
+            if image == "":
+                image = None
+            data_manager.edit_answer(submission_time, message, image, answer_id)
+            return redirect(f'/question/{question_id}')
+    except IndexError:
+        abort(404)
+
+
 @app.route("/answer/<answer_id>/vote-<modifier>")  # done
 def answer_vote(answer_id, modifier):
     try:
@@ -338,13 +358,27 @@ def users():
     return render_template('users.html', users=users)
 
 
-@app.route("/user/<user_id>")
+@app.route("/user/<int:user_id>")
 def user_page(user_id):
     try:
         user_data = data_manager.get_user_info_by_id(user_id)
         return render_template("user-page.html", user_data=user_data)
     except (IndexError, UndefinedError):
         abort(404)
+
+
+@app.route("/comments/<comment_id>/delete", methods=['GET', 'POST'])
+def delete_comment(comment_id):
+    comment = data_manager.get_comment_by_comment_id(comment_id)
+    if comment['question_id'] is not None:
+        question_id = comment['question_id']
+    elif comment['question_id'] is None and comment['answer_id'] is not None:
+        question_id = data_manager.get_question_id_by_answer_id(comment['answer_id'])
+    if request.method == 'GET':
+        return render_template('delete-comment.html', comment_id=comment_id, comment=comment, question_id=question_id)
+    elif request.method == 'POST':
+        data_manager.delete_comment(comment_id)
+        return redirect(url_for('question_page', question_id=question_id))
 
 
 if __name__ == '__main__':

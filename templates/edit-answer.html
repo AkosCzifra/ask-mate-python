@@ -1,0 +1,25 @@
+{% extends 'basic.html' %}
+
+{% block title %}
+    Edit answer
+{% endblock %}
+
+{% block body %}
+    <h1>Edit answer</h1>
+        <h2>Question: {{ question['title'] }}</h2>
+
+    <form method="POST" class="add-forms">
+        <p>Message:<br>
+            <textarea name="message" rows="7" cols="40" required minlength="10">{{ answer['message'] }}</textarea></p>
+
+        <p>Image:<br>
+            {% if question['image'] != None %}
+            <input type="text" name="image">{{ answer['image'] }}</p>
+            {% elif question['image'] == None %}
+            <input type="text" name="image"></p>
+            {% endif %}
+        <p><input type="submit" value="Edit answer"></p>
+    </form>
+        <a class="button" href="/question/{{ question["id"] }}"><button >Back to Question</button></a>
+
+{% endblock %}

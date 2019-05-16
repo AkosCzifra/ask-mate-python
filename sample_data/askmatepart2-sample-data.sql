@@ -155,5 +155,5 @@ INSERT INTO question_tag VALUES (0, 1);
 INSERT INTO question_tag VALUES (1, 3);
 INSERT INTO question_tag VALUES (2, 3);
 
-INSERT INTO userdata VALUES (1,'admin','$2b$12$RPuFU0GJX7lT.H.xWWsFd.DqDCkk2yN2.mgEoNddyoilN0FI.eU6q','2019-01-01 12:00:00');
+INSERT INTO userdata VALUES (1,'admin','$2b$12$RPuFU0GJX7lT.H.xWWsFd.DqDCkk2yN2.mgEoNddyoilN0FI.eU6q','0001-01-01 12:00:00');
 SELECT pg_catalog.setval('userdata_id_seq', 1, true);

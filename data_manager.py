@@ -252,6 +252,15 @@ def get_answer_by_answer_id(cursor, answer_id):
 
 
 @connection.connection_handler
+def edit_answer(cursor, submission_time, message, image, answer_id):
+    cursor.execute("""
+                    UPDATE answer
+                    SET submission_time = %(submission_time)s , message = %(message)s, image = %(image)s
+                    WHERE id = %(answer_id)s
+    """, {'submission_time': submission_time, 'message': message, 'image': image, 'answer_id': answer_id})
+
+
+@connection.connection_handler
 def add_new_tag_to_tags(cursor, name):
     cursor.execute("""
                     INSERT INTO tag (name)
@@ -386,3 +395,32 @@ def get_user_info_by_id(cursor, user_id):
                 """, {"user_id": user_id})
     data.append(cursor.fetchall())
     return data
+
+
+@connection.connection_handler
+def get_comment_by_comment_id(cursor, comment_id):
+    cursor.execute("""
+                    SELECT * FROM comment
+                    WHERE id=%(comment_id)s;
+    """, {"comment_id": comment_id})
+    comment = cursor.fetchall()
+    return comment[0]
+
+
+@connection.connection_handler
+def get_question_id_by_answer_id(cursor, answer_id):
+    cursor.execute("""
+                    SELECT question_id FROM answer
+                    WHERE id=%(answer_id)s;
+    """, {"answer_id": answer_id})
+    question_id = cursor.fetchall()
+    return question_id[0]['question_id']
+
+
+@connection.connection_handler
+def delete_comment(cursor, comment_id):
+    cursor.execute("""
+                    DELETE FROM comment
+                    WHERE id=%(comment_id)s;
+    """, {'comment_id': comment_id})
+
