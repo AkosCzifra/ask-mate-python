@@ -362,6 +362,7 @@ def get_users(cursor):
     users = cursor.fetchall()
     return users
 
+
 @connection.connection_handler
 def get_user_info_by_id(cursor, user_id):
     cursor.execute("""
