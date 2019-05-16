@@ -52,6 +52,8 @@ def add_question():
         title = request.form['title'].capitalize()
         message = request.form['message'].capitalize()
         image = request.form['image']
+        if image == "":
+            image = None
         user_id = session['id']
         data_manager.post_new_question(submission_time, view_number, vote_number, title, message, image, user_id)
         return redirect(url_for('five_latest_question'))
@@ -116,6 +118,8 @@ def edit_question(question_id):
         title = request.form['title']
         message = request.form['message']
         image = request.form['image']
+        if image == "":
+            image = None
         data_manager.update_question(submission_time, title, message, image, question_id)
         return redirect(f'/question/{question_id}')
 
