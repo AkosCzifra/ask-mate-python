@@ -390,7 +390,6 @@ def edit_comment(comment_id):
         question_id = data_manager.get_question_id_by_answer_id(comment['answer_id'])
     if request.method == 'GET':
         return render_template('edit-comment.html', comment_id=comment_id, comment=comment, question_id=question_id)
-
     elif request.method == 'POST':
         submission_time = datetime.now().isoformat(timespec='seconds')
         message = request.form['message']
