@@ -275,6 +275,20 @@ def user_page(user_id):
     return render_template("user-page.html", user_data=user_data)
 
 
+@app.route("/comments/<comment_id>/delete", methods=['GET', 'POST'])
+def delete_comment(comment_id):
+    comment = data_manager.get_comment_by_comment_id(comment_id)
+    if comment['question_id'] is not None:
+        question_id = comment['question_id']
+    elif comment['question_id'] is None and comment['answer_id'] is not None:
+        question_id = data_manager.get_question_id_by_answer_id(comment['answer_id'])
+    if request.method == 'GET':
+        return render_template('delete-comment.html', comment_id=comment_id, comment=comment, question_id=question_id)
+    elif request.method == 'POST':
+        data_manager.delete_comment(comment_id)
+        return redirect(url_for('question_page', question_id=question_id))
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',

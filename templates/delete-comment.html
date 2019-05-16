@@ -1,0 +1,39 @@
+{% extends 'basic.html' %}
+
+{% block title %}Tags{% endblock %}
+
+{% block body %}
+    <div>
+        <table class="table" id="delete_comment_table">
+            <tr>
+                <th>Submission Time</th>
+                <th>Comment</th>
+            </tr>
+            <tr>
+                <td>{{ comment['submission_time'] }}</td>
+                <td>{{ comment['message'] }}</td>
+            </tr>
+        </table>
+    <h1 id="delete_comment_h1">Are you sure about deleting this comment?</h1>
+    </div>
+    <div>
+        <table class="button-table" align="center">
+            <tr>
+                <td>
+                    <form class="button" action="{{ url_for('delete_comment', comment_id=comment_id) }}", method="POST">
+                        <button type="submit" id="delete_comment_h1">
+                            Yes
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <a class="button" href="{{ url_for('question_page', question_id=question_id) }}">
+                        <button id="delete_comment_h1">
+                            No
+                        </button>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}
