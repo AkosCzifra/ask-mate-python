@@ -389,14 +389,14 @@ def edit_comment(comment_id):
     elif comment['question_id'] is None and comment['answer_id'] is not None:
         question_id = data_manager.get_question_id_by_answer_id(comment['answer_id'])
     if request.method == 'GET':
-        try:
-            return render_template('edit-comment.html', comment=comment, comment_id=comment_id)
-        except (IndexError, UndefinedError):
-            abort(404)
+        return render_template('edit-comment.html', comment_id=comment_id, comment=comment, question_id=question_id)
+
     elif request.method == 'POST':
         submission_time = datetime.now().isoformat(timespec='seconds')
         message = request.form['message']
         edited_count = comment['edited_count']
+        if edited_count is None:
+            edited_count = 0
         edited_count += 1
         data_manager.update_comment(message, submission_time, edited_count, comment_id)
         return redirect(f'/question/{question_id}')

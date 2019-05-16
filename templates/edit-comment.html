@@ -1,7 +1,7 @@
 {% extends 'basic.html' %}
 
 {% block title %}
-    Edit question
+    Edit comment
 {% endblock %}
 
 {% block body %}
@@ -13,7 +13,7 @@
         <p><input type="submit" value="Edit Question"></p>
     </form>
 
-    <p><a class="button" href="/question/{{ question["id"] }}">
+    <p><a class="button" href="/question/{{ question_id }}">
         <button>Back to Question</button>
     </a></p>
 {% endblock %}
