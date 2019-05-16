@@ -5,11 +5,11 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Edit question</h1>
+    <h1>Edit comment</h1>
 
     <form action="{{ url_for('edit_comment', comment_id=comment_id) }}" method="POST" class="add-forms">
         <p><label for="message">Message:</label><br>
-            <input type="text" name="message" id="message" value="{{ comment['message'] }}" required></p>
+            <textarea name="message" id="message" rows="10" cols="70" required>{{ comment['message'] }}</textarea></p>
         <p><input type="submit" value="Edit Question"></p>
     </form>
 

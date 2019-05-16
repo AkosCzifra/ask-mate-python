@@ -132,28 +132,52 @@ INSERT INTO userdata VALUES (5,'zoliadmin','$2b$12$pSiCtGgef.dZbBSdn4mGAOwIHWPLK
 SELECT pg_catalog.setval('userdata_id_seq', 5, true);
 
 INSERT INTO question VALUES (0, '2017-04-28 08:29:00', 8, 123, 'Fusion M8s, Assemble!', 'Let me introduce you the team!', 'https://upload.wikimedia.org/wikipedia/commons/9/9a/M8_autopalya.png', 1);
-INSERT INTO question VALUES (1, '2017-04-29 09:19:00', 15, 9, 'Git Workflow', 'The image is small, huh? Well, let''s see what can we do about it... ', 'http://www.kepfeltoltes.eu/images/2019/03/925Screenshot_from_2019_0.png',2);
+INSERT INTO question VALUES (1, '2019-05-15 16:50:00', 15, 9, 'Git Workflow', 'The image is small, huh? Well, let''s see what can we do about it... ', 'http://www.kepfeltoltes.eu/images/2019/03/925Screenshot_from_2019_0.png',2);
 INSERT INTO question VALUES (2, '2017-05-01 10:41:00', 1364, 57, 'Drawing canvas with an image picked with Cordova Camera Plugin', 'I''m getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I''m on IOS, it throws errors such as cross origin issue, or that I''m trying to use an unknown format.
-', NULL);
-SELECT pg_catalog.setval('question_id_seq', 2, true);
+', NULL, NULL);
+INSERT INTO question VALUES (3, '2017-04-28 08:29:00', 14, 6, 'Hello Trello!', 'We used Trello. We felt like we could have used a more advanced project tracking application this is why we choose Trello.', 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Trello_logo.png', 4);
+SELECT pg_catalog.setval('question_id_seq', 3, true);
 
 INSERT INTO answer VALUES (1, '2017-04-28 16:49:00', 8, 0, 'List your name here fast and let''s get this going!',null, 1);
 INSERT INTO answer VALUES (2, '2017-04-25 14:42:00', -4, 0, 'Sorry m8s, I gotta go :(', 'https://www.thestampmaker.com/stock_rubber_stamp_images/SSS2_SAD_FACE.jpg',5);
-SELECT pg_catalog.setval('answer_id_seq', 2, true);
+INSERT INTO answer VALUES (3, '2019-05-15 16:49:00', 0, 1, 'Thank god we only took a few User Stories!',null, 4);
+INSERT INTO answer VALUES (4, '2019-05-15 16:49:00', 0, 3, 'We finished with 7300/5700.','https://fowmedia.com/wp-content/uploads/2014/08/win-1024x1024.jpg', 4);
+INSERT INTO answer VALUES (5, '2019-05-15 16:48:00', 0, 3, 'Also we did some extras: stabilized the website (caught all known errors with excepts), handled invalid links! Also handled all previous SQL deletes with DELETE ON CASCADE.',null, 4);
+SELECT pg_catalog.setval('answer_id_seq', 5, true);
 
 INSERT INTO comment VALUES (1, NULL, 1, 'Hey it''s me Alex!', '2017-05-02 16:55:00', NULL, 2);
 INSERT INTO comment VALUES (2, NULL, 1, 'Mark ready for duty!', '2017-05-02 16:55:00', NULL, 3);
 INSERT INTO comment VALUES (3, NULL, 1, 'Hey folks, Ákos here!', '2017-05-02 16:55:00', NULL, 4);
 INSERT INTO comment VALUES (4, NULL, 1, 'Zoli here!', '2017-05-02 16:55:00', NULL, 5);
 INSERT INTO comment VALUES (5, NULL, 2, ':(', '2017-05-02 16:55:00', NULL, 2);
-SELECT pg_catalog.setval('comment_id_seq', 5, true);
+INSERT INTO comment VALUES (6, 1, NULL, 'Branches helped us a lot, they made merges so much simpler! We divided the tasks and made them all by wednesday, we even had time for extras and memes.', '2019-05-15 16:55:00', 1, 2);
+INSERT INTO comment VALUES (7, NULL, 4, 'Accepted User Stories were: ' ||
+                                        'user registration - 1000 | ' ||
+                                        'user login - 1000 | ' ||
+                                        'bind questions to user - 700 | ' ||
+                                        'bind answers to user - 700 | ' ||
+                                        'tag page - 600 | ' ||
+                                        'user page - 900 | ' ||
+                                        'list users - 800 | ', '2019-05-15 16:55:00', NULL, 4);
+INSERT INTO comment VALUES (8, NULL, 4, 'Extra User Stories were: ' ||
+                                        'bind the comment to user - 300 (600/2) | ' ||
+                                        'delete comments - 400 (800/2) | ' ||
+                                        'edit answer - 500 (1000/2) | ' ||
+                                        'edit comments - 400 (800/2) | ', '2019-05-15 16:54:00', NULL, 4);
+SELECT pg_catalog.setval('comment_id_seq', 8, true);
 
 INSERT INTO tag VALUES (1, 'intro');
 INSERT INTO tag VALUES (2, 'sql');
-INSERT INTO tag VALUES (3, 'css');
-SELECT pg_catalog.setval('tag_id_seq', 3, true);
+INSERT INTO tag VALUES (3, 'git');
+INSERT INTO tag VALUES (4, 'trello');
+SELECT pg_catalog.setval('tag_id_seq', 4, true);
 
 INSERT INTO question_tag VALUES (0, 1);
 INSERT INTO question_tag VALUES (1, 3);
 INSERT INTO question_tag VALUES (2, 3);
+INSERT INTO question_tag VALUES (3, 1);
+INSERT INTO question_tag VALUES (3, 4);
+INSERT INTO question_tag VALUES (3, 2);
+
+
 
