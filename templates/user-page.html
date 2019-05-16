@@ -1,0 +1,53 @@
+{% extends 'basic.html' %}
+
+{% block title %}
+{{ user_data[3][0]["user_name"] }}'s Page
+{% endblock %}
+
+{% block body %}
+    <h2>{{ user_data[3][0]["user_name"] }}</h2>
+    <h2>Questions by this user:</h2>
+        <table class="table">
+            <tr>
+                <th>Post Date</th>
+                <th>Title</th>
+                <th>View Number</th>
+                <th>Vote Number</th>
+            </tr>
+            {% for question in user_data[0] %}
+            <tr>
+                <td>{{ question["submission_time"] }}</td>
+                <td><a href="{{ url_for("question_page", question_id=question['id']) }}">{{ question["title"] }}</a></td>
+                <td>{{ question["view_number"] }}</td>
+                <td>{{ question["vote_number"] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    <h2>Answers by this user:</h2>
+        <table class="table">
+            <tr>
+                <th>Votes</th>
+                <th>Message</th>
+            </tr>
+            {% for answer in user_data[1] %}
+            <tr>
+                <td>{{ answer["vote_number"] }}</td>
+                <td><a href="{{ url_for("question_page", question_id=answer['question_id']) }}"> {{ answer["message"] }}</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    <h2>Comments by this user:</h2>
+        <table class="table">
+            <tr>
+                <th>Post Date</th>
+                <th>Message</th>
+            </tr>
+            {% for comment in user_data[2] %}
+            <tr>
+                <td>{{ comment["submission_time"] }}</td>
+                <td><a href="{{ url_for("question_page", question_id=comment['question_id']) }}">{{ comment["message"] }}</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+{% endblock %}
