@@ -329,7 +329,11 @@ def login():
     elif request.method == "POST":
         username = request.form['username']
         hashed_password = data_manager.get_password_from_user_name(username)
-        result = verify_password(request.form['password'], hashed_password[0]['password'])
+        try:
+            result = verify_password(request.form['password'], hashed_password[0]['password'])
+        except IndexError:
+            error = True
+            return render_template("login.html", error=error)
         if result:
             session['username'] = request.form['username']
             session['id'] = data_manager.get_id_from_user_name(session['username'])
