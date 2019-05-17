@@ -428,3 +428,29 @@ def update_comment(cursor, message, submission_time, edited_count, comment_id):
                     SET message = %(message)s, submission_time = %(submission_time)s, edited_count = %(edited_count)s
                     WHERE id = %(comment_id)s
     """, {'message': message, 'submission_time': submission_time, 'edited_count': edited_count, 'comment_id': comment_id})
+
+
+@connection.connection_handler
+def check_answer_id(cursor, answer_id):
+    cursor.execute("""
+                    SELECT * FROM answer
+                    WHERE %(answer_id)s= id
+        """, {'answer_id': answer_id})
+    boolean = cursor.fetchall()
+    if boolean == []:
+        return True
+    else:
+        return False
+
+
+@connection.connection_handler
+def check_question_id(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM answer
+                    WHERE %(question_id)s= id
+        """, {'question_id': question_id})
+    boolean = cursor.fetchall()
+    if boolean == []:
+        return True
+    else:
+        return False

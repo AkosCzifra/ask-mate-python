@@ -280,6 +280,8 @@ def add_comment_to_answer(answer_id):
 
 @app.route("/question/<int:question_id>/comments")
 def question_comments(question_id):
+    if data_manager.check_answer_id(question_id) is True:
+        abort(404)
     comments = data_manager.get_question_comments(question_id)
     if request.method == "GET":
         try:
@@ -290,6 +292,8 @@ def question_comments(question_id):
 
 @app.route("/answer/<int:answer_id>/comments")
 def answer_comments(answer_id):
+    if data_manager.check_answer_id(answer_id) is True:
+        abort(404)
     comments = data_manager.get_answer_comments(answer_id)
     if request.method == "GET":
         try:
