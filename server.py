@@ -72,7 +72,7 @@ def add_question():
         return redirect(url_for('five_latest_question'))
 
 
-@app.route("/question/<question_id>/new-answer", methods=['GET', 'POST'])  # done
+@app.route("/question/<int:question_id>/new-answer", methods=['GET', 'POST'])  # done
 def add_answer(question_id):
     question = data_manager.get_question_by_question_id(question_id)
     if request.method == 'POST':
@@ -115,7 +115,7 @@ def answer_edit(answer_id):
         abort(404)
 
 
-@app.route("/answer/<answer_id>/vote-<modifier>")  # done
+@app.route("/answer/<int:answer_id>/vote-<modifier>")  # done
 def answer_vote(answer_id, modifier):
     try:
         question_id = request.args.get('question_id')
@@ -128,7 +128,7 @@ def answer_vote(answer_id, modifier):
         abort(404)
 
 
-@app.route("/question/<question_id>/vote-<modifier>")  # done
+@app.route("/question/<int:question_id>/vote-<modifier>")  # done
 def question_vote(question_id, modifier):
     try:
         if modifier == "up":
@@ -140,7 +140,7 @@ def question_vote(question_id, modifier):
         abort(404)
 
 
-@app.route("/question/<answer_id>/delete_answer")  # done
+@app.route("/question/<int:answer_id>/delete_answer")  # done
 def delete_answer(answer_id):
     try:
         question_id = request.args.get('question_id')
@@ -150,7 +150,7 @@ def delete_answer(answer_id):
         abort(404)
 
 
-@app.route("/question/<question_id>/delete_question")  # done
+@app.route("/question/<int:question_id>/delete_question")  # done
 def delete_question(question_id):
     try:
         data_manager.delete_question(question_id)  # original
@@ -159,7 +159,7 @@ def delete_question(question_id):
         abort(404)
 
 
-@app.route("/question/<question_id>/edit", methods=['GET', 'POST'])  # done
+@app.route("/question/<int:question_id>/edit", methods=['GET', 'POST'])  # done
 def edit_question(question_id):
     question = data_manager.get_question_by_question_id(question_id)
     question_id = question['id']
@@ -187,7 +187,7 @@ def get_search_result():
         return render_template("result.html", results=results)
 
 
-@app.route("/question/<question_id>/new-tag", methods=['GET', 'POST'])
+@app.route("/question/<int:question_id>/new-tag", methods=['GET', 'POST'])
 def add_tag_to_question(question_id):
     tags = data_manager.get_existing_tags()
     if request.method == 'GET':
@@ -224,7 +224,7 @@ def add_tag_to_question(question_id):
                 return render_template('add-tag.html', question_id=question_id, tags=tags, error=error)
 
 
-@app.route("/question/<question_id>/tag/<tag_id>/delete")
+@app.route("/question/<int:question_id>/tag/<tag_id>/delete")
 def delete_tag(tag_id, question_id):
     try:
         data_manager.delete_tag(tag_id, question_id)
@@ -233,7 +233,7 @@ def delete_tag(tag_id, question_id):
         abort(404)
 
 
-@app.route("/question/<question_id>/new-comment", methods=['GET', 'POST'])
+@app.route("/question/<int:question_id>/new-comment", methods=['GET', 'POST'])
 def add_comment_to_question(question_id):
     if request.method == "POST":
         answer_id = None
@@ -254,7 +254,7 @@ def add_comment_to_question(question_id):
             abort(404)
 
 
-@app.route("/answer/<answer_id>/new-comment", methods=['GET', 'POST'])
+@app.route("/answer/<int:answer_id>/new-comment", methods=['GET', 'POST'])
 def add_comment_to_answer(answer_id):
     answer = data_manager.get_answer_by_answer_id(answer_id)
     if request.method == "POST":
@@ -278,7 +278,7 @@ def add_comment_to_answer(answer_id):
             abort(404)
 
 
-@app.route("/question/<question_id>/comments")
+@app.route("/question/<int:question_id>/comments")
 def question_comments(question_id):
     comments = data_manager.get_question_comments(question_id)
     if request.method == "GET":
@@ -288,7 +288,7 @@ def question_comments(question_id):
             abort(404)
 
 
-@app.route("/answer/<answer_id>/comments")
+@app.route("/answer/<int:answer_id>/comments")
 def answer_comments(answer_id):
     comments = data_manager.get_answer_comments(answer_id)
     if request.method == "GET":
@@ -371,7 +371,7 @@ def user_page(user_id):
         abort(404)
 
 
-@app.route("/comments/<comment_id>/delete", methods=['GET', 'POST'])
+@app.route("/comments/<int:comment_id>/delete", methods=['GET', 'POST'])
 def delete_comment(comment_id):
     try:
         comment = data_manager.get_comment_by_comment_id(comment_id)
@@ -388,7 +388,7 @@ def delete_comment(comment_id):
         abort(404)
 
 
-@app.route("/comments/<comment_id>/edit", methods=["GET", "POST"])
+@app.route("/comments/<int:comment_id>/edit", methods=["GET", "POST"])
 def edit_comment(comment_id):
     try:
         comment = data_manager.get_comment_by_comment_id(comment_id)
